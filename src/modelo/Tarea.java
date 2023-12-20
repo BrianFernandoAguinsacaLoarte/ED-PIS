@@ -9,5 +9,5 @@ package modelo;
  * @author Usuario iTC
  */
 public class Tarea {
-    
+    private Integer id;
 }
