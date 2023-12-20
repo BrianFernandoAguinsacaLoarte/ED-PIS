@@ -9,5 +9,5 @@ package modelo;
  * @author Usuario iTC
  */
 public class Persona {
-    Integer id;
+    private Integer id;
 }
