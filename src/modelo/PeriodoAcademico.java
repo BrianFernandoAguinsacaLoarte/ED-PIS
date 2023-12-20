@@ -10,4 +10,5 @@ package modelo;
  */
 public class PeriodoAcademico {
     
+    private String id;
 }
