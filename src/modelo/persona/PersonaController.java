@@ -17,7 +17,7 @@ public class PersonaController extends DataAccessObject<Persona> {
     //Objetos 
     private Persona persona = new Persona();
     private LinkedList<Persona> personas = new LinkedList<>();
-
+    private Integer index = -1; //Index para el Update
     
     //Constructor
     public PersonaController() {
@@ -51,6 +51,15 @@ public class PersonaController extends DataAccessObject<Persona> {
     public void setPersonas(LinkedList<Persona> personas) {
         this.personas = personas;
     }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+    
     
     
    
