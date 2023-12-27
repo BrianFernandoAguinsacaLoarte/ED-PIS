@@ -5,8 +5,10 @@
 package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
+import javax.swing.JOptionPane;
 import modelo.persona.PersonaController;
 import vista.listas.tablas.ModeloTablaPersona;
+import vista.listas.util.UtilVista;
 
 /**
  *
@@ -52,6 +54,7 @@ public class FrmPersona extends javax.swing.JDialog {
     
     //Cargar datos en la vista
     private void limpiar(){
+        UtilVista.cargarGenero(cbxGenero);//CargoCombo
         txtNombre.setText("");
         txtApellido.setText("");
         txtEdad.setText("");
@@ -59,8 +62,6 @@ public class FrmPersona extends javax.swing.JDialog {
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtCedula.setText("");
-        
-        
         
         pc.setPersona(null);
         pc.setPersonas(new LinkedList<>());
@@ -71,10 +72,76 @@ public class FrmPersona extends javax.swing.JDialog {
     }
     
     
+    //Guardo la informacion 
+    private void guardar(){
+        if(validar()){
+            try {
+                pc.getPersona().setNombres(txtNombre.getText());
+                pc.getPersona().setApellidos(txtApellido.getText());
+                pc.getPersona().setEdad(Integer.parseInt(txtEdad.getText()));
+                //pc.getPersona().setGenero(cbxGenero.getSelectedItem().toString());
+                pc.getPersona().setDireccion(txtDireccion.getText());
+                pc.getPersona().setTelefono(txtTelefono.getText());
+                pc.getPersona().setCedula(txtCedula.getText());
+                
+                //Guardar
+                if(pc.getPersona().getId() == null){
+                   if(pc.save()){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }else{
+                    if(pc.update(pc.getIndex())){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage() , 
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
     
     
-    
-    
+    private void cargarVista(){
+        
+        //Cargo-modifico-envio
+        pc.setIndex(jTablePersona.getSelectedRow());
+        if(pc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                pc.setPersona(mtp.getPersonas().get(pc.getIndex()));
+                txtNombre.setText(pc.getPersona().getNombres());
+                txtApellido.setText(pc.getPersona().getApellidos());
+                txtEdad.setText(pc.getPersona().getEdad().toString());
+                cbxGenero.setSelectedItem(pc.getPersona().getGenero());
+                txtDireccion.setText(pc.getPersona().getDireccion());
+                txtTelefono.setText(pc.getPersona().getTelefono());
+                txtCedula.setText(pc.getPersona().getCedula());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -112,6 +179,11 @@ public class FrmPersona extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePersona = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -210,6 +282,51 @@ public class FrmPersona extends javax.swing.JDialog {
         jLabel1.setText("Registro Persona");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 190, -1));
 
+        btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 120, -1));
+
+        btnLimpiar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnLimpiar.setText("Seleccionar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 120, -1));
+
+        btnActualizar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 660, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton1.setText("Actualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 520, 120, -1));
+
+        jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 120, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -251,6 +368,25 @@ public class FrmPersona extends javax.swing.JDialog {
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCedulaActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        cargarVista();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        limpiar();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,7 +431,12 @@ public class FrmPersona extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cbxGenero;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
