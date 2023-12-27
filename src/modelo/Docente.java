@@ -13,6 +13,7 @@ import modelo.enums.Genero;
 public class Docente extends Persona{
     
     //Atributos
+    private Integer id_Persona;
     private String titulo;
     
     
@@ -33,6 +34,15 @@ public class Docente extends Persona{
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    public Integer getId_Persona() {
+        return id_Persona;
+    }
+
+    public void setId_Persona(Integer id_Persona) {
+        this.id_Persona = id_Persona;
+    }
+    
     
     
     //Print
