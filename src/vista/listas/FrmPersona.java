@@ -79,6 +79,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 pc.getPersona().setNombres(txtNombre.getText());
                 pc.getPersona().setApellidos(txtApellido.getText());
                 pc.getPersona().setEdad(Integer.parseInt(txtEdad.getText()));
+                pc.getPersona().setGenero(UtilVista.getComboGenero(cbxGenero)); 
                 //pc.getPersona().setGenero(cbxGenero.getSelectedItem().toString());
                 pc.getPersona().setDireccion(txtDireccion.getText());
                 pc.getPersona().setTelefono(txtTelefono.getText());

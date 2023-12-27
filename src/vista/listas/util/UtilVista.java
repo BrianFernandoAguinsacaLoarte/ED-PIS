@@ -19,4 +19,8 @@ public class UtilVista {
         cbxGenero.addItem(Genero.Femenino);
         cbxGenero.addItem(Genero.Otro);
     }
+    
+    public static Genero getComboGenero(JComboBox cbxGenero){
+        return (Genero) cbxGenero.getSelectedItem();
+    }
 }

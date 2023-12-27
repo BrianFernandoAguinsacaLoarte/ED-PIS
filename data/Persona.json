@@ -1,1 +1,1 @@
-{"controlador.TDA.listas.LinkedList":{"head":{"data":{"@class":"modelo.Persona","id":1,"nombres":"Brian","apellidos":"Aguinsaca","edad":19,"direccion":"Turunuma Alto","telefono":"0994390652","cedula":1104785632}},"last":{"@reference":"..\/head"},"size":1}}
+{"controlador.TDA.listas.LinkedList":{"head":{"data":{"@class":"modelo.Persona","id":1,"nombres":"Brian","apellidos":"Aguinsaca","edad":19,"genero":"Masculino","direccion":"Turunuma Alto","telefono":"0994390652","cedula":1104785632}},"last":{"@reference":"..\/head"},"size":1}}
