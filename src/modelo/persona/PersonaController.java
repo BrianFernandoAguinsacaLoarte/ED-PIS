@@ -37,6 +37,9 @@ public class PersonaController extends DataAccessObject<Persona> {
     
     //Getter and Setter
     public Persona getPersona() {
+        if(persona == null){
+            persona = new Persona();
+        }
         return persona;
     }
 
@@ -45,6 +48,9 @@ public class PersonaController extends DataAccessObject<Persona> {
     }
 
     public LinkedList<Persona> getPersonas() {
+        if(personas.isEmpty()){
+            personas = listAll();
+        }
         return personas;
     }
 
