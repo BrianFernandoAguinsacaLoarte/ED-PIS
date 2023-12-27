@@ -289,7 +289,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 120, -1));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 170, -1));
 
         btnLimpiar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnLimpiar.setText("Seleccionar");
@@ -298,7 +298,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 120, -1));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 170, -1));
 
         btnActualizar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnActualizar.setText("Actualizar");
@@ -316,7 +316,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 520, 120, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 170, -1));
 
         jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jButton2.setText("Cancelar");
@@ -325,7 +325,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 120, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 170, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
