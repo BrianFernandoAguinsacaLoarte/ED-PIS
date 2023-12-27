@@ -25,7 +25,7 @@ public class PersonaController extends DataAccessObject<Persona> {
     }
 
     //Metodos 
-     public boolean save(){
+    public boolean save(){
         persona.setId(generated_id());//BDD Esto desaparece
         return save(persona);
     }
