@@ -9,13 +9,27 @@ package modelo;
  * @author Usuario iTC
  */
 public class Cuenta {
+    private Integer id;
     private String usuario;
     private String contraseña;
 
     public Cuenta(String usuario, String contraseña) {
         this.usuario = usuario;
         this.contraseña = contraseña;
-    }  
+    }
+
+    public Cuenta() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    
     public String getUsuario() {
         return usuario;
     }

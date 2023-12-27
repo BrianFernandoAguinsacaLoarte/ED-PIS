@@ -1,0 +1,1 @@
+{"controlador.TDA.listas.LinkedList":{"head":{"data":{"@class":"modelo.Cuenta","id":1,"usuario":"admin","contraseña":"hola"}},"last":{"@reference":"..\/head"},"size":1}}
