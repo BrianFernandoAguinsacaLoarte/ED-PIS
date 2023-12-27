@@ -5,6 +5,7 @@
 package vista.listas.util;
 
 import javax.swing.JComboBox;
+import modelo.enums.Genero;
 
 /**
  *
@@ -14,7 +15,8 @@ public class UtilVista {
     
     public static void cargarGenero(JComboBox cbxGenero){
         cbxGenero.removeAllItems();
-        cbxGenero.addItem("Femenino");
-        cbxGenero.addItem("Masculino");
+        cbxGenero.addItem(Genero.Masculino);
+        cbxGenero.addItem(Genero.Femenino);
+        cbxGenero.addItem(Genero.Otro);
     }
 }
