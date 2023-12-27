@@ -4,8 +4,11 @@
  */
 package vista.listas.util;
 
+import controlador.Excepcion.VacioExcepcion;
 import javax.swing.JComboBox;
 import modelo.enums.Genero;
+import modelo.Persona;
+import modelo.persona.PersonaController;
 
 /**
  *
@@ -22,5 +25,19 @@ public class UtilVista {
     
     public static Genero getComboGenero(JComboBox cbxGenero){
         return (Genero) cbxGenero.getSelectedItem();
+    }
+    
+    public static void cargarPersona(JComboBox cbxPersona) throws VacioExcepcion{
+        
+        PersonaController pc = new PersonaController();
+        cbxPersona.removeAllItems();
+        
+        for(int i = 0; i < pc.getPersonas().getSize(); i++){
+            cbxPersona.addItem(pc.getPersonas().get(i));
+        }
+    }
+    
+    public static Persona getComboPersona(JComboBox cbxPersona){
+        return (Persona) cbxPersona.getSelectedItem();
     }
 }
