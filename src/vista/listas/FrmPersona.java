@@ -169,7 +169,7 @@ public class FrmPersona extends javax.swing.JDialog {
         jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 240, -1));
 
         jLabel2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel2.setText("Telefono: ");
+        jLabel2.setText("Teléfono: ");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 100, 20));
 
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +180,7 @@ public class FrmPersona extends javax.swing.JDialog {
         jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 240, -1));
 
         jLabel7.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel7.setText("Cedula: ");
+        jLabel7.setText("Cédula: ");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 100, 20));
 
         txtCedula.addActionListener(new java.awt.event.ActionListener() {
