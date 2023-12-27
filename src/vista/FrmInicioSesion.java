@@ -4,10 +4,13 @@
  */
 package vista;
 
+import controlador.InicioSesionController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modelo.Cuenta;
 
 /**
  *
@@ -15,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class FrmInicioSesion extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form FrmInicioSesion
      */
@@ -90,6 +94,11 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         jLabel4.setText("Contraseña:");
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -144,6 +153,30 @@ public class FrmInicioSesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        InicioSesionController ic = new InicioSesionController();
+        List<Cuenta> listaCuentas = (List<Cuenta>) ic.listAll();
+        if (ic.getCuenta().getUsuario().equals(txtUsuario) && ic.getCuenta().getContraseña().equals(txtContra)) {
+            JOptionPane.showMessageDialog(null, "acceso correcto");
+            this.setVisible(false);
+        } else {
+            boolean cuentaEncontrada = false;
+
+            for (Cuenta cuenta : listaCuentas) {
+                if (txtUsuario.getText().equals(cuenta.getUsuario()) && txtContra.getText().equals(cuenta.getContraseña())) {
+                    cuentaEncontrada = true;
+                    new FrmPrincipal1().setVisible(true);
+                    this.setVisible(false);
+                    break;  // Importante: Salir del bucle si se encontró el usuario
+                }
+            }
+
+            if (!usuarioEncontrado) {
+                JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnIngresarActionPerformed
     public void cerrar() {
         try {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
