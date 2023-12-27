@@ -51,6 +51,38 @@ public class Matricula {
         this.fechaMatricula = fechaMatricula;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public PeriodoAcademico getP_academico() {
+        return p_academico;
+    }
+
+    public void setP_academico(PeriodoAcademico p_academico) {
+        this.p_academico = p_academico;
+    }
+    
     
 
     @Override
