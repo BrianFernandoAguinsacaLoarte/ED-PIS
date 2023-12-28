@@ -13,6 +13,7 @@ import modelo.enums.Genero;
 public class Estudiante extends Persona {
     
     //Atributos
+    private Integer id_Persona;
     private String colegioAnterior;
     
     
@@ -35,6 +36,15 @@ public class Estudiante extends Persona {
         this.colegioAnterior = colegioAnterior;
     }
 
+    public Integer getId_Persona() {
+        return id_Persona;
+    }
+
+    public void setId_Persona(Integer id_Persona) {
+        this.id_Persona = id_Persona;
+    }
+    
+    
     //Print
     @Override
     public String toString() {
