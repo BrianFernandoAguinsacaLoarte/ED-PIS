@@ -19,6 +19,7 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
     //Objetos
     private Estudiante estudiante = new Estudiante();
     private LinkedList<Estudiante> estudiantes = new LinkedList<>();
+    private Integer index = -1; 
     
     //Constructor
     public EstudianteController() {
@@ -37,6 +38,10 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
     
     //Getter and Setter
     public Estudiante getEstudiante() {
+        
+        if(estudiante == null){
+            estudiante = new Estudiante();
+        }
         return estudiante;
     }
 
@@ -45,11 +50,24 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
     }
 
     public LinkedList<Estudiante> getEstudiantes() {
+
+        if(estudiantes.isEmpty()){
+            estudiantes = listAll();
+        }
         return estudiantes;
     }
 
     public void setEstudiantes(LinkedList<Estudiante> estudiantes) {
         this.estudiantes = estudiantes;
     }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+    
     
 }
