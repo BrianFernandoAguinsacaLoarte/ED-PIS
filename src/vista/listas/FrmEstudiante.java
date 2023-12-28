@@ -4,8 +4,11 @@
  */
 package vista.listas;
 
+import controlador.TDA.listas.LinkedList;
+import javax.swing.JOptionPane;
 import modelo.persona.EstudianteController;
 import vista.listas.tablas.ModeloTablaEstudiante;
+import vista.listas.util.UtilVista;
 
 /**
  *
@@ -25,14 +28,110 @@ public class FrmEstudiante extends javax.swing.JDialog {
     public FrmEstudiante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        limpiar();
+        this.setLocationRelativeTo(null);
     }
     
     public FrmEstudiante() {
         initComponents();
+        limpiar();
+        this.setLocationRelativeTo(null);
     }
 
     
+    //Cargo mi tabla en la vista
+    private void cargarTabla(){
+        mte.setEstudiantes(ec.getEstudiantes());
+        jTableEstudiante.setModel(mte);
+        jTableEstudiante.updateUI();
+    }
     
+    //Verifico si el texto sin espacios esta vacio
+    private boolean validar(){
+        return !txtColegio.getText().trim().isEmpty();
+               
+    }
+    
+    //Cargar datos en la vista
+    private void limpiar(){
+        txtColegio.setText("");
+        cbxPersona.setSelectedItem(-1);//Limpio Combo
+       
+        
+        ec.setEstudiante(null);
+        ec.setEstudiantes(new LinkedList<>());
+        cargarTabla();
+        //Actualizar tabla -BDD desaparece
+        jTableEstudiante.clearSelection();
+        ec.setIndex(-1);
+         try {
+            UtilVista.cargarPersona(cbxPersona);
+        } catch (Exception e) {
+        }
+    }
+    
+    
+    //Guardo la informacion 
+    private void guardar(){
+        if(validar()){
+            try {
+                ec.getEstudiante().setColegioAnterior(txtColegio.getText());
+                ec.getEstudiante().setId_Persona(UtilVista.getComboPersona(cbxPersona).getId()); 
+                
+                //Guardar
+                if(ec.getEstudiante().getId() == null){
+                   if(ec.save()){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }else{
+                    if(ec.update(ec.getIndex())){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage() , 
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
+    
+    
+    private void cargarVista(){
+        
+        //Cargo-modifico-envio
+        ec.setIndex(jTableEstudiante.getSelectedRow());
+        if(ec.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                ec.setEstudiante(mte.getEstudiantes().get(ec.getIndex()));
+                txtColegio.setText(ec.getEstudiante().getColegioAnterior());
+                cbxPersona.setSelectedItem(ec.getEstudiante().getId_Persona());
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -73,6 +172,10 @@ public class FrmEstudiante extends javax.swing.JDialog {
         txtColegio = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableEstudiante = new javax.swing.JTable();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,6 +219,42 @@ public class FrmEstudiante extends javax.swing.JDialog {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 110));
 
+        btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 170, -1));
+
+        btnLimpiar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnLimpiar.setText("Seleccionar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 170, -1));
+
+        jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton1.setText("Actualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 170, -1));
+
+        jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 170, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,6 +276,22 @@ public class FrmEstudiante extends javax.swing.JDialog {
     private void txtColegioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColegioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColegioActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        cargarVista();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        limpiar();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +336,11 @@ public class FrmEstudiante extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cbxPersona;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel4;
