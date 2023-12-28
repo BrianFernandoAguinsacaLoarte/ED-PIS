@@ -50,9 +50,7 @@ public class FrmDocente extends javax.swing.JDialog {
     
     //Cargar datos en la vista
     private void limpiar(){
-        //UtilVista.cargarPersona(cbxPersona);//CargoCombo
         txtTitulo.setText("");
-        
         cbxPersona.setSelectedItem(-1);//Limpio Combo
        
         
@@ -61,7 +59,13 @@ public class FrmDocente extends javax.swing.JDialog {
         cargarTabla();
         //Actualizar tabla -BDD desaparece
         jTableDocente.clearSelection();
-        //pc.setIndex(-1);
+        dc.setIndex(-1);
+         try {
+            UtilVista.cargarPersona(cbxPersona);
+            
+            
+        } catch (Exception e) {
+        }
     }
     
     
@@ -71,7 +75,6 @@ public class FrmDocente extends javax.swing.JDialog {
             try {
                 dc.getDocente().setTitulo(txtTitulo.getText());
                 dc.getDocente().setId_Persona(UtilVista.getComboPersona(cbxPersona).getId()); 
-                
                 
                 //Guardar
                 if(dc.getDocente().getId() == null){

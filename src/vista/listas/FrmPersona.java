@@ -68,7 +68,7 @@ public class FrmPersona extends javax.swing.JDialog {
         cargarTabla();
         //Actualizar tabla -BDD desaparece
         jTablePersona.clearSelection();
-        //pc.setIndex(-1);
+        pc.setIndex(-1);
     }
     
     
