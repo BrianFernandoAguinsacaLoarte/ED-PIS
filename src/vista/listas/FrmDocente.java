@@ -62,8 +62,6 @@ public class FrmDocente extends javax.swing.JDialog {
         dc.setIndex(-1);
          try {
             UtilVista.cargarPersona(cbxPersona);
-            
-            
         } catch (Exception e) {
         }
     }

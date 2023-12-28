@@ -107,7 +107,7 @@ public class Persona {
     //Print
     @Override
     public String toString() {
-        return "Persona{" + "nombres=" + nombres + "}";
+        return nombres +" "+ apellidos;
     }
     
     //Main
