@@ -47,10 +47,28 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
             case 0:
                     return (estudiante != null)? estudiante.getId(): "";
             case 1:
-                    //return (estudainte != null)? estudiante.ge
+                    return (estudiante != null)? estudiante.getId_Persona(): "";
+            case 2:
+                    return (estudiante != null)? estudiante.getColegioAnterior(): "";
             default:
-                throw new AssertionError();
+                return null;
         }
     }
+
+    @Override
+    public String getColumnName(int columna) {
+        switch (columna) {
+            case 0:
+                    return "ID";
+            case 1: 
+                    return "Persona";
+            case 2: 
+                    return "Cogelio Proveniente";
+            default:
+                return null;
+        }
+    }
+    
+    
     
 }
