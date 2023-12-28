@@ -16,6 +16,7 @@ public class DocenteController extends DataAccessObject<Docente>  {
     //Objectos 
     private Docente docente = new Docente();
     private LinkedList<Docente> docentes = new LinkedList<>();
+    private Integer index = -1; 
     
     //Constructor
     public DocenteController() {
@@ -34,6 +35,10 @@ public class DocenteController extends DataAccessObject<Docente>  {
     
     //Getter and Setter
     public Docente getDocente() {
+        
+        if(docente == null){
+            docente = new Docente();
+        }
         return docente;
     }
 
@@ -42,11 +47,23 @@ public class DocenteController extends DataAccessObject<Docente>  {
     }
 
     public LinkedList<Docente> getDocentes() {
+        
+        if(docentes.isEmpty()){
+            docentes = listAll();
+        }
         return docentes;
     }
 
     public void setDocentes(LinkedList<Docente> docentes) {
         this.docentes = docentes;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
     
     

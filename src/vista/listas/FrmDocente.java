@@ -4,9 +4,11 @@
  */
 package vista.listas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
 import modelo.persona.DocenteController;
+import vista.listas.tablas.ModeloTablaDocente;
 import vista.listas.util.UtilVista;
 
 /**
@@ -17,6 +19,7 @@ public class FrmDocente extends javax.swing.JDialog {
 
     //Objetos
     DocenteController dc = new DocenteController();
+    ModeloTablaDocente mtd = new ModeloTablaDocente();
     
         
     /**
@@ -25,39 +28,105 @@ public class FrmDocente extends javax.swing.JDialog {
     public FrmDocente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        limpiar();
     }
     public FrmDocente() {
         initComponents();
+        limpiar();
+    }
+    
+    //Cargo mi tabla en la vista
+    private void cargarTabla(){
+        mtd.setDocentes(dc.getDocentes());
+        jTableDocente.setModel(mtd);
+        jTableDocente.updateUI();
+    }
+    
+    //Verifico si el texto sin espacios esta vacio
+    private boolean validar(){
+        return !txtTitulo.getText().trim().isEmpty();
+               
+    }
+    
+    //Cargar datos en la vista
+    private void limpiar(){
+        //UtilVista.cargarPersona(cbxPersona);//CargoCombo
+        txtTitulo.setText("");
+        
+        cbxPersona.setSelectedItem(-1);//Limpio Combo
+       
+        
+        dc.setDocente(null);
+        dc.setDocentes(new LinkedList<>());
+        cargarTabla();
+        //Actualizar tabla -BDD desaparece
+        jTableDocente.clearSelection();
+        //pc.setIndex(-1);
     }
     
     
+    //Guardo la informacion 
+    private void guardar(){
+        if(validar()){
+            try {
+                dc.getDocente().setTitulo(txtTitulo.getText());
+                dc.getDocente().setId_Persona(UtilVista.getComboPersona(cbxPersona).getId()); 
+                
+                
+                //Guardar
+                if(dc.getDocente().getId() == null){
+                   if(dc.save()){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }else{
+                    if(dc.update(dc.getIndex())){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage() , 
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private void cargarVista(){
+        
+        //Cargo-modifico-envio
+        dc.setIndex(jTableDocente.getSelectedRow());
+        if(dc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
+                txtTitulo.setText(dc.getDocente().getTitulo());
+                cbxPersona.setSelectedItem(dc.getDocente().getId_Persona());
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -85,9 +154,13 @@ public class FrmDocente extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxPersona = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDocente = new javax.swing.JTable();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setText("Nombres: ");
@@ -116,8 +189,8 @@ public class FrmDocente extends javax.swing.JDialog {
         });
         jPanel1.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 240, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
+        cbxPersona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
 
         jTableDocente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,6 +206,42 @@ public class FrmDocente extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTableDocente);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 110));
+
+        btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 170, -1));
+
+        btnLimpiar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnLimpiar.setText("Seleccionar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 170, -1));
+
+        jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton1.setText("Actualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 170, -1));
+
+        jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 170, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,6 +262,22 @@ public class FrmDocente extends javax.swing.JDialog {
     private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTituloActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        cargarVista();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        limpiar();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,7 +322,11 @@ public class FrmDocente extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cbxPersona;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
