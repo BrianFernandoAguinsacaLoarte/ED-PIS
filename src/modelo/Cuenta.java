@@ -17,7 +17,10 @@ public class Cuenta {
         this.usuario = usuario;
         this.contraseña = contraseña;
     }
-
+    public Cuenta(Persona persona) {
+        this.usuario = persona.getCorreo();
+        this.contraseña = persona.getCedula();
+    }
     public Cuenta() {
     }
 

@@ -14,7 +14,7 @@ import modelo.Cuenta;
  *
  * @author Usuario
  */
-public class InicioSesionController extends DataAccessObject{
+public class InicioSesionController extends DataAccessObject<Cuenta>{
     private Cuenta cuenta = new Cuenta();
     private LinkedList<Cuenta> cuentas = new LinkedList<>();
     private Integer index;

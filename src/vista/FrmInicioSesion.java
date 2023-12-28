@@ -4,10 +4,13 @@
  */
 package vista;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.InicioSesionController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Cuenta;
@@ -155,27 +158,36 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        InicioSesionController ic = new InicioSesionController();
-        List<Cuenta> listaCuentas = (List<Cuenta>) ic.listAll();
-        if (ic.getCuenta().getUsuario().equals(txtUsuario) && ic.getCuenta().getContraseña().equals(txtContra)) {
-            JOptionPane.showMessageDialog(null, "acceso correcto");
-            this.setVisible(false);
-        } else {
-            boolean cuentaEncontrada = false;
+InicioSesionController ic = new InicioSesionController();
+    controlador.TDA.listas.LinkedList<Cuenta> listaCuentas = ic.listAll();
+    
+    if (ic.getCuenta().getUsuario() != null && ic.getCuenta().getUsuario().equals(txtUsuario.getText()) 
+        && ic.getCuenta().getContraseña() != null && ic.getCuenta().getContraseña().equals(txtContra.getText())) {
+        JOptionPane.showMessageDialog(null, "Acceso correcto");
+        this.setVisible(false);
+    } else {
+        boolean cuentaEncontrada = false;
 
-            for (Cuenta cuenta : listaCuentas) {
-                if (txtUsuario.getText().equals(cuenta.getUsuario()) && txtContra.getText().equals(cuenta.getContraseña())) {
+        try {
+            for (int i = 0; i < listaCuentas.getSize(); i++) {
+                Cuenta cuenta = listaCuentas.get(i);
+                if (cuenta.getUsuario() != null && cuenta.getUsuario().equals(txtUsuario.getText()) 
+                    && cuenta.getContraseña() != null && cuenta.getContraseña().equals(txtContra.getText())) {
                     cuentaEncontrada = true;
-                    new FrmPrincipal1().setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Acceso correcto");
                     this.setVisible(false);
                     break;  // Importante: Salir del bucle si se encontró el usuario
                 }
             }
-
-            if (!usuarioEncontrado) {
-                JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        } catch (VacioExcepcion e) {
+            // Manejar la excepción (por ejemplo, mostrar un mensaje de error)
+            e.printStackTrace(); // Cambia esto según tus necesidades
         }
+
+        if (!cuentaEncontrada) {
+            JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btnIngresarActionPerformed
     public void cerrar() {
         try {
