@@ -91,6 +91,7 @@ public class FrmRegistro extends javax.swing.JDialog {
         btnEstudiante = new javax.swing.JButton();
         btnPersona = new javax.swing.JButton();
         btnDocente = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -107,7 +108,7 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnEstudianteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 190, 60));
+        JPanelFondo.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 320, 190, 60));
 
         btnPersona.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnPersona.setText("Registro Persona");
@@ -116,7 +117,7 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnPersonaActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 190, 60));
+        JPanelFondo.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 190, 60));
 
         btnDocente.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnDocente.setText("Registro Docente");
@@ -125,17 +126,18 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnDocenteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 190, 60));
+        JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 190, 60));
+        JPanelFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 580, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
         );
 
         pack();
@@ -208,6 +210,7 @@ public class FrmRegistro extends javax.swing.JDialog {
     private javax.swing.JButton btnEstudiante;
     private javax.swing.JButton btnPersona;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
 
