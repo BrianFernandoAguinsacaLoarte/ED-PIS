@@ -92,6 +92,9 @@ public class FrmRegistro extends javax.swing.JDialog {
         btnPersona = new javax.swing.JButton();
         btnDocente = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -109,7 +112,7 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnEstudianteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 320, 190, 60));
+        JPanelFondo.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 530, 190, 60));
 
         btnPersona.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnPersona.setText("Registro Persona");
@@ -118,7 +121,7 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnPersonaActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 190, 60));
+        JPanelFondo.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 530, 190, 60));
 
         btnDocente.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnDocente.setText("Registro Docente");
@@ -127,8 +130,18 @@ public class FrmRegistro extends javax.swing.JDialog {
                 btnDocenteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 190, 60));
+        JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 190, 60));
         JPanelFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 580, -1, -1));
+
+        jButton1.setBackground(new java.awt.Color(0, 102, 204));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/persona1.jpg"))); // NOI18N
+        JPanelFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, -1, 190));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/docente1.png"))); // NOI18N
+        JPanelFondo.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, -1, -1));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estudiante1.png"))); // NOI18N
+        JPanelFondo.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 330, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,7 +151,7 @@ public class FrmRegistro extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+            .addComponent(JPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -210,6 +223,9 @@ public class FrmRegistro extends javax.swing.JDialog {
     private javax.swing.JButton btnDocente;
     private javax.swing.JButton btnEstudiante;
     private javax.swing.JButton btnPersona;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
