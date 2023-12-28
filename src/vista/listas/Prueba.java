@@ -14,7 +14,7 @@ public class Prueba extends javax.swing.JFrame {
      * Creates new form Prueba
      */
     public Prueba() {
-        initComponent();
+        initComponents();
     }
 
     /**
@@ -25,15 +25,15 @@ public class Prueba extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/persona.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 740, 440));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/persona.jpg"))); // NOI18N
+        jButton1.setText("jButton1");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 550, 470));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -50,41 +50,7 @@ public class Prueba extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    private void initComponent(){
-        jPanel1 = new javax.swing.JPanel();
-    jLabel1 = new javax.swing.JLabel();
-
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-    jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-    try {
-        java.net.URL imageUrl = getClass().getResource("/img/persona.jpg");
-        if (imageUrl != null) {
-            jLabel1.setIcon(new javax.swing.ImageIcon(imageUrl));
-        } else {
-            System.err.println("Error: La URL de la imagen es nula.");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    jLabel1.setText("jLabel1");
-    jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 740, 440));
-
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    );
-
-    pack();
-    }
+ 
     
     
     
@@ -124,7 +90,7 @@ public class Prueba extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
