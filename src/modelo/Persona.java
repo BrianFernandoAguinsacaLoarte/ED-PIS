@@ -16,6 +16,7 @@ public class Persona {
     private Integer id;
     private String nombres;
     private String apellidos;
+    private String correo;
     private Integer edad;
     private Genero genero;
     private String direccion;
@@ -27,10 +28,11 @@ public class Persona {
     public Persona(){
     }
     
-    public Persona(Integer id, String nombres, String apellidos, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
+    public Persona(Integer id, String nombres, String apellidos,String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
+        this.correo = correo;
         this.edad = edad;
         this.genero = genero;
         this.direccion = direccion;
@@ -60,6 +62,14 @@ public class Persona {
         return apellidos;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+    
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }

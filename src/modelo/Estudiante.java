@@ -20,8 +20,8 @@ public class Estudiante extends Persona {
     public Estudiante() {
     }
     
-    public Estudiante(Integer id, String nombres, String apellidos, Integer edad, Genero genero, String direccion, String telefono, String cedula, String colegioAnterior) {
-        super(id, nombres, apellidos, edad, genero, direccion, telefono, cedula);
+    public Estudiante(Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula, String colegioAnterior) {
+        super(id, nombres, apellidos, correo, edad, genero, direccion, telefono, cedula);
         this.colegioAnterior = colegioAnterior; 
     }
     
