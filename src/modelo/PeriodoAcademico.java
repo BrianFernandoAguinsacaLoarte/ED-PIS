@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class PeriodoAcademico {
     
-    private String id;
+    private Integer id;
     private String semestre;
     private String añoAcademico;
     private Date fechaInicio;
@@ -22,7 +22,7 @@ public class PeriodoAcademico {
     public PeriodoAcademico() {
     }
 
-    public PeriodoAcademico(String id, String semestre, String añoAcademico, Date fechaInicio, Date fechaFin, Integer id_Matricula) {
+    public PeriodoAcademico(Integer id, String semestre, String añoAcademico, Date fechaInicio, Date fechaFin, Integer id_Matricula) {
         this.id = id;
         this.semestre = semestre;
         this.añoAcademico = añoAcademico;
@@ -31,11 +31,11 @@ public class PeriodoAcademico {
         this.id_Matricula = id_Matricula;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

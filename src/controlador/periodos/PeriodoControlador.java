@@ -4,10 +4,9 @@
  */
 package controlador.periodos;
 
-import controlador.Excepcion.VacioExcepcion;
+
 import controlador.TDA.listas.LinkedList;
 import controlador.dao.DataAccessObject;
-
 import modelo.PeriodoAcademico;
 
 /**
@@ -17,48 +16,48 @@ import modelo.PeriodoAcademico;
 public class PeriodoControlador extends DataAccessObject<PeriodoAcademico> {
 
     //Objetos
-    private Estudiante estudiante = new Estudiante();
-    private LinkedList<Estudiante> estudiantes = new LinkedList<>();
+    private PeriodoAcademico pa = new PeriodoAcademico();
+    private LinkedList<PeriodoAcademico> pas = new LinkedList<>();
     private Integer index = -1; 
     
     //Constructor
-    public EstudianteController() {
-        super(Estudiante.class);
+    public PeriodoControlador() {
+        super(PeriodoAcademico.class);
     }
     
     //Métodos
     public boolean save(){
-        estudiante.setId(generated_id());//BDD Esto desaparece
-        return save(estudiante);
+        pa.setId(generated_id());//BDD Esto desaparece
+        return save(pa);
     }
     
-    public boolean update(Integer index){
-        return update(estudiante,index);
+    public boolean update(){
+        return update(pa,index);
     }
     
     //Getter and Setter
-    public Estudiante getEstudiante() {
+    public PeriodoAcademico getPeriodoAcademico() {
         
-        if(estudiante == null){
-            estudiante = new Estudiante();
+        if(pa == null){
+            pa = new PeriodoAcademico();
         }
-        return estudiante;
+        return pa;
     }
 
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
+    public void setPeriodoAcademico(PeriodoAcademico pa) {
+        this.pa = pa;
     }
 
-    public LinkedList<Estudiante> getEstudiantes() {
+    public LinkedList<PeriodoAcademico> getPeriodosAcademicos() {
 
-        if(estudiantes.isEmpty()){
-            estudiantes = listAll();
+        if(pas.isEmpty()){
+            pas = listAll();
         }
-        return estudiantes;
+        return pas;
     }
 
-    public void setEstudiantes(LinkedList<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setPeriodosAcademicos(LinkedList<PeriodoAcademico> pas) {
+        this.pas = pas;
     }
 
     public Integer getIndex() {
@@ -68,5 +67,4 @@ public class PeriodoControlador extends DataAccessObject<PeriodoAcademico> {
     public void setIndex(Integer index) {
         this.index = index;
     }
-    
 }
