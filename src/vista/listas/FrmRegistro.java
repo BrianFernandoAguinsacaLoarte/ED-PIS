@@ -88,9 +88,9 @@ public class FrmRegistro extends javax.swing.JDialog {
 
         JPanelFondo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnEstudiante = new javax.swing.JButton();
+        btnPersona = new javax.swing.JButton();
+        btnDocente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,32 +100,32 @@ public class FrmRegistro extends javax.swing.JDialog {
         jLabel1.setText("Panel De Registros");
         JPanelFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, 180, -1));
 
-        jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton1.setText("Registro Estudiante");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEstudiante.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnEstudiante.setText("Registro Estudiante");
+        btnEstudiante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEstudianteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 190, 60));
+        JPanelFondo.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 190, 60));
 
-        jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton2.setText("Registro Persona");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPersona.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnPersona.setText("Registro Persona");
+        btnPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPersonaActionPerformed(evt);
             }
         });
-        JPanelFondo.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 190, 60));
+        JPanelFondo.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 190, 60));
 
-        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton3.setText("Registro Docente");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDocente.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        btnDocente.setText("Registro Docente");
+        btnDocente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDocenteActionPerformed(evt);
             }
         });
-        JPanelFondo.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 190, 60));
+        JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 190, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,24 +141,24 @@ public class FrmRegistro extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
         FrmPersona newFrame = new FrmPersona();
         newFrame.setVisible(true);
         this.dispose();
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnPersonaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
         FrmDocente newFrame = new FrmDocente();
         newFrame.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnDocenteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
         FrmEstudiante newFrame = new FrmEstudiante  ();
         newFrame.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEstudianteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,9 +204,9 @@ public class FrmRegistro extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanelFondo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnDocente;
+    private javax.swing.JButton btnEstudiante;
+    private javax.swing.JButton btnPersona;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
