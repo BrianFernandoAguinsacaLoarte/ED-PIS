@@ -29,10 +29,12 @@ public class FrmDocente extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         limpiar();
+        this.setLocationRelativeTo(null);
     }
     public FrmDocente() {
         initComponents();
         limpiar();
+        this.setLocationRelativeTo(null);
     }
     
     //Cargo mi tabla en la vista
