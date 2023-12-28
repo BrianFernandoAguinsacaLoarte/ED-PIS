@@ -95,6 +95,7 @@ public class FrmRegistro extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        JPanelFondo.setBackground(new java.awt.Color(0, 102, 204));
         JPanelFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
