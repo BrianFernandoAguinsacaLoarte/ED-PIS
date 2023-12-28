@@ -47,6 +47,7 @@ public class FrmPersona extends javax.swing.JDialog {
         return !txtNombre.getText().trim().isEmpty() &&
                !txtApellido.getText().trim().isEmpty() &&
                !txtEdad.getText().trim().isEmpty() &&
+               !txtCorreo.getText().trim().isEmpty() &&
                !txtDireccion.getText().trim().isEmpty() &&
                !txtTelefono.getText().trim().isEmpty() &&
                !txtCedula.getText().trim().isEmpty();
@@ -59,6 +60,7 @@ public class FrmPersona extends javax.swing.JDialog {
         txtApellido.setText("");
         txtEdad.setText("");
         cbxGenero.setSelectedItem(-1);//Limpio Combo
+        txtCorreo.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtCedula.setText("");
@@ -80,7 +82,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 pc.getPersona().setApellidos(txtApellido.getText());
                 pc.getPersona().setEdad(Integer.parseInt(txtEdad.getText()));
                 pc.getPersona().setGenero(UtilVista.getComboGenero(cbxGenero)); 
-                //pc.getPersona().setGenero(cbxGenero.getSelectedItem().toString());
+                pc.getPersona().setCorreo(txtCorreo.getText());
                 pc.getPersona().setDireccion(txtDireccion.getText());
                 pc.getPersona().setTelefono(txtTelefono.getText());
                 pc.getPersona().setCedula(txtCedula.getText());
@@ -134,6 +136,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 txtApellido.setText(pc.getPersona().getApellidos());
                 txtEdad.setText(pc.getPersona().getEdad().toString());
                 cbxGenero.setSelectedItem(pc.getPersona().getGenero());
+                txtCorreo.setText(pc.getPersona().getCorreo());
                 txtDireccion.setText(pc.getPersona().getDireccion());
                 txtTelefono.setText(pc.getPersona().getTelefono());
                 txtCedula.setText(pc.getPersona().getCedula());
@@ -185,6 +188,8 @@ public class FrmPersona extends javax.swing.JDialog {
         btnActualizar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtCorreo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -231,37 +236,37 @@ public class FrmPersona extends javax.swing.JDialog {
         jPanel1.add(cbxGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 240, -1));
 
         jLabel5.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel5.setText("Dirección: ");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 100, 20));
+        jLabel5.setText("Correo:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 100, 20));
 
         txtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDireccionActionPerformed(evt);
             }
         });
-        jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 240, -1));
+        jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 240, -1));
 
         jLabel2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel2.setText("Teléfono: ");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 100, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, 100, 20));
 
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefonoActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 240, -1));
+        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 240, -1));
 
         jLabel7.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel7.setText("Cédula: ");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 100, 20));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, 100, 20));
 
         txtCedula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCedulaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 240, -1));
+        jPanel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 260, 240, -1));
 
         jTablePersona.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -327,6 +332,11 @@ public class FrmPersona extends javax.swing.JDialog {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 170, -1));
+
+        jLabel6.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel6.setText("Dirección: ");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 100, 20));
+        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 240, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -440,6 +450,7 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -447,6 +458,7 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JTable jTablePersona;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtNombre;
