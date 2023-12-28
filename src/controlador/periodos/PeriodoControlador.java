@@ -31,7 +31,7 @@ public class PeriodoControlador extends DataAccessObject<PeriodoAcademico> {
         return save(pa);
     }
     
-    public boolean update(){
+    public boolean update(Integer index){
         return update(pa,index);
     }
     

@@ -4,6 +4,11 @@
  */
 package vista;
 
+import controlador.TDA.listas.LinkedList;
+import controlador.periodos.PeriodoControlador;
+import javax.swing.JOptionPane;
+import vista.tablas.ModeloTablaPeriodo;
+
 /**
  *
  * @author Usuario 1
@@ -13,8 +18,104 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     /**
      * Creates new form FrmPeriodoAcademico
      */
+    
+    PeriodoControlador pc = new PeriodoControlador();
+    ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
+    
     public FrmPeriodoAcademico() {
         initComponents();
+        limpiar();
+         this.setLocationRelativeTo(null);
+    }
+    
+    private void cargarTabla(){
+        mp.setPeriodosAcademicos(pc.getPeriodosAcademicos());
+        tblPeriodos.setModel(mp);
+        tblPeriodos.updateUI();
+    }
+    
+    private boolean validar(){
+        return !txtSemestre.getText().trim().isEmpty() &&
+               !txtFechaInicio.getText().trim().isEmpty() &&
+               !txtFechaFin.getText().trim().isEmpty() &&
+               !txtAñoAcademico.getText().trim().isEmpty();
+    }
+    
+    private void limpiar(){
+        txtSemestre.setText("");
+        txtFechaInicio.setText("");
+        txtFechaFin.setText("");
+        txtAñoAcademico.setText("");
+        pc.setPeriodoAcademico(null);
+        pc.setPeriodosAcademicos(new LinkedList<>());
+        cargarTabla();
+        //Actualizar tabla -BDD desaparece
+        tblPeriodos.clearSelection();
+        pc.setIndex(-1);
+    }
+    
+    private void guardar(){
+        if(validar()){
+            try {
+                pc.getPeriodoAcademico().setSemestre(txtSemestre.getText());
+                pc.getPeriodoAcademico().setFechaInicio(txtFechaInicio.getText());
+                pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText());
+                pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
+                
+                //Guardar
+                if(pc.getPeriodoAcademico().getId() == null){
+                   if(pc.save()){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }else{
+                    if(pc.update(pc.getIndex())){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage() , 
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
+    
+    
+    private void cargarVista(){
+        
+        //Cargo-modifico-envio
+        pc.setIndex(tblPeriodos.getSelectedRow());
+        if(pc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
+                txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
+                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
+                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
+                txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -40,6 +141,10 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         btnMatriculas = new javax.swing.JButton();
         btnInicio = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPeriodos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +152,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/unl.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 520, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 520, -1));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Periodo Académico", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
@@ -86,6 +191,13 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -112,7 +224,9 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnInicio)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAtras)))
+                        .addComponent(btnAtras)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -138,17 +252,53 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMatriculas, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                     .addComponent(btnInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 540, 280));
 
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista Periodos Academicos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+
+        tblPeriodos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblPeriodos);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, 730, 280));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,6 +319,10 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        guardar();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,6 +363,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnInicio;
     private javax.swing.JButton btnMatriculas;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -216,6 +371,9 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblPeriodos;
     private javax.swing.JTextField txtAñoAcademico;
     private javax.swing.JTextField txtFechaFin;
     private javax.swing.JTextField txtFechaInicio;
