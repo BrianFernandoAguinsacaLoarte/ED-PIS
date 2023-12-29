@@ -27,8 +27,8 @@ public class FrmRegistro extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         rsscalelabel.RSScaleLabel.setScaleLabel(labelPersona,"src/img/persona.jpg");
-        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.jpg");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.jpg");
     }
     
     public FrmRegistro(){
@@ -36,8 +36,8 @@ public class FrmRegistro extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         rsscalelabel.RSScaleLabel.setScaleLabel(labelPersona,"src/img/persona.jpg");
-        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.jpg");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.jpg");
     }
 
     
@@ -138,10 +138,14 @@ public class FrmRegistro extends javax.swing.JDialog {
         });
         JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 190, 60));
         JPanelFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 580, -1, -1));
+
+        labelEstudiante.setText("imgEstudiante");
         JPanelFondo.add(labelEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, 160, 190));
 
-        labelPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/persona.jpg"))); // NOI18N
+        labelPersona.setText("imgPersona");
         JPanelFondo.add(labelPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 160, 190));
+
+        labelDocente.setText("imgDocente");
         JPanelFondo.add(labelDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 320, 160, 190));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

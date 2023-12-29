@@ -113,6 +113,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="labelEstudiante">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="imgEstudiante"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="630" y="320" width="160" height="190"/>
@@ -121,9 +124,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="labelPersona">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/persona.jpg"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="imgPersona"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -132,6 +133,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="labelDocente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="imgDocente"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="310" y="320" width="160" height="190"/>
