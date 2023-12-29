@@ -26,12 +26,18 @@ public class FrmRegistro extends javax.swing.JDialog {
         //this.setContentPane(fondoPanel);
         initComponents();
         this.setLocationRelativeTo(null);
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelPersona,"src/img/persona.jpg");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.png");
     }
     
     public FrmRegistro(){
         
         initComponents();
         this.setLocationRelativeTo(null);
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelPersona,"src/img/persona.jpg");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelDocente,"src/img/docente.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(labelEstudiante,"src/img/estudiante.png");
     }
 
     
@@ -92,6 +98,9 @@ public class FrmRegistro extends javax.swing.JDialog {
         btnPersona = new javax.swing.JButton();
         btnDocente = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        labelEstudiante = new javax.swing.JLabel();
+        labelPersona = new javax.swing.JLabel();
+        labelDocente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -129,6 +138,11 @@ public class FrmRegistro extends javax.swing.JDialog {
         });
         JPanelFondo.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 190, 60));
         JPanelFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 580, -1, -1));
+        JPanelFondo.add(labelEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, 160, 190));
+
+        labelPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/persona.jpg"))); // NOI18N
+        JPanelFondo.add(labelPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 160, 190));
+        JPanelFondo.add(labelDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 320, 160, 190));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,6 +226,9 @@ public class FrmRegistro extends javax.swing.JDialog {
     private javax.swing.JButton btnPersona;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelDocente;
+    private javax.swing.JLabel labelEstudiante;
+    private javax.swing.JLabel labelPersona;
     // End of variables declaration//GEN-END:variables
 }
 
