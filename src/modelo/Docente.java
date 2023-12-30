@@ -16,7 +16,6 @@ public class Docente extends Persona{
     private Integer id_Persona;
     private String titulo;
     
-    
     //Constructores
     public Docente() {
     }
@@ -46,7 +45,7 @@ public class Docente extends Persona{
     public Persona getPersona() {
         return new Persona(getId(), getNombres(), getApellidos(), getCorreo(), getEdad(), getGenero(), getDireccion(), getTelefono(), getCedula());
     }
-    
+
     
     //Print
 
@@ -56,10 +55,19 @@ public class Docente extends Persona{
     }
     
     public static void main (String[] args){
-        Docente d = new Docente();
-        d.setTitulo("Maestria");
-        System.out.println(d.toString());
+        Docente d = new Docente("Maestria", 1, "Nombre", "Apellido", "correo@example.com", 30, Genero.Masculino, "Dirección", "123456789", "ABC123");
+
+        // Obtener el objeto Persona asociado al Docente
+        Persona personaDelDocente = d.getPersona();
+
+        // Imprimir información de la Persona
+        System.out.println("ID: " + personaDelDocente.getId());
+        System.out.println("Nombres: " + personaDelDocente.getNombres());
+        System.out.println("Apellidos: " + personaDelDocente.getApellidos());
+        System.out.println("Correo: " + personaDelDocente.getCorreo());
+
+        // También puedes imprimir directamente usando el método toString
+        System.out.println(personaDelDocente.toString());
     }
-    
     
 }
