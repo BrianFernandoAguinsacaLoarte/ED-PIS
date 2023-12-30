@@ -43,6 +43,9 @@ public class Docente extends Persona{
         this.id_Persona = id_Persona;
     }
     
+    public Persona getPersona() {
+        return new Persona(getId(), getNombres(), getApellidos(), getCorreo(), getEdad(), getGenero(), getDireccion(), getTelefono(), getCedula());
+    }
     
     
     //Print
