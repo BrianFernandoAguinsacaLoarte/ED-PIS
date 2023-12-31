@@ -5,6 +5,7 @@
 package modelo;
 
 import modelo.enums.Genero;
+import modelo.enums.Rol;
 
 /**
  *
@@ -21,8 +22,8 @@ public class Estudiante extends Persona {
     public Estudiante() {
     }
     
-    public Estudiante(Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula, String colegioAnterior) {
-        super(id, nombres, apellidos, correo, edad, genero, direccion, telefono, cedula);
+    public Estudiante(Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, Rol rol, String direccion, String telefono, String cedula, String colegioAnterior) {
+        super(id, nombres, apellidos, correo, edad, genero, rol, direccion, telefono, cedula);
         this.colegioAnterior = colegioAnterior; 
     }
     

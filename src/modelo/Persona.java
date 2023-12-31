@@ -30,13 +30,14 @@ public class Persona {
     public Persona(){
     }
     
-    public Persona(Integer id, String nombres, String apellidos,String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
+    public Persona(Integer id, String nombres, String apellidos,String correo, Integer edad, Genero genero, Rol rol, String direccion, String telefono, String cedula) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo = correo;
         this.edad = edad;
         this.genero = genero;
+        this.rol = rol;
         this.direccion = direccion;
         this.telefono = telefono;
         this.cedula = cedula;

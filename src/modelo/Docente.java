@@ -5,6 +5,7 @@
 package modelo;
 
 import modelo.enums.Genero;
+import modelo.enums.Rol;
 
 /**
  *
@@ -20,22 +21,12 @@ public class Docente extends Persona{
     public Docente() {
     }
 
-    public Docente(String titulo, Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
-        super(id, nombres, apellidos,correo, edad, genero, direccion, telefono, cedula);
+    public Docente(String titulo, Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, Rol rol, String direccion, String telefono, String cedula) {
+        super(id, nombres, apellidos,correo, edad, genero, rol, direccion, telefono, cedula);
         this.titulo = titulo;
     }
 
-    public Docente(Integer id_Persona, String titulo) {
-        this.id_Persona = id_Persona;
-        this.titulo = titulo;
-    }
-
-    public Docente(Integer id_Persona, String titulo, Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
-        super(id, nombres, apellidos, correo, edad, genero, direccion, telefono, cedula);
-        this.id_Persona = id_Persona;
-        this.titulo = titulo;
-    }
-    
+   
     
     //Getter and Setter
     public String getTitulo() {
