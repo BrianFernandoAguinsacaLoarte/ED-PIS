@@ -34,7 +34,7 @@ public class ModeloTablaPersona extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 9;
+        return 10;
     }
 
     @Override
@@ -59,12 +59,14 @@ public class ModeloTablaPersona extends AbstractTableModel{
             case 4:
                     return (persona != null)? persona.getGenero(): "";
             case 5:
-                    return (persona != null)? persona.getCorreo(): "";
+                    return (persona != null)? persona.getRol(): "";
             case 6:
-                    return (persona != null)? persona.getDireccion(): "";
+                    return (persona != null)? persona.getCorreo(): "";
             case 7:
-                    return (persona != null)? persona.getTelefono(): "";        
+                    return (persona != null)? persona.getDireccion(): "";
             case 8:
+                    return (persona != null)? persona.getTelefono(): "";        
+            case 9:
                     return (persona != null)? persona.getCedula(): "";    
                 
             default:
@@ -87,12 +89,14 @@ public class ModeloTablaPersona extends AbstractTableModel{
             case 4:
                     return "Género";  
             case 5:
-                    return "Correo";
+                    return "Rol";
             case 6:
-                    return "Dirección";
+                    return "Correo";
             case 7:
-                    return "Teléfono";
+                    return "Dirección";
             case 8:
+                    return "Teléfono";
+            case 9:
                     return "Cédula";
                     
             default:

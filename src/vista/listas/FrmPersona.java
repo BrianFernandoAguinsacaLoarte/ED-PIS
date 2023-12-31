@@ -56,10 +56,12 @@ public class FrmPersona extends javax.swing.JDialog {
     //Cargar datos en la vista
     private void limpiar(){
         UtilVista.cargarGenero(cbxGenero);//CargoCombo
+        UtilVista.cargarRol(cbxRol);//CargoCombo
         txtNombre.setText("");
         txtApellido.setText("");
         txtEdad.setText("");
         cbxGenero.setSelectedItem(-1);//Limpio Combo
+        cbxRol.setSelectedItem(-1);//Limpio Combo
         txtCorreo.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
@@ -81,7 +83,8 @@ public class FrmPersona extends javax.swing.JDialog {
                 pc.getPersona().setNombres(txtNombre.getText());
                 pc.getPersona().setApellidos(txtApellido.getText());
                 pc.getPersona().setEdad(Integer.parseInt(txtEdad.getText()));
-                pc.getPersona().setGenero(UtilVista.getComboGenero(cbxGenero)); 
+                pc.getPersona().setGenero(UtilVista.getComboGenero(cbxGenero));
+                pc.getPersona().setRol(UtilVista.getComboRol(cbxRol)); 
                 pc.getPersona().setCorreo(txtCorreo.getText());
                 pc.getPersona().setDireccion(txtDireccion.getText());
                 pc.getPersona().setTelefono(txtTelefono.getText());
@@ -136,6 +139,7 @@ public class FrmPersona extends javax.swing.JDialog {
                 txtApellido.setText(pc.getPersona().getApellidos());
                 txtEdad.setText(pc.getPersona().getEdad().toString());
                 cbxGenero.setSelectedItem(pc.getPersona().getGenero());
+                cbxRol.setSelectedItem(pc.getPersona().getRol());
                 txtCorreo.setText(pc.getPersona().getCorreo());
                 txtDireccion.setText(pc.getPersona().getDireccion());
                 txtTelefono.setText(pc.getPersona().getTelefono());
@@ -191,6 +195,8 @@ public class FrmPersona extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        cbxRol = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -230,8 +236,8 @@ public class FrmPersona extends javax.swing.JDialog {
         jPanel1.add(txtEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 240, -1));
 
         jLabel8.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel8.setText("Género:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 100, 20));
+        jLabel8.setText("Rol:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 100, 20));
 
         cbxGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(cbxGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 240, -1));
@@ -348,6 +354,13 @@ public class FrmPersona extends javax.swing.JDialog {
         });
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
 
+        jLabel9.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel9.setText("Género:");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 100, 20));
+
+        cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(cbxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 240, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -459,6 +472,7 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbxGenero;
+    private javax.swing.JComboBox<String> cbxRol;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -470,6 +484,7 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersona;

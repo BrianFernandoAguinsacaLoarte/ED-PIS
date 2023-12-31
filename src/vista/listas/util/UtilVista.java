@@ -8,6 +8,7 @@ import controlador.Excepcion.VacioExcepcion;
 import javax.swing.JComboBox;
 import modelo.enums.Genero;
 import modelo.Persona;
+import modelo.enums.Rol;
 import modelo.persona.PersonaController;
 
 /**
@@ -25,6 +26,16 @@ public class UtilVista {
     
     public static Genero getComboGenero(JComboBox cbxGenero){
         return (Genero) cbxGenero.getSelectedItem();
+    }
+    
+    public static void cargarRol(JComboBox cbxRol){
+        cbxRol.removeAllItems();
+        cbxRol.addItem(Rol.Docente);
+        cbxRol.addItem(Rol.Estudiante);
+    }
+    
+    public static Rol getComboRol(JComboBox cbxRol){
+        return (Rol) cbxRol.getSelectedItem();
     }
     
     public static void cargarPersona(JComboBox cbxPersona) throws VacioExcepcion{
