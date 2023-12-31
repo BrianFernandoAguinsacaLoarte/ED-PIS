@@ -29,18 +29,22 @@ public class FrmInicio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        btnMatriculas = new javax.swing.JButton();
+        btnMeterias = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnPeriodoAcademico = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        btnEstudiante = new javax.swing.JButton();
+        btnMalla = new javax.swing.JButton();
         btnMaterias = new javax.swing.JLabel();
-        btnMatriculas1 = new javax.swing.JButton();
+        btnMatriculas = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        btnDocente1 = new javax.swing.JButton();
+        btnPersona = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnCurso = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        btnDocente = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        btnEstudiante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,21 +59,21 @@ public class FrmInicio extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(51, 51, 51));
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Periodo Academico:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, -1, -1));
 
-        btnMatriculas.setBackground(new java.awt.Color(255, 255, 255));
-        btnMatriculas.setText("|");
-        btnMatriculas.addActionListener(new java.awt.event.ActionListener() {
+        btnMeterias.setBackground(new java.awt.Color(255, 255, 255));
+        btnMeterias.setText("|");
+        btnMeterias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMatriculasActionPerformed(evt);
+                btnMeteriasActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMatriculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, 140, 140));
+        jPanel1.add(btnMeterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 140, 140));
 
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Estudiante:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, -1, -1));
+        jLabel3.setText("Malla:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
 
         btnPeriodoAcademico.setBackground(new java.awt.Color(255, 255, 255));
         btnPeriodoAcademico.setText("|");
@@ -78,54 +82,54 @@ public class FrmInicio extends javax.swing.JFrame {
                 btnPeriodoAcademicoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPeriodoAcademico, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, 140, 140));
+        jPanel1.add(btnPeriodoAcademico, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 140, 140));
 
         jLabel4.setBackground(new java.awt.Color(51, 51, 51));
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Matriculas:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
 
-        btnEstudiante.setBackground(new java.awt.Color(255, 255, 255));
-        btnEstudiante.setText("|");
-        btnEstudiante.addActionListener(new java.awt.event.ActionListener() {
+        btnMalla.setBackground(new java.awt.Color(255, 255, 255));
+        btnMalla.setText("|");
+        btnMalla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEstudianteActionPerformed(evt);
+                btnMallaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, 140, 140));
+        jPanel1.add(btnMalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 140, 140));
 
         btnMaterias.setBackground(new java.awt.Color(51, 51, 51));
         btnMaterias.setForeground(new java.awt.Color(0, 0, 0));
         btnMaterias.setText("Materias:");
-        jPanel1.add(btnMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 430, -1, -1));
+        jPanel1.add(btnMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 270, -1, -1));
 
-        btnMatriculas1.setBackground(new java.awt.Color(255, 255, 255));
-        btnMatriculas1.setText("|");
-        btnMatriculas1.addActionListener(new java.awt.event.ActionListener() {
+        btnMatriculas.setBackground(new java.awt.Color(255, 255, 255));
+        btnMatriculas.setText("|");
+        btnMatriculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMatriculas1ActionPerformed(evt);
+                btnMatriculasActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMatriculas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 270, 140, 140));
+        jPanel1.add(btnMatriculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 120, 140, 140));
 
         jLabel5.setBackground(new java.awt.Color(51, 51, 51));
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Docente: ");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
+        jLabel5.setText("Persona:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
-        btnDocente1.setBackground(new java.awt.Color(255, 255, 255));
-        btnDocente1.setText("|");
-        btnDocente1.addActionListener(new java.awt.event.ActionListener() {
+        btnPersona.setBackground(new java.awt.Color(255, 255, 255));
+        btnPersona.setText("|");
+        btnPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDocente1ActionPerformed(evt);
+                btnPersonaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDocente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 140, 140));
+        jPanel1.add(btnPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 140, 140));
 
         jLabel6.setBackground(new java.awt.Color(51, 51, 51));
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Curso:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
 
         btnCurso.setBackground(new java.awt.Color(255, 255, 255));
         btnCurso.setText("|");
@@ -134,7 +138,7 @@ public class FrmInicio extends javax.swing.JFrame {
                 btnCursoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 140, 140));
+        jPanel1.add(btnCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 140, 140));
 
         btnAtras.setText("Atras");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +147,34 @@ public class FrmInicio extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 680, -1, -1));
+
+        jLabel7.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Docente:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
+
+        btnDocente.setBackground(new java.awt.Color(255, 255, 255));
+        btnDocente.setText("|");
+        btnDocente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDocenteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDocente, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 140, 140));
+
+        jLabel8.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("Estudiante:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, -1, -1));
+
+        btnEstudiante.setBackground(new java.awt.Color(255, 255, 255));
+        btnEstudiante.setText("|");
+        btnEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstudianteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 140, 140));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,25 +190,25 @@ public class FrmInicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMatriculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculasActionPerformed
+    private void btnMeteriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeteriasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnMatriculasActionPerformed
+    }//GEN-LAST:event_btnMeteriasActionPerformed
 
     private void btnPeriodoAcademicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoAcademicoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPeriodoAcademicoActionPerformed
 
-    private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
+    private void btnMallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMallaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEstudianteActionPerformed
+    }//GEN-LAST:event_btnMallaActionPerformed
 
-    private void btnMatriculas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculas1ActionPerformed
+    private void btnMatriculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnMatriculas1ActionPerformed
+    }//GEN-LAST:event_btnMatriculasActionPerformed
 
-    private void btnDocente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocente1ActionPerformed
+    private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDocente1ActionPerformed
+    }//GEN-LAST:event_btnPersonaActionPerformed
 
     private void btnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoActionPerformed
         // TODO add your handling code here:
@@ -185,6 +217,14 @@ public class FrmInicio extends javax.swing.JFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         //new FrmLogin.setVisible(true);
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDocenteActionPerformed
+
+    private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEstudianteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,18 +264,22 @@ public class FrmInicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCurso;
-    private javax.swing.JButton btnDocente1;
+    private javax.swing.JButton btnDocente;
     private javax.swing.JButton btnEstudiante;
+    private javax.swing.JButton btnMalla;
     private javax.swing.JLabel btnMaterias;
     private javax.swing.JButton btnMatriculas;
-    private javax.swing.JButton btnMatriculas1;
+    private javax.swing.JButton btnMeterias;
     private javax.swing.JButton btnPeriodoAcademico;
+    private javax.swing.JButton btnPersona;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

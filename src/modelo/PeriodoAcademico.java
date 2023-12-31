@@ -78,4 +78,40 @@ public class PeriodoAcademico {
     public void setId_Matricula(Integer id_Matricula) {
         this.id_Matricula = id_Matricula;
     }
+    
+    public Boolean comparar(PeriodoAcademico c, String field, Integer type) {
+
+        switch (type) {
+            case 1:
+                if (field.equalsIgnoreCase("id")) {
+                    return getId().intValue() > c.getId().intValue();
+                } else if (field.equalsIgnoreCase("semestre")) {
+                    return getSemestre().compareTo(c.getSemestre()) > 0;
+                } else if (field.equalsIgnoreCase("fechaInicio")) {
+                    return getFechaInicio().compareTo(c.getFechaInicio()) > 0;
+                } else if (field.equalsIgnoreCase("fechaFin")) {
+                    return getFechaFin().compareTo(c.getFechaFin()) > 0;
+                } else if (field.equalsIgnoreCase("añoAcademico")) {
+                    return getAñoAcademico().compareTo(c.getAñoAcademico()) > 0;
+                }
+                break;
+            case 0:
+                if (field.equalsIgnoreCase("id")) {
+                    return getId().intValue() < c.getId().intValue();
+                } else if (field.equalsIgnoreCase("semestre")) {
+                    return getSemestre().compareTo(c.getSemestre()) < 0;
+                } else if (field.equalsIgnoreCase("fechaInicio")) {
+                    return getFechaInicio().compareTo(c.getFechaInicio()) < 0;
+                } else if (field.equalsIgnoreCase("fechaFin")) {
+                    return getFechaFin().compareTo(c.getFechaFin()) < 0;
+                } else if (field.equalsIgnoreCase("añoAcademico")) {
+                    return getAñoAcademico().compareTo(c.getAñoAcademico()) < 0;
+                }
+
+                break;
+            default:
+                return null;
+        }
+        return null;
+    }
 }
