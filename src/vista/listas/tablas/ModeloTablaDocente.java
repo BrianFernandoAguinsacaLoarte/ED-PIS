@@ -51,7 +51,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
             case 0:
                     return (docente != null)? docente.getId(): "";
             case 1:
-                    return (docente != null && docente.getPersona()!= null)? docente.getPersona().getNombres(): "";
+                    return (docente != null)? docente.getId_Persona(): "";
             case 2:
                     return (docente != null)? docente.getTitulo(): "";
             default:

@@ -40,6 +40,7 @@ public class Persona {
         this.cedula = cedula;
     }
     
+    
     //Getter and Setter
 
     public Integer getId() {
