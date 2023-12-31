@@ -16,6 +16,7 @@ public class Docente extends Persona{
     //Atributos
     private Integer id_Persona;
     private String titulo;
+    private Persona persona;
     
     //Constructores
     public Docente() {
@@ -45,7 +46,15 @@ public class Docente extends Persona{
         this.id_Persona = id_Persona;
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
 
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    
     
     //Print
     @Override

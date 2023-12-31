@@ -38,6 +38,8 @@ public class UtilVista {
         return (Rol) cbxRol.getSelectedItem();
     }
     
+    
+    
     public static void cargarPersonaDocente(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
         
         PersonaController pc = new PersonaController();
@@ -54,6 +56,7 @@ public class UtilVista {
     public static Persona getComboPersonaDocente(JComboBox cbxPersona){
         return (Persona) cbxPersona.getSelectedItem();
     }
+    
     
     public static void cargarPersonaEstudiante(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
         
