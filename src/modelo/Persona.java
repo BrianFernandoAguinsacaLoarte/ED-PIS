@@ -5,6 +5,7 @@
 package modelo;
 
 import modelo.enums.Genero;
+import modelo.enums.Rol;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Persona {
     private String correo;
     private Integer edad;
     private Genero genero;
+    private Rol rol;
     private String direccion;
     private String telefono;
     private String cedula;
@@ -91,6 +93,14 @@ public class Persona {
         this.genero = genero;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+    
     public String getDireccion() {
         return direccion;
     }
