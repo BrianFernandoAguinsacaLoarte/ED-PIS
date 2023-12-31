@@ -6,6 +6,7 @@ package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
+import modelo.enums.Rol;
 import modelo.persona.EstudianteController;
 import vista.listas.tablas.ModeloTablaEstudiante;
 import vista.listas.util.UtilVista;
@@ -65,7 +66,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
         jTableEstudiante.clearSelection();
         ec.setIndex(-1);
          try {
-            UtilVista.cargarPersona(cbxPersona);
+            UtilVista.cargarPersonaEstudiante(cbxPersona, Rol.Estudiante);
         } catch (Exception e) {
         }
     }
@@ -76,7 +77,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
         if(validar()){
             try {
                 ec.getEstudiante().setColegioAnterior(txtColegio.getText());
-                ec.getEstudiante().setId_Persona(UtilVista.getComboPersona(cbxPersona).getId()); 
+                ec.getEstudiante().setId_Persona(UtilVista.getComboPersonaEstudiante(cbxPersona).getId()); 
                 
                 //Guardar
                 if(ec.getEstudiante().getId() == null){
@@ -124,7 +125,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
             try {
                 ec.setEstudiante(mte.getEstudiantes().get(ec.getIndex()));
                 txtColegio.setText(ec.getEstudiante().getColegioAnterior());
-                cbxPersona.setSelectedItem(ec.getEstudiante().getId_Persona());
+                cbxPersona.setSelectedItem(UtilVista.getComboPersonaEstudiante(cbxPersona));
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 

@@ -38,17 +38,37 @@ public class UtilVista {
         return (Rol) cbxRol.getSelectedItem();
     }
     
-    public static void cargarPersona(JComboBox cbxPersona) throws VacioExcepcion{
+    public static void cargarPersonaDocente(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
         
         PersonaController pc = new PersonaController();
         cbxPersona.removeAllItems();
         
         for(int i = 0; i < pc.getPersonas().getSize(); i++){
-            cbxPersona.addItem(pc.getPersonas().get(i));
+            Persona persona = pc.getPersonas().get(i);
+            
+            if(persona.getRol() == rol)
+            cbxPersona.addItem(persona);
         }
     }
     
-    public static Persona getComboPersona(JComboBox cbxPersona){
+    public static Persona getComboPersonaDocente(JComboBox cbxPersona){
+        return (Persona) cbxPersona.getSelectedItem();
+    }
+    
+    public static void cargarPersonaEstudiante(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
+        
+        PersonaController pc = new PersonaController();
+        cbxPersona.removeAllItems();
+        
+        for(int i = 0; i < pc.getPersonas().getSize(); i++){
+            Persona persona = pc.getPersonas().get(i);
+            
+            if(persona.getRol() == rol)
+            cbxPersona.addItem(persona);
+        }
+    }
+    
+    public static Persona getComboPersonaEstudiante(JComboBox cbxPersona){
         return (Persona) cbxPersona.getSelectedItem();
     }
 }
