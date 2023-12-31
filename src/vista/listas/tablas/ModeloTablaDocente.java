@@ -67,14 +67,12 @@ public class ModeloTablaDocente extends AbstractTableModel {
             case 0:
                     return "ID";
             case 1:
-                    return "Persona";
+                    return "ID-Persona";
             case 2:
                     return "Título";
             default:
                 return null;
         }
     }
-    
-    
     
 }

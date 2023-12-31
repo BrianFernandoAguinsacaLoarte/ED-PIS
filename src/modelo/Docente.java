@@ -24,6 +24,18 @@ public class Docente extends Persona{
         super(id, nombres, apellidos,correo, edad, genero, direccion, telefono, cedula);
         this.titulo = titulo;
     }
+
+    public Docente(Integer id_Persona, String titulo) {
+        this.id_Persona = id_Persona;
+        this.titulo = titulo;
+    }
+
+    public Docente(Integer id_Persona, String titulo, Integer id, String nombres, String apellidos, String correo, Integer edad, Genero genero, String direccion, String telefono, String cedula) {
+        super(id, nombres, apellidos, correo, edad, genero, direccion, telefono, cedula);
+        this.id_Persona = id_Persona;
+        this.titulo = titulo;
+    }
+    
     
     //Getter and Setter
     public String getTitulo() {
@@ -41,18 +53,13 @@ public class Docente extends Persona{
     public void setId_Persona(Integer id_Persona) {
         this.id_Persona = id_Persona;
     }
-    
-    
+
+
     
     //Print
-
     @Override
     public String toString() {
-        return "Docente{" + "titulo=" + titulo + "}" + super.toString();
-    }
-    
-    public static void main (String[] args){
-        
+        return super.toString();
     }
     
 }

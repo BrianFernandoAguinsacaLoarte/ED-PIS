@@ -122,7 +122,7 @@ public class FrmDocente extends javax.swing.JDialog {
             try {
                 dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
                 txtTitulo.setText(dc.getDocente().getTitulo());
-                cbxPersona.setSelectedItem(dc.getDocente().getId_Persona());
+                cbxPersona.setSelectedItem(UtilVista.getComboPersona(cbxPersona));
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
