@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class Tarea {
     
+    //Atributos
     private int codigopdf;
     private String nombrepdf;
     private String fechaCreacion;
@@ -24,6 +25,7 @@ public class Tarea {
     public Tarea() {
     }
 
+    //Getters y Setters
     public int getCodigopdf() {
         return codigopdf;
     }
@@ -80,6 +82,4 @@ public class Tarea {
         this.extensionArchivo = extensionArchivo;
     }
 
-    
-    
 }
