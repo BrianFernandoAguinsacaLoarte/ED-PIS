@@ -110,6 +110,10 @@ public class FrmPersona extends javax.swing.JDialog {
                     } 
                 }else{
                     if(pc.update(pc.getIndex())){
+                       ic.getCuenta().setId(ic.generated_id());
+                       ic.getCuenta().setUsuario(pc.getPersona().getCorreo());
+                       ic.getCuenta().setContraseña(pc.getPersona().getCedula());
+                       ic.save();
                     limpiar();
                         JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
                             "OK", JOptionPane.INFORMATION_MESSAGE);

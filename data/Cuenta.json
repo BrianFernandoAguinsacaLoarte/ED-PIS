@@ -13,12 +13,28 @@
                     "id": 2,
                     "usuario": "santiago.s.ordonez@unl.edu.ec",
                     "contraseña": 1150496257
+                },
+                "next": {
+                    "data": {
+                        "@class": "modelo.Cuenta",
+                        "id": 3,
+                        "usuario": "brian.aguinsaca@gmail.com",
+                        "contraseña": 1104785632
+                    },
+                    "next": {
+                        "data": {
+                            "@class": "modelo.Cuenta",
+                            "id": 4,
+                            "usuario": "brian.aguinsaca@gmail.com",
+                            "contraseña": 1104785632
+                        }
+                    }
                 }
             }
         },
         "last": {
-            "@reference": "..\/head\/next"
+            "@reference": "..\/head\/next\/next\/next"
         },
-        "size": 2
+        "size": 4
     }
 }
