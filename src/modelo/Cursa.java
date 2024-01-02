@@ -9,5 +9,52 @@ package modelo;
  * @author Usuario iTC
  */
 public class Cursa {
+    //Atributos
+    private Integer id;
+    private Integer id_Estudiante;
+    private Integer codigo;
+    private Integer capacidad;
+    
+    //Constructor
+    public Cursa(Integer id, Integer id_Estudiante, Integer codigo, Integer capacidad) {
+        this.id = id;
+        this.id_Estudiante = id_Estudiante;
+        this.codigo = codigo;
+        this.capacidad = capacidad;
+    }
+    
+    //Getter and Setter
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId_Estudiante() {
+        return id_Estudiante;
+    }
+
+    public void setId_Estudiante(Integer id_Estudiante) {
+        this.id_Estudiante = id_Estudiante;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public Integer getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(Integer capacidad) {
+        this.capacidad = capacidad;
+    }
     
 }
