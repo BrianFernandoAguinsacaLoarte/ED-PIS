@@ -6,11 +6,19 @@
                 "id": 1,
                 "usuario": "admin",
                 "contraseña": "hola"
+            },
+            "next": {
+                "data": {
+                    "@class": "modelo.Cuenta",
+                    "id": 2,
+                    "usuario": "santiago.s.ordonez@unl.edu.ec",
+                    "contraseña": 1150496257
+                }
             }
         },
         "last": {
-            "@reference": "..\/head"
+            "@reference": "..\/head\/next"
         },
-        "size": 1
+        "size": 2
     }
 }
