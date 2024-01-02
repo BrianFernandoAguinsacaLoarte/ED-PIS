@@ -8,6 +8,6 @@ package modelo.enums;
  *
  * @author Usuario iTC
  */
-public enum Genero {
-    Masculino, Femenino, Otro;
+public enum Rol {
+    Estudiante, Docente;
 }
