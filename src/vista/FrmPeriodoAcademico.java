@@ -6,8 +6,12 @@ package vista;
 
 import controlador.TDA.listas.LinkedList;
 import controlador.periodos.PeriodoControlador;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import vista.tablas.ModeloTablaPeriodo;
+
 
 /**
  *
@@ -21,6 +25,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     
     PeriodoControlador pc = new PeriodoControlador();
     ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     public FrmPeriodoAcademico() {
         initComponents();
@@ -54,12 +59,14 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         pc.setIndex(-1);
     }
     
-    private void guardar(){
+    private void guardar() throws ParseException{
+        Date fechaInicio = dateFormat.parse(txtFechaInicio.getText());
+        Date fechaFin = dateFormat.parse(txtFechaFin.getText());
         if(validar()){
             try {
                 pc.getPeriodoAcademico().setSemestre(txtSemestre.getText());
-                pc.getPeriodoAcademico().setFechaInicio(txtFechaInicio.getText());
-                pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText());
+                pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
+                pc.getPeriodoAcademico().setFechaFin(fechaFin);
                 pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
                 
                 //Guardar
@@ -97,7 +104,9 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }
     
     
-    private void cargarVista(){
+    private void cargarVista() throws ParseException{
+        Date fechaInicio = dateFormat.parse(txtFechaInicio.getText());
+        Date fechaFin = dateFormat.parse(txtFechaFin.getText());
         
         //Cargo-modifico-envio
         pc.setIndex(tblPeriodos.getSelectedRow());
@@ -108,8 +117,8 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             try {
                 pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
                 txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
-                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
-                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
+                pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
+                pc.getPeriodoAcademico().setFechaFin(fechaFin);
                 txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
