@@ -14,32 +14,31 @@ import java.util.Date;
 public class Tarea {
     
     //Atributos
-    private int codigopdf;
-    private String nombrepdf;
+    private int id;
+    private String tema;
     private String fechaCreacion;
     private String fechaEntrega;
     private String descripcion;
-    private Blob archivopdf;
+    private Blob archivo;
     private String extensionArchivo;
 
     public Tarea() {
     }
 
-    //Getters y Setters
-    public int getCodigopdf() {
-        return codigopdf;
+    public int getId() {
+        return id;
     }
 
-    public void setCodigopdf(int codigopdf) {
-        this.codigopdf = codigopdf;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNombrepdf() {
-        return nombrepdf;
+    public String getTema() {
+        return tema;
     }
 
-    public void setNombrepdf(String nombrepdf) {
-        this.nombrepdf = nombrepdf;
+    public void setTema(String tema) {
+        this.tema = tema;
     }
 
     public String getFechaCreacion() {
@@ -66,12 +65,12 @@ public class Tarea {
         this.descripcion = descripcion;
     }
 
-    public Blob getArchivopdf() {
-        return archivopdf;
+    public Blob getArchivo() {
+        return archivo;
     }
 
-    public void setArchivopdf(Blob archivopdf) {
-        this.archivopdf = archivopdf;
+    public void setArchivo(Blob archivo) {
+        this.archivo = archivo;
     }
 
     public String getExtensionArchivo() {
