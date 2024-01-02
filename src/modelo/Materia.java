@@ -11,6 +11,7 @@ package modelo;
 public class Materia {
     
     private Integer id;
+    private String Codigo;
     private String nombreMateria;
     private String descripcion;
 
@@ -45,6 +46,14 @@ public class Materia {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getCodigo() {
+        return Codigo;
+    }
+
+    public void setCodigo(String Codigo) {
+        this.Codigo = Codigo;
     }
     
     
