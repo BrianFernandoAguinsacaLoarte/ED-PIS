@@ -9,9 +9,10 @@ import controlador.periodos.PeriodoControlador;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vista.tablas.ModeloTablaPeriodo;
-
 
 /**
  *
@@ -22,31 +23,30 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     /**
      * Creates new form FrmPeriodoAcademico
      */
-    
     PeriodoControlador pc = new PeriodoControlador();
     ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     public FrmPeriodoAcademico() {
         initComponents();
         limpiar();
         this.setLocationRelativeTo(null);
     }
-    
-    private void cargarTabla(){
+
+    private void cargarTabla() {
         mp.setPeriodosAcademicos(pc.getPeriodosAcademicos());
         tblPeriodos.setModel(mp);
         tblPeriodos.updateUI();
     }
-    
-    private boolean validar(){
-        return !txtSemestre.getText().trim().isEmpty() &&
-               !txtFechaInicio.getText().trim().isEmpty() &&
-               !txtFechaFin.getText().trim().isEmpty() &&
-               !txtAñoAcademico.getText().trim().isEmpty();
+
+    private boolean validar() {
+        return !txtSemestre.getText().trim().isEmpty()
+                && !txtFechaInicio.getText().trim().isEmpty()
+                && !txtFechaFin.getText().trim().isEmpty()
+                && !txtAñoAcademico.getText().trim().isEmpty();
     }
-    
-    private void limpiar(){
+
+    private void limpiar() {
         txtSemestre.setText("");
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
@@ -58,83 +58,119 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         tblPeriodos.clearSelection();
         pc.setIndex(-1);
     }
-    
-    private void guardar() throws ParseException{
+
+    private void guardar() throws ParseException {
         Date fechaInicio = dateFormat.parse(txtFechaInicio.getText());
         Date fechaFin = dateFormat.parse(txtFechaFin.getText());
-        if(validar()){
+        if (validar()) {
             try {
                 pc.getPeriodoAcademico().setSemestre(txtSemestre.getText());
                 pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
                 pc.getPeriodoAcademico().setFechaFin(fechaFin);
                 pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
-                
+
                 //Guardar
-                if(pc.getPeriodoAcademico().getId() == null){
-                   if(pc.save()){
-                    limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
-                            "OK", JOptionPane.INFORMATION_MESSAGE);
-                   
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
-                            "ERROR", JOptionPane.ERROR_MESSAGE);
-                    } 
-                }else{
-                    if(pc.update(pc.getIndex())){
-                    limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
-                            "OK", JOptionPane.INFORMATION_MESSAGE);
-                   
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
-                            "ERROR", JOptionPane.ERROR_MESSAGE);
-                    } 
+                if (pc.getPeriodoAcademico().getId() == null) {
+                    if (pc.save()) {
+                        limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                                "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar",
+                                "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    if (pc.update(pc.getIndex())) {
+                        limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente",
+                                "OK", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar",
+                                "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-                
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,e.getMessage() , 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene todos los campos",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            
+
         }
     }
-    
-    
-    private void cargarVista() throws ParseException{
-        Date fechaInicio = dateFormat.parse(txtFechaInicio.getText());
-        Date fechaFin = dateFormat.parse(txtFechaFin.getText());
-        
-        //Cargo-modifico-envio
-        pc.setIndex(tblPeriodos.getSelectedRow());
-        if(pc.getIndex().intValue() < 0){
-            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+
+    private boolean esFechaValida(String fechaStr) {
+        try {
+            // Intenta analizar la fecha para verificar si es válida
+            dateFormat.parse(fechaStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private void cargarVista() throws ParseException {
+
+        String fechaInicioStr = txtFechaInicio.getText().trim();
+        String fechaFinStr = txtFechaFin.getText().trim();
+
+        System.out.println("Fecha de inicio ingresada: " + fechaInicioStr);
+        System.out.println("Fecha de fin ingresada: " + fechaFinStr);
+
+        if (fechaInicioStr.isEmpty() || fechaFinStr.isEmpty()) {
+            // Después de asignar fechas convertidas
+            System.out.println("Fecha de inicio asignada: " + pc.getPeriodoAcademico().getFechaInicio());
+            System.out.println("Fecha de fin asignada: " + pc.getPeriodoAcademico().getFechaFin());
+
+            JOptionPane.showMessageDialog(null, "Las fechas no pueden estar vacías",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            try {
-                pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
-                txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
-                pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
-                pc.getPeriodoAcademico().setFechaFin(fechaFin);
-                txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+            return;
+        }
+
+        try {
+            Date fechaInicio = dateFormat.parse(fechaInicioStr);
+            Date fechaFin = dateFormat.parse(fechaFinStr);
+
+            System.out.println("Fecha de inicio convertida: " + fechaInicio);
+            System.out.println("Fecha de fin convertida: " + fechaFin);
+
+            pc.setIndex(tblPeriodos.getSelectedRow());
+
+            if (pc.getIndex().intValue() < 0) {
+                JOptionPane.showMessageDialog(null, "Selecciona una fila",
                         "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
+                    txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
+                    pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
+                    pc.getPeriodoAcademico().setFechaFin(fechaFin);
+                    txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al establecer valores: " + e.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al analizar las fechas: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
-    
-    private void buscar(){
+
+    private void buscar() {
         String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
-        try{
+        try {
             String semestre = txtTexto.getText();
             mp.setPeriodosAcademicos(pc.buscarPrecioMenores(pc.getPeriodosAcademicos(), criterio, semestre));
             tblPeriodos.setModel(mp);
             tblPeriodos.updateUI();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -174,6 +210,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cbxCriterio = new javax.swing.JComboBox<>();
         cbxAscDes = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -382,6 +419,10 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, 730, 300));
 
+        jLabel7.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel7.setText("Nota: En los cmapos de fechas utilize el formato: yyyy-MM-dd");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -407,20 +448,36 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        cargarVista();
+        try {
+            cargarVista();
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        guardar();
+        try {
+            guardar();
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEnlistarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnlistarActionPerformed
-        cargarVista();
+        try {
+            cargarVista();
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEnlistarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        guardar();
-        
+        try {
+            guardar();
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -478,6 +535,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

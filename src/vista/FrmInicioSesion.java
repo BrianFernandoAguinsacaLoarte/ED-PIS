@@ -188,6 +188,8 @@ InicioSesionController ic = new InicioSesionController();
             JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    new FrmInicio().setVisible(true);
     }//GEN-LAST:event_btnIngresarActionPerformed
     public void cerrar() {
         try {
