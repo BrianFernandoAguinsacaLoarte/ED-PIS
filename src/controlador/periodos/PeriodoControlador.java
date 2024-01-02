@@ -100,20 +100,6 @@ public class PeriodoControlador extends DataAccessObject<PeriodoAcademico> {
             throw new Exception("No existe ese criterio de busqueda");
         }return lista;
     }
-
-    
-//    public LinkedList<Llanta> buscar(LinkedList<Llanta> lista, String text) throws Exception{
-//        
-//        LinkedList<Llanta> lo = this.ordenar(0, "nombre", lista); //ver video de youtbe 
-//        Llanta[] m = lo.toArray();
-//        LinkedList<Llanta> result = new LinkedList<>();
-//        for (int i = 0; i < lo.getSize(); i++) {
-//            //if(m[i].getNombre().toLowerCase().startsWith(text.toLowerCase())){
-//                result.add(m[i]);
-//            //}
-//        }
-//        return result;
-//    }
     
      public LinkedList<PeriodoAcademico> buscarPrecioMenores(LinkedList<PeriodoAcademico> lista, String text, String semestre) throws Exception{
         

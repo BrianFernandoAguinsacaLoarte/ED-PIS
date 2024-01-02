@@ -4,6 +4,10 @@
  */
 package vista;
 
+import vista.listas.FrmDocente;
+import vista.listas.FrmEstudiante;
+import vista.listas.FrmPersona;
+
 /**
  *
  * @author Usuario 1
@@ -195,7 +199,7 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMeteriasActionPerformed
 
     private void btnPeriodoAcademicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoAcademicoActionPerformed
-        // TODO add your handling code here:
+        new FrmPeriodoAcademico().setVisible(true);
     }//GEN-LAST:event_btnPeriodoAcademicoActionPerformed
 
     private void btnMallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMallaActionPerformed
@@ -207,7 +211,8 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
-        // TODO add your handling code here:
+        FrmPersona p = new FrmPersona();
+        p.setVisible(true);
     }//GEN-LAST:event_btnPersonaActionPerformed
 
     private void btnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoActionPerformed
@@ -215,15 +220,17 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCursoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        //new FrmLogin.setVisible(true);
+       new FrmInicioSesion().setVisible(true);
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
-        // TODO add your handling code here:
+        FrmDocente d = new FrmDocente();
+        d.setVisible(true);
     }//GEN-LAST:event_btnDocenteActionPerformed
 
     private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
-        // TODO add your handling code here:
+        FrmEstudiante e = new FrmEstudiante();
+        e.setVisible(true);
     }//GEN-LAST:event_btnEstudianteActionPerformed
 
     /**
