@@ -22,7 +22,7 @@ public class TareaDAO implements CRUD{
     public ArrayList<Tarea> Listar_all() {
         ArrayList<Tarea> list = new ArrayList<Tarea>();
         ConexionBDD conec = new ConexionBDD();
-        String sql = "SELECT * FROM tarea_archivo;";
+        String sql = "SELECT * FROM tarea;";
         ResultSet rs = null;
         PreparedStatement ps = null;
         try {
@@ -57,7 +57,7 @@ public class TareaDAO implements CRUD{
     @Override
     public void Agregar_Archivo(Tarea vo) {
         ConexionBDD conec = new ConexionBDD();
-        String sql = "INSERT INTO tarea_archivo (id, tema, descripcion, fechaCreacion, fechaEntrega, archivo, extensionArchivo) VALUES(?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO tarea(id, tema, descripcion, fechaCreacion, fechaEntrega, archivo, extensionArchivo) VALUES(?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement ps = null;
         try {
             ps = conec.getConnection().prepareStatement(sql);
@@ -86,7 +86,7 @@ public class TareaDAO implements CRUD{
     @Override
     public void Modificar_Archivo(Tarea vo) {
         ConexionBDD conec = new ConexionBDD();
-        String sql = "UPDATE tarea_archivo SET tema = ?, descripcion = ?, fechaCreacion = ?, fechaEntrega = ?, archivo = ?, extensionArchivo = ? WHERE id = ?;";
+        String sql = "UPDATE tarea SET tema = ?, descripcion = ?, fechaCreacion = ?, fechaEntrega = ?, archivo = ?, extensionArchivo = ? WHERE id = ?;";
         PreparedStatement ps = null;
         try {
             ps = conec.getConnection().prepareStatement(sql);
@@ -95,7 +95,7 @@ public class TareaDAO implements CRUD{
             ps.setString(3, vo.getFechaCreacion());
             ps.setString(4, vo.getFechaEntrega());
             ps.setBlob(5, vo.getArchivo());
-            ps.setNString(6, vo.getExtensionArchivo());
+            ps.setString(6, vo.getExtensionArchivo());
             ps.setInt(7, vo.getId());
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -115,7 +115,7 @@ public class TareaDAO implements CRUD{
     @Override
     public void Modificar_Archivo2(Tarea vo) {
         ConexionBDD conec = new ConexionBDD();
-        String sql = "UPDATE tarea_archivo SET tema = ?, descripcion = ?, fechaCreacion = ?, fechaEntrega = ?, extensionArchivo = ? WHERE id = ?;";
+        String sql = "UPDATE tarea SET tema = ?, descripcion = ?, fechaCreacion = ?, fechaEntrega = ?, extensionArchivo = ? WHERE id = ?;";
         PreparedStatement ps = null;
         try {
             ps = conec.getConnection().prepareStatement(sql);
@@ -144,7 +144,7 @@ public class TareaDAO implements CRUD{
     @Override
     public void Eliminar_Archivo(Tarea vo) {
         ConexionBDD conec = new ConexionBDD();
-        String sql = "DELETE FROM tarea_archivo WHERE id = ?;";
+        String sql = "DELETE FROM tarea WHERE id = ?;";
         PreparedStatement ps = null;
         try {
             ps = conec.getConnection().prepareStatement(sql);

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class ConexionBDD {
     
     // Parámetros de conexión
-    private static final String BD_NOMBRE = "pis_modulo_tarea";
+    private static final String BD_NOMBRE = "pis_tarea";
     private static final String USUARIO = "root";
     private static final String CONTRASEÑA = "2002";
     private static final String URL_CONEXION = "jdbc:mysql://localhost/" + BD_NOMBRE;
