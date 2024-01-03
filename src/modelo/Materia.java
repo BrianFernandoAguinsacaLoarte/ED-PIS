@@ -10,4 +10,52 @@ package modelo;
  */
 public class Materia {
     
+    private Integer id;
+    private String Codigo;
+    private String nombreMateria;
+    private String descripcion;
+
+    public Materia() {
+    }
+
+    public Materia(Integer id, String nombreMateria, String descripcion) {
+        this.id = id;
+        this.nombreMateria = nombreMateria;
+        this.descripcion = descripcion;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombreMateria() {
+        return nombreMateria;
+    }
+
+    public void setNombreMateria(String nombreMateria) {
+        this.nombreMateria = nombreMateria;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getCodigo() {
+        return Codigo;
+    }
+
+    public void setCodigo(String Codigo) {
+        this.Codigo = Codigo;
+    }
+    
+    
+    
 }

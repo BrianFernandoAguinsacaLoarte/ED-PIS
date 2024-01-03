@@ -9,5 +9,5 @@ package modelo.enums;
  * @author Usuario iTC
  */
 public enum EstadoEntrega {
-    
+    PENDIENTE, ENTREGADO, ENTREGADO_ATRASADO, NO_ENTREGADO;
 }

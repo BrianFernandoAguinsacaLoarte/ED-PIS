@@ -4,6 +4,7 @@
  */
 package vista.listas;
 
+import controlador.InicioSesionController;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
 import modelo.persona.PersonaController;
@@ -19,6 +20,7 @@ public class FrmPersona extends javax.swing.JDialog {
     //Objetos
     PersonaController pc = new PersonaController();
     ModeloTablaPersona mtp = new ModeloTablaPersona();
+    InicioSesionController ic = new InicioSesionController();
     
     
     public FrmPersona(java.awt.Frame parent, boolean modal) {
@@ -93,6 +95,11 @@ public class FrmPersona extends javax.swing.JDialog {
                 //Guardar
                 if(pc.getPersona().getId() == null){
                    if(pc.save()){
+                       ic.getCuenta().setId(ic.generated_id());
+                       ic.getCuenta().setUsuario(pc.getPersona().getCorreo());
+                       ic.getCuenta().setContraseña(pc.getPersona().getCedula());
+                       ic.save();
+                       
                     limpiar();
                         JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
                             "OK", JOptionPane.INFORMATION_MESSAGE);
@@ -103,6 +110,10 @@ public class FrmPersona extends javax.swing.JDialog {
                     } 
                 }else{
                     if(pc.update(pc.getIndex())){
+                       ic.getCuenta().setId(ic.generated_id());
+                       ic.getCuenta().setUsuario(pc.getPersona().getCorreo());
+                       ic.getCuenta().setContraseña(pc.getPersona().getCedula());
+                       ic.save();
                     limpiar();
                         JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
                             "OK", JOptionPane.INFORMATION_MESSAGE);
