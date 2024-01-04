@@ -16,6 +16,10 @@ public class Cursa {
     private Integer capacidad;
     
     //Constructor
+    
+    public Cursa(){
+        
+    }
     public Cursa(Integer id, Integer id_Estudiante, Integer codigo, Integer capacidad) {
         this.id = id;
         this.id_Estudiante = id_Estudiante;
