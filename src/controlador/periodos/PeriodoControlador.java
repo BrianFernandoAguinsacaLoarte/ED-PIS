@@ -30,7 +30,7 @@ public class PeriodoControlador extends DataAccessObject<PeriodoAcademico> {
     
     //Métodos
     public boolean save(){
-        pa.setId(generated_id());//BDD Esto desaparece
+        pa.setId(generated_id());
         return save(pa);
     }
     
