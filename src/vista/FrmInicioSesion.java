@@ -21,7 +21,6 @@ import modelo.Cuenta;
  */
 public class FrmInicioSesion extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form FrmInicioSesion
      */
@@ -158,38 +157,39 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-InicioSesionController ic = new InicioSesionController();
-    controlador.TDA.listas.LinkedList<Cuenta> listaCuentas = ic.listAll();
-    
-    if (ic.getCuenta().getUsuario() != null && ic.getCuenta().getUsuario().equals(txtUsuario.getText()) 
-        && ic.getCuenta().getContraseña() != null && ic.getCuenta().getContraseña().equals(txtContra.getText())) {
-        JOptionPane.showMessageDialog(null, "Acceso correcto");
-        this.setVisible(false);
-    } else {
-        boolean cuentaEncontrada = false;
+        InicioSesionController ic = new InicioSesionController();
+        controlador.TDA.listas.LinkedList<Cuenta> listaCuentas = ic.listAll();
 
-        try {
-            for (int i = 0; i < listaCuentas.getSize(); i++) {
-                Cuenta cuenta = listaCuentas.get(i);
-                if (cuenta.getUsuario() != null && cuenta.getUsuario().equals(txtUsuario.getText()) 
-                    && cuenta.getContraseña() != null && cuenta.getContraseña().equals(txtContra.getText())) {
-                    cuentaEncontrada = true;
-                    JOptionPane.showMessageDialog(null, "Acceso correcto");
-                    this.setVisible(false);
-                    break;  // Importante: Salir del bucle si se encontró el usuario
+        if (ic.getCuenta().getUsuario() != null && ic.getCuenta().getUsuario().equals(txtUsuario.getText())
+                && ic.getCuenta().getContraseña() != null && ic.getCuenta().getContraseña().equals(txtContra.getText())) {
+            JOptionPane.showMessageDialog(null, "Acceso correcto");
+            this.setVisible(false);
+        } else {
+            boolean cuentaEncontrada = false;
+
+            try {
+                for (int i = 0; i < listaCuentas.getSize(); i++) {
+                    Cuenta cuenta = listaCuentas.get(i);
+                    if (cuenta.getUsuario() != null && cuenta.getUsuario().equals(txtUsuario.getText())
+                            && cuenta.getContraseña() != null && cuenta.getContraseña().equals(txtContra.getText())) {
+                        cuentaEncontrada = true;
+                        JOptionPane.showMessageDialog(null, "Acceso correcto");
+                        this.setVisible(false);
+                        new FrmInicio().setVisible(true);
+                        break;  // Importante: Salir del bucle si se encontró el usuario
+                    }
                 }
+            } catch (VacioExcepcion e) {
+                // Manejar la excepción (por ejemplo, mostrar un mensaje de error)
+                e.printStackTrace(); // Cambia esto según tus necesidades
             }
-        } catch (VacioExcepcion e) {
-            // Manejar la excepción (por ejemplo, mostrar un mensaje de error)
-            e.printStackTrace(); // Cambia esto según tus necesidades
+
+            if (!cuentaEncontrada) {
+                JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        if (!cuentaEncontrada) {
-            JOptionPane.showMessageDialog(this, "Cuenta o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    new FrmInicio().setVisible(true);
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
     public void cerrar() {
         try {
@@ -206,6 +206,7 @@ InicioSesionController ic = new InicioSesionController();
             e.printStackTrace();
         }
     }
+
     public void confirmarSalida() {
         int valor = JOptionPane.showConfirmDialog(this, "¿Seguro de cerrar la app?", "Advertencia", JOptionPane.YES_NO_OPTION);
         if (valor == JOptionPane.YES_OPTION) {
@@ -213,6 +214,7 @@ InicioSesionController ic = new InicioSesionController();
             System.exit(0);
         }
     }
+
     /**
      * @param args the command line arguments
      */

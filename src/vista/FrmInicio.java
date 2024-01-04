@@ -223,6 +223,7 @@ public class FrmInicio extends javax.swing.JFrame {
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
        new FrmInicioSesion().setVisible(true);
+       this.setVisible(false);
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
