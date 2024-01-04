@@ -19,6 +19,7 @@ public class FrmInicio extends javax.swing.JFrame {
      */
     public FrmInicio() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -213,6 +214,7 @@ public class FrmInicio extends javax.swing.JFrame {
     private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
         FrmPersona p = new FrmPersona();
         p.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPersonaActionPerformed
 
     private void btnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoActionPerformed
@@ -226,11 +228,13 @@ public class FrmInicio extends javax.swing.JFrame {
     private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
         FrmDocente d = new FrmDocente();
         d.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDocenteActionPerformed
 
     private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
         FrmEstudiante e = new FrmEstudiante();
         e.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnEstudianteActionPerformed
 
     /**

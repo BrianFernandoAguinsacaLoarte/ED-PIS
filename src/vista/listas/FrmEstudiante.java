@@ -8,6 +8,7 @@ import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
 import modelo.enums.Rol;
 import modelo.persona.EstudianteController;
+import vista.FrmInicio;
 import vista.listas.tablas.ModeloTablaEstudiante;
 import vista.listas.util.UtilVista;
 
@@ -305,7 +306,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        FrmRegistro newFrame = new FrmRegistro();
+        FrmInicio newFrame = new FrmInicio();
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
