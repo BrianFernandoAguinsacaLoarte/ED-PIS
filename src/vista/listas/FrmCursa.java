@@ -56,7 +56,8 @@ public class FrmCursa extends javax.swing.JDialog {
     
     //Cargar datos en la vista
     private void limpiar(){
-        txtCodigo.setText("");
+        txtCodigo.setText(cc.generatedCode());
+        txtCodigo.setEnabled(false);
         txtCapacidad.setText("");
         cbxEstudiante.setSelectedItem(-1);//Limpio Combo
        
@@ -78,7 +79,7 @@ public class FrmCursa extends javax.swing.JDialog {
     private void guardar(){
         if(validar()){
             try {
-                cc.getCursa().setCodigo(Integer.parseInt(txtCodigo.getText()));
+                cc.getCursa().setCodigo(txtCodigo.getText());
                 cc.getCursa().setCapacidad(Integer.parseInt(txtCapacidad.getText()));
                 cc.getCursa().setId_Estudiante(UtilVista.getComboPersonaEstudiante(cbxEstudiante).getId()); 
                 //Guardar
@@ -189,7 +190,7 @@ public class FrmCursa extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Vista Cursa");
+        jLabel1.setText("Curso");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 190, -1));
 
         jTableCursa.setModel(new javax.swing.table.DefaultTableModel(

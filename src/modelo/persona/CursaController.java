@@ -35,6 +35,17 @@ public class CursaController extends DataAccessObject<Cursa> {
         return update(cursa,index);
     }
     
+    public String generatedCode() {
+        StringBuilder code = new StringBuilder();
+        Integer length = listAll().getSize() + 1;
+        Integer pos = Integer.toString(length).length();
+        for (int i = 0; i < (10 - pos); i++) {
+            code.append("0");
+        }
+        code.append(length.toString());
+        return code.toString();
+    }
+    
     //Getter and Setter
 
     public Cursa getCursa() {

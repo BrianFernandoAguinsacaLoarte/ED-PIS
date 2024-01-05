@@ -145,6 +145,12 @@ public class FrmMateria extends javax.swing.JFrame {
         jLabel3.setText("Nombre Materia");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, -1));
         jPanel1.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 200, -1));
+
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 200, -1));
         jPanel1.add(txtNombreMateria, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 200, -1));
 
@@ -230,6 +236,10 @@ public class FrmMateria extends javax.swing.JFrame {
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     /**
      * @param args the command line arguments

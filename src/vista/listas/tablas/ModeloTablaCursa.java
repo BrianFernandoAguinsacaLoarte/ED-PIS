@@ -7,6 +7,7 @@ package vista.listas.tablas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
 import modelo.Cursa;
+import modelo.Persona;
 
 /**
  *
@@ -42,6 +43,7 @@ public class ModeloTablaCursa extends AbstractTableModel {
     public Object getValueAt(int fila, int columna) {
         
         Cursa cursa = null;
+        //Persona persona = new Persona();
         try {
             cursa = cursas.get(fila);
         } catch (Exception e) {
@@ -55,12 +57,12 @@ public class ModeloTablaCursa extends AbstractTableModel {
             case 2: 
                     return (cursa != null)? cursa.getCodigo(): "";
             case 3: 
-                    return (cursa != null)? cursa.getCapacidad(): "";
+                    return (cursa != null)? cursa.getCapacidad() + " Estudiantes": "";
             default:
                 return null;
         }
     }
-
+   
     @Override
     public String getColumnName(int columna) {
         

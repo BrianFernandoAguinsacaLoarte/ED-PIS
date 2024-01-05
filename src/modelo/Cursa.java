@@ -12,7 +12,7 @@ public class Cursa {
     //Atributos
     private Integer id;
     private Integer id_Estudiante;
-    private Integer codigo;
+    private String codigo;
     private Integer capacidad;
     
     //Constructor
@@ -20,7 +20,7 @@ public class Cursa {
     public Cursa(){
         
     }
-    public Cursa(Integer id, Integer id_Estudiante, Integer codigo, Integer capacidad) {
+    public Cursa(Integer id, Integer id_Estudiante, String codigo, Integer capacidad) {
         this.id = id;
         this.id_Estudiante = id_Estudiante;
         this.codigo = codigo;
@@ -45,13 +45,14 @@ public class Cursa {
         this.id_Estudiante = id_Estudiante;
     }
 
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
+
 
     public Integer getCapacidad() {
         return capacidad;
