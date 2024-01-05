@@ -35,10 +35,6 @@ public class CursaController extends DataAccessObject<Cursa> {
         return update(cursa,index);
     }
     
-    public Integer getIdEstudiante(){
-        return cursa.getId_Estudiante();
-    }
-    
     //Getter and Setter
 
     public Cursa getCursa() {
@@ -72,34 +68,5 @@ public class CursaController extends DataAccessObject<Cursa> {
         this.index = index;
     }
     
-    //COmprobando funcionamiento
-    public static void main(String[] args) throws VacioExcepcion{
-        EstudianteController ec = new EstudianteController();
-        CursaController cc = new CursaController();
-        
-        LinkedList<Estudiante> estudiantes = ec.getEstudiantes();
-        
-        if (!estudiantes.isEmpty()) {
-            
-            Estudiante primerEstudiante = estudiantes.getLast();
-            Integer idEstudiante = primerEstudiante.getId();
-
-            Cursa nuevaCursa = new Cursa();
-            nuevaCursa.setId_Estudiante(idEstudiante);
-
-            cc.setCursa(nuevaCursa);
-
-            cc.save();
-
-            Integer idEstudianteCursa = cc.getIdEstudiante();
-
-            // Imprimir resultados
-            System.out.println("ID del estudiante en Estudiante: " + idEstudiante);
-            System.out.println("ID del estudiante en Cursa: " + idEstudianteCursa);
-        } else {
-            System.out.println("No hay estudiantes en la lista.");
-        }
-        
-    }
     
 }

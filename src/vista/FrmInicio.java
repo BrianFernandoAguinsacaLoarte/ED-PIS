@@ -4,6 +4,7 @@
  */
 package vista;
 
+import vista.listas.FrmCursa;
 import vista.listas.FrmDocente;
 import vista.listas.FrmEstudiante;
 import vista.listas.FrmPersona;
@@ -19,6 +20,7 @@ public class FrmInicio extends javax.swing.JFrame {
      */
     public FrmInicio() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -216,7 +218,9 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPersonaActionPerformed
 
     private void btnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoActionPerformed
-        // TODO add your handling code here:
+        FrmCursa c = new FrmCursa();
+        c.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCursoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
