@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vista.listas.util.UtilVista;
 import vista.tablas.ModeloTablaPeriodo;
 
 /**
@@ -59,22 +60,14 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         pc.setIndex(-1);
     }
 
-    private void guardar() throws ParseException {
-        
-        String fechaIn = txtFechaInicio.getText().trim();
-        String fechaFin = txtFechaFin.getText().trim();
-        String horaIniio = txtHoraFin.getText().trim();
-        String horaFin = txtHoraFin.getText().trim();
-                
-        Date dateInicio = dateFormat.parse(fechaIn + " " + horaIniio );
-        Date dateFin = dateFormat.parse(fechaFin + " " + horaFin );
+    private void guardar() {
                 
         if (validar()) {
             try {
-                pc.getPeriodoAcademico().setSemestre(txtSemestre.getText());
-                pc.getPeriodoAcademico().setFechaInicio(dateInicio);
-                pc.getPeriodoAcademico().setFechaFin(dateFin);
-                pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
+                pc.getPeriodoAcademico().setSemestre(txtSemestre.getText().trim());
+                pc.getPeriodoAcademico().setFechaInicio(txtFechaInicio.getText().trim());
+                pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText().trim());
+                pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText().trim());
 
                 //Guardar
                 if (pc.getPeriodoAcademico().getId() == null) {
@@ -110,63 +103,24 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         }
     }
 
-    private boolean esFechaValida(String fechaStr) {
-        try {
-            // Intenta analizar la fecha para verificar si es válida
-            dateFormat.parse(fechaStr);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
-
-    private void cargarVista() throws ParseException {
-
-        String fechaInicioStr = txtFechaInicio.getText().trim();
-        String fechaFinStr = txtFechaFin.getText().trim();
-
-        System.out.println("Fecha de inicio ingresada: " + fechaInicioStr);
-        System.out.println("Fecha de fin ingresada: " + fechaFinStr);
-
-        if (fechaInicioStr.isEmpty() || fechaFinStr.isEmpty()) {
-            // Después de asignar fechas convertidas
-            System.out.println("Fecha de inicio asignada: " + pc.getPeriodoAcademico().getFechaInicio());
-            System.out.println("Fecha de fin asignada: " + pc.getPeriodoAcademico().getFechaFin());
-
-            JOptionPane.showMessageDialog(null, "Las fechas no pueden estar vacías",
+    private void cargarVista(){
+        
+        //Cargo-modifico-envio
+        pc.setIndex(tblPeriodos.getSelectedRow());
+        if(pc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
                     "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            Date fechaInicio = dateFormat.parse(fechaInicioStr);
-            Date fechaFin = dateFormat.parse(fechaFinStr);
-
-            System.out.println("Fecha de inicio convertida: " + fechaInicio);
-            System.out.println("Fecha de fin convertida: " + fechaFin);
-
-            pc.setIndex(tblPeriodos.getSelectedRow());
-
-            if (pc.getIndex().intValue() < 0) {
-                JOptionPane.showMessageDialog(null, "Selecciona una fila",
+        }else{
+            try {
+                pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
+                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
+                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
+                txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
+                txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
                         "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                try {
-                    pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
-                    txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
-                    pc.getPeriodoAcademico().setFechaInicio(fechaInicio);
-                    pc.getPeriodoAcademico().setFechaFin(fechaFin);
-                    txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al establecer valores: " + e.getMessage(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
-                }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al analizar las fechas: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         }
     }
 
@@ -208,10 +162,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnEnlistar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtHoraFin = new javax.swing.JTextField();
-        txtHoraInicio = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPeriodos = new javax.swing.JTable();
@@ -287,13 +237,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel9.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel9.setText("Fecha de Inicio: ");
-
-        jLabel10.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel10.setText("Fecha de Finalización:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -301,45 +244,33 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAñoAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(btnEnlistar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnMatriculas, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnInicio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnLimpiar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnGuardar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(txtAñoAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSemestre, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btnEnlistar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnMatriculas, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnInicio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpiar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,18 +299,10 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                     .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                     .addComponent(btnEnlistar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(txtHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 540, 400));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 540, 300));
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista Periodos Academicos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 0, 0))); // NOI18N
@@ -486,35 +409,19 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        try {
-            cargarVista();
-        } catch (ParseException ex) {
-            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cargarVista();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            guardar();
-        } catch (ParseException ex) {
-            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEnlistarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnlistarActionPerformed
-        try {
-            cargarVista();
-        } catch (ParseException ex) {
-            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cargarVista();
     }//GEN-LAST:event_btnEnlistarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        try {
-            guardar();
-        } catch (ParseException ex) {
-            Logger.getLogger(FrmPeriodoAcademico.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        guardar();
 
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -568,7 +475,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxAscDes;
     private javax.swing.JComboBox<String> cbxCriterio;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -576,7 +482,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -585,8 +490,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JTextField txtAñoAcademico;
     private javax.swing.JTextField txtFechaFin;
     private javax.swing.JTextField txtFechaInicio;
-    private javax.swing.JTextField txtHoraFin;
-    private javax.swing.JTextField txtHoraInicio;
     private javax.swing.JTextField txtSemestre;
     private javax.swing.JTextField txtTexto;
     // End of variables declaration//GEN-END:variables
