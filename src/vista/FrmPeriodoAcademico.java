@@ -6,11 +6,6 @@ package vista;
 
 import controlador.TDA.listas.LinkedList;
 import controlador.periodos.PeriodoControlador;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vista.tablas.ModeloTablaPeriodo;
 
@@ -27,7 +22,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     
     PeriodoControlador pc = new PeriodoControlador();
     ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     public FrmPeriodoAcademico() {
         initComponents();
@@ -115,8 +109,8 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             try {
                 pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
                 txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
-                pc.getPeriodoAcademico().setFechaInicio(pc.getPeriodoAcademico().getFechaInicio());
-                pc.getPeriodoAcademico().setFechaFin(pc.getPeriodoAcademico().getFechaFin());
+                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
+                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
                 txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
