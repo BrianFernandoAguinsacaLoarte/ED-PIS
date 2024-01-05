@@ -201,7 +201,10 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMeteriasActionPerformed
 
     private void btnPeriodoAcademicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoAcademicoActionPerformed
-        new FrmPeriodoAcademico().setVisible(true);
+        FrmPeriodoAcademico pa = new FrmPeriodoAcademico();
+        pa.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_btnPeriodoAcademicoActionPerformed
 
     private void btnMallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMallaActionPerformed
