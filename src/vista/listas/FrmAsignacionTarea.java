@@ -41,6 +41,7 @@ public class FrmAsignacionTarea extends javax.swing.JFrame {
     public FrmAsignacionTarea() throws VacioExcepcion {
         initComponents();
         limpiar();
+        this.setLocationRelativeTo(null);
         Calendar calendar = Calendar.getInstance();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

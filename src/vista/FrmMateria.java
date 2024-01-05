@@ -24,6 +24,7 @@ public class FrmMateria extends javax.swing.JFrame {
     public FrmMateria() {
         initComponents();
         limpiar();
+        this.setLocationRelativeTo(null);
     }
 
     public Boolean validar() {

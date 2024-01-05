@@ -197,7 +197,9 @@ public class FrmInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMeteriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMeteriasActionPerformed
-        new FrmMateria().setVisible(true);
+        FrmMateria newFrame = new FrmMateria();
+        newFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMeteriasActionPerformed
 
     private void btnPeriodoAcademicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoAcademicoActionPerformed
@@ -208,16 +210,19 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPeriodoAcademicoActionPerformed
 
     private void btnMallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMallaActionPerformed
-        // TODO add your handling code here:
+        FrmMalla newFrame = new FrmMalla();
+        newFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMallaActionPerformed
 
     private void btnMatriculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculasActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
         FrmPersona p = new FrmPersona();
         p.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPersonaActionPerformed
 
     private void btnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCursoActionPerformed
@@ -227,18 +232,22 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCursoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-       new FrmInicioSesion().setVisible(true);
-       this.setVisible(false);
+       FrmInicioSesion newFrame = new FrmInicioSesion();
+       newFrame.setVisible(true);
+       this.dispose();
+        
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnDocenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocenteActionPerformed
         FrmDocente d = new FrmDocente();
         d.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDocenteActionPerformed
 
     private void btnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstudianteActionPerformed
         FrmEstudiante e = new FrmEstudiante();
         e.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnEstudianteActionPerformed
 
     /**
