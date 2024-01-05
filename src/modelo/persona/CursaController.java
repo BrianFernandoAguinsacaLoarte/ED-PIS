@@ -35,10 +35,6 @@ public class CursaController extends DataAccessObject<Cursa> {
         return update(cursa,index);
     }
     
-//    public Integer getIdEstudiante(){
-//        return cursa.getId_Estudiante();
-//    }
-    
     //Getter and Setter
 
     public Cursa getCursa() {

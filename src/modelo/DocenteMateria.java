@@ -17,7 +17,10 @@ public class DocenteMateria {
     private Integer id_PeriodoAcademico;
     
     //Constructor
-
+    
+    public DocenteMateria(){
+    
+    }
     public DocenteMateria(Integer id, Integer id_Docente, Integer id_Materia, Integer id_PeriodoAcademico) {
         this.id = id;
         this.id_Docente = id_Docente;
