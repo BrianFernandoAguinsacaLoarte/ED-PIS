@@ -6,11 +6,14 @@ package vista;
 
 import controlador.TDA.listas.LinkedList;
 import controlador.periodos.PeriodoControlador;
+<<<<<<< HEAD
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+=======
+>>>>>>> Sebas
 import javax.swing.JOptionPane;
 import vista.listas.util.UtilVista;
 import vista.tablas.ModeloTablaPeriodo;
@@ -26,8 +29,12 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
      */
     PeriodoControlador pc = new PeriodoControlador();
     ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
+<<<<<<< HEAD
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:MM:ss");
 
+=======
+    
+>>>>>>> Sebas
     public FrmPeriodoAcademico() {
         initComponents();
         limpiar();
@@ -59,6 +66,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         tblPeriodos.clearSelection();
         pc.setIndex(-1);
     }
+<<<<<<< HEAD
 
     private void guardar() {
                 
@@ -69,6 +77,17 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                 pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText().trim());
                 pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText().trim());
 
+=======
+    
+    private void guardar() {
+        if(validar()){
+            try {
+                pc.getPeriodoAcademico().setSemestre(txtSemestre.getText());
+                pc.getPeriodoAcademico().setFechaInicio(txtFechaInicio.getText());
+                pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText());
+                pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
+                
+>>>>>>> Sebas
                 //Guardar
                 if (pc.getPeriodoAcademico().getId() == null) {
                     if (pc.save()) {
@@ -102,8 +121,14 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
 
         }
     }
+<<<<<<< HEAD
 
     private void cargarVista(){
+=======
+    
+    
+    private void cargarVista() {
+>>>>>>> Sebas
         
         //Cargo-modifico-envio
         pc.setIndex(tblPeriodos.getSelectedRow());
@@ -116,6 +141,11 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                 txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
                 txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
                 txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
+<<<<<<< HEAD
+=======
+                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
+                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
+>>>>>>> Sebas
                 txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
