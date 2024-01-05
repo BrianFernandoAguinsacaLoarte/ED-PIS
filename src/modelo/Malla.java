@@ -10,4 +10,7 @@ package modelo;
  */
 public class Malla {
     
+    private String id;
+    private String nombreMalla;
+    private String duracion;
 }

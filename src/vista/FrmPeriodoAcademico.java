@@ -6,17 +6,9 @@ package vista;
 
 import controlador.TDA.listas.LinkedList;
 import controlador.periodos.PeriodoControlador;
-<<<<<<< HEAD
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-=======
->>>>>>> Sebas
 import javax.swing.JOptionPane;
-import vista.listas.util.UtilVista;
 import vista.tablas.ModeloTablaPeriodo;
+
 
 /**
  *
@@ -27,34 +19,30 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     /**
      * Creates new form FrmPeriodoAcademico
      */
+    
     PeriodoControlador pc = new PeriodoControlador();
     ModeloTablaPeriodo mp = new ModeloTablaPeriodo();
-<<<<<<< HEAD
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:MM:ss");
-
-=======
     
->>>>>>> Sebas
     public FrmPeriodoAcademico() {
         initComponents();
         limpiar();
         this.setLocationRelativeTo(null);
     }
-
-    private void cargarTabla() {
+    
+    private void cargarTabla(){
         mp.setPeriodosAcademicos(pc.getPeriodosAcademicos());
         tblPeriodos.setModel(mp);
         tblPeriodos.updateUI();
     }
-
-    private boolean validar() {
-        return !txtSemestre.getText().trim().isEmpty()
-                && !txtFechaInicio.getText().trim().isEmpty()
-                && !txtFechaFin.getText().trim().isEmpty()
-                && !txtAñoAcademico.getText().trim().isEmpty();
+    
+    private boolean validar(){
+        return !txtSemestre.getText().trim().isEmpty() &&
+               !txtFechaInicio.getText().trim().isEmpty() &&
+               !txtFechaFin.getText().trim().isEmpty() &&
+               !txtAñoAcademico.getText().trim().isEmpty();
     }
-
-    private void limpiar() {
+    
+    private void limpiar(){
         txtSemestre.setText("");
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
@@ -66,18 +54,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         tblPeriodos.clearSelection();
         pc.setIndex(-1);
     }
-<<<<<<< HEAD
-
-    private void guardar() {
-                
-        if (validar()) {
-            try {
-                pc.getPeriodoAcademico().setSemestre(txtSemestre.getText().trim());
-                pc.getPeriodoAcademico().setFechaInicio(txtFechaInicio.getText().trim());
-                pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText().trim());
-                pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText().trim());
-
-=======
     
     private void guardar() {
         if(validar()){
@@ -87,48 +63,42 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
                 pc.getPeriodoAcademico().setFechaFin(txtFechaFin.getText());
                 pc.getPeriodoAcademico().setAñoAcademico(txtAñoAcademico.getText());
                 
->>>>>>> Sebas
                 //Guardar
-                if (pc.getPeriodoAcademico().getId() == null) {
-                    if (pc.save()) {
-                        limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                                "OK", JOptionPane.INFORMATION_MESSAGE);
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se ha podido guardar",
-                                "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    if (pc.update(pc.getIndex())) {
-                        limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente",
-                                "OK", JOptionPane.INFORMATION_MESSAGE);
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se ha podido editar",
-                                "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
+                if(pc.getPeriodoAcademico().getId() == null){
+                   if(pc.save()){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }else{
+                    if(pc.update(pc.getIndex())){
+                    limpiar();
+                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
+                            "OK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } 
                 }
-
+                
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(),
+                JOptionPane.showMessageDialog(null,e.getMessage() , 
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Llene todos los campos",
+        }else{
+            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
                     "Error", JOptionPane.ERROR_MESSAGE);
-
+            
         }
     }
-<<<<<<< HEAD
-
-    private void cargarVista(){
-=======
     
     
     private void cargarVista() {
->>>>>>> Sebas
         
         //Cargo-modifico-envio
         pc.setIndex(tblPeriodos.getSelectedRow());
@@ -138,14 +108,9 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         }else{
             try {
                 pc.setPeriodoAcademico(mp.getPeriodosAcademicos().get(pc.getIndex()));
-                txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
-                txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
                 txtSemestre.setText(pc.getPeriodoAcademico().getSemestre());
-<<<<<<< HEAD
-=======
                 txtFechaInicio.setText(pc.getPeriodoAcademico().getFechaInicio());
                 txtFechaFin.setText(pc.getPeriodoAcademico().getFechaFin());
->>>>>>> Sebas
                 txtAñoAcademico.setText(pc.getPeriodoAcademico().getAñoAcademico());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
@@ -153,15 +118,15 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
             }
         }
     }
-
-    private void buscar() {
+    
+    private void buscar(){
         String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
-        try {
+        try{
             String semestre = txtTexto.getText();
             mp.setPeriodosAcademicos(pc.buscarPrecioMenores(pc.getPeriodosAcademicos(), criterio, semestre));
             tblPeriodos.setModel(mp);
             tblPeriodos.updateUI();
-        } catch (Exception ex) {
+        }catch (Exception ex){
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -201,7 +166,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cbxCriterio = new javax.swing.JComboBox<>();
         cbxAscDes = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -410,10 +374,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, 730, 300));
 
-        jLabel7.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel7.setText("Nota: En los cmapos de fechas utilize el formato: yyyy-MM-dd");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, -1, -1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -435,11 +395,11 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioActionPerformed
 
     private void btnMatriculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculasActionPerformed
-        //new FrmMatricula().setVisibe(true);
+        
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        cargarVista();
+        limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -452,7 +412,7 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         guardar();
-
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -510,7 +470,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -523,5 +482,4 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     private javax.swing.JTextField txtSemestre;
     private javax.swing.JTextField txtTexto;
     // End of variables declaration//GEN-END:variables
-
 }
