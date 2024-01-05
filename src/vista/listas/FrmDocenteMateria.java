@@ -49,8 +49,8 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
     private void limpiar(){
        
         cbxDocente.setSelectedItem(-1);//Limpio Combo
-        cbxDocente.setSelectedItem(-1);//Limpio Combo
-        cbxDocente.setSelectedItem(-1);//Limpio Combo
+        cbxMateria.setSelectedItem(-1);//Limpio Combo
+        cbxPA.setSelectedItem(-1);//Limpio Combo
         
         dmt.setDocenteMateria(null);
         dmt.setDocenteMaterias(new LinkedList<>());
@@ -60,6 +60,8 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
         dmt.setIndex(-1);
         try {
             UtilVista.cargarPersonaDocente(cbxDocente, Rol.Docente);
+            UtilVista.cargarMateria(cbxMateria);
+            UtilVista.cargarPeriodoAcademico(cbxPA);
         } catch (Exception e) {
         }
     }
@@ -71,9 +73,12 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
     
     //Guardo la informacion 
     private void guardar(){
-        if(validar()){
+        if(validar() == true){
             try {
                 dmt.getDocenteMateria().setId_Docente(UtilVista.getComboPersonaDocente(cbxDocente).getId()); 
+                dmt.getDocenteMateria().setId_Materia(UtilVista.getComboMateria(cbxMateria).getId());
+                dmt.getDocenteMateria().setId_PeriodoAcademico(UtilVista.getComboPeriodoAcademico(cbxPA).getId());
+                
                 //Guardar
                 if(dmt.getDocenteMateria().getId() == null){
                    if(dmt.save()){
@@ -119,6 +124,8 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
             try {
                 dmt.setDocenteMateria(mtdm.getDocentesMaterias().get(dmt.getIndex()));
                 cbxDocente.setSelectedItem(UtilVista.getComboPersonaDocente(cbxDocente));
+                cbxMateria.setSelectedItem(UtilVista.getComboMateria(cbxMateria));
+                cbxPA.setSelectedItem(UtilVista.getComboPeriodoAcademico(cbxPA));
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
@@ -259,6 +266,11 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 100, 20));
 
         cbxPA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxPA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxPAActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbxPA, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 210, -1));
 
         cbxDocente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -302,6 +314,10 @@ public class FrmDocenteMateria extends javax.swing.JDialog {
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void cbxPAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxPAActionPerformed
 
     /**
      * @param args the command line arguments

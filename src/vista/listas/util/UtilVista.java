@@ -5,13 +5,19 @@
 package vista.listas.util;
 
 import controlador.Excepcion.VacioExcepcion;
+import controlador.Materia.MateriaControlador;
 import controlador.TDA.listas.LinkedList;
+import controlador.periodos.PeriodoControlador;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import modelo.DocenteMateria;
+import modelo.Materia;
+import modelo.PeriodoAcademico;
 import modelo.enums.Genero;
 import modelo.Persona;
 import modelo.enums.Rol;
+import modelo.persona.DocenteMateriaController;
 import modelo.persona.PersonaController;
 
 /**
@@ -76,6 +82,36 @@ public class UtilVista {
     
     public static Persona getComboPersonaEstudiante(JComboBox cbxPersona){
         return (Persona) cbxPersona.getSelectedItem();
+    }
+    
+    public static void cargarMateria(JComboBox cbxMateria) throws VacioExcepcion{
+        
+        MateriaControlador mc = new MateriaControlador();
+        cbxMateria.removeAllItems();
+        
+        for(int i = 0; i < mc.getLista().getSize(); i++){
+            Materia m = mc.getLista().get(i);
+            cbxMateria.addItem(m);
+        }
+    }
+    
+    public static Materia getComboMateria(JComboBox cbxMateria){
+        return (Materia) cbxMateria.getSelectedItem();
+    }
+    
+    public static void cargarPeriodoAcademico(JComboBox cbxPA) throws VacioExcepcion{
+        
+        PeriodoControlador pc = new PeriodoControlador();
+        cbxPA.removeAllItems();
+        
+        for(int i = 0; i < pc.getPeriodosAcademicos().getSize(); i++){
+            PeriodoAcademico pa = pc.getPeriodosAcademicos().get(i);
+            cbxPA.addItem(pa);
+        }
+    }
+    
+    public static PeriodoAcademico getComboPeriodoAcademico (JComboBox cbxPA){
+        return (PeriodoAcademico) cbxPA.getSelectedItem();
     }
     
 }

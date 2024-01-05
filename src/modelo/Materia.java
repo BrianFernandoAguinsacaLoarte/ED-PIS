@@ -55,6 +55,12 @@ public class Materia {
     public void setCodigo(String Codigo) {
         this.Codigo = Codigo;
     }
+
+    //Print
+    @Override
+    public String toString() {
+        return nombreMateria;
+    }
     
     
     

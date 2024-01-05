@@ -78,6 +78,12 @@ public class PeriodoAcademico {
     public void setId_Matricula(Integer id_Matricula) {
         this.id_Matricula = id_Matricula;
     }
+
+    @Override
+    public String toString() {
+        return getSemestre();
+    }
+    
     
     public Boolean comparar(PeriodoAcademico c, String field, Integer type) {
 

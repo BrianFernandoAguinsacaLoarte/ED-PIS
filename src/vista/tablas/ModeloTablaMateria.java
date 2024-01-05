@@ -15,7 +15,7 @@ import modelo.Materia;
  */
 public class ModeloTablaMateria extends AbstractTableModel {
      
-    private LinkedList<Materia> materias;
+    private LinkedList<Materia> materias = new LinkedList<>();
 
     @Override
     public int getRowCount() {
@@ -24,7 +24,7 @@ public class ModeloTablaMateria extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3; 
+        return 4; 
     }
 
     @Override
@@ -42,6 +42,8 @@ public class ModeloTablaMateria extends AbstractTableModel {
                 return (materia != null) ? materia.getNombreMateria() : "";
             case 2:
                 return (materia != null) ? materia.getDescripcion() : "";
+            case 3:
+                    return (materia != null) ? materia.getId(): "";
             default:
                 return null;
         }
@@ -56,6 +58,8 @@ public class ModeloTablaMateria extends AbstractTableModel {
                 return "Nombre Materia";
             case 2:
                 return "Descripción";
+            case 3: 
+                return "ID";
             default:
                 return null;
         }

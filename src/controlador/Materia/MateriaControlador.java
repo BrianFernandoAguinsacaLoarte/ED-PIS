@@ -80,10 +80,10 @@ public class MateriaControlador extends DataAccessObject<Materia>{
         this.index = index;
     }
 
-    public LinkedList<Materia> getMaterias() {
-        if (lista.isEmpty()) {
-            lista = listAll();
-        }
-        return lista;
-    }
+//    public LinkedList<Materia> getMaterias() {
+//        if (lista.isEmpty()) {
+//            lista = listAll();
+//        }
+//        return lista;
+//    }
 }
