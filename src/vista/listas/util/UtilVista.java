@@ -74,4 +74,5 @@ public class UtilVista {
     public static Persona getComboPersonaEstudiante(JComboBox cbxPersona){
         return (Persona) cbxPersona.getSelectedItem();
     }
+    
 }

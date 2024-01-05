@@ -35,9 +35,9 @@ public class CursaController extends DataAccessObject<Cursa> {
         return update(cursa,index);
     }
     
-    public Integer getIdEstudiante(){
-        return cursa.getId_Estudiante();
-    }
+//    public Integer getIdEstudiante(){
+//        return cursa.getId_Estudiante();
+//    }
     
     //Getter and Setter
 
@@ -91,11 +91,11 @@ public class CursaController extends DataAccessObject<Cursa> {
 
             cc.save();
 
-            Integer idEstudianteCursa = cc.getIdEstudiante();
+            //Integer idEstudianteCursa = cc.getIdEstudiante();
 
             // Imprimir resultados
             System.out.println("ID del estudiante en Estudiante: " + idEstudiante);
-            System.out.println("ID del estudiante en Cursa: " + idEstudianteCursa);
+            //System.out.println("ID del estudiante en Cursa: " + idEstudianteCursa);
         } else {
             System.out.println("No hay estudiantes en la lista.");
         }
