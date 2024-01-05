@@ -6,21 +6,21 @@ package vista.tablas;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
-import modelo.PeriodoAcademico;
+import modelo.Malla;
 
 /**
  *
  * @author Usuario 1
  */
-public class ModeloTablaPeriodo extends AbstractTableModel{
-    //Objeto
-    LinkedList<PeriodoAcademico> pas = new LinkedList<>();
+public class ModeloTablaMalla extends AbstractTableModel{
+//Objeto
+    LinkedList<Malla> pas = new LinkedList<>();
     
     //Getter and Setter
-    public LinkedList<PeriodoAcademico> getPeriodosAcademicos() {
+    public LinkedList<Malla> getMallas() {
         return pas;
     }
-    public void setPeriodosAcademicos(LinkedList<PeriodoAcademico> pas) {    
+    public void setMallas(LinkedList<Malla> pas) {    
         this.pas = pas;
     }
     
@@ -36,7 +36,7 @@ public class ModeloTablaPeriodo extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int fila, int columna) {
-        PeriodoAcademico pa = null;
+        Malla pa = null;
         
         try {
             pa = pas.get(fila);
@@ -45,15 +45,15 @@ public class ModeloTablaPeriodo extends AbstractTableModel{
         
         switch (columna) {
             case 0:
-                    return (pa != null)? pa.getId(): "";
+                    return (pa != null) ? pa.getId(): "";
             case 1:
-                    return (pa != null)? pa.getSemestre(): "";
+                    return (pa != null) ? pa.getNombreMalla(): "";
             case 2:
-                    return (pa != null)? pa.getFechaInicio(): "";
+                    return (pa != null) ? pa.getDuracion(): "";
             case 3:
-                    return (pa != null)? pa.getFechaFin(): "";
-            case 4:
-                    return (pa != null)? pa.getAñoAcademico(): "";
+                    return (pa != null) ? pa.getFechaRegistro(): "";
+            case 4: 
+                    return (pa != null) ? pa.getCarrera(): "";
             default:
                 return null;
         }
@@ -65,13 +65,13 @@ public class ModeloTablaPeriodo extends AbstractTableModel{
             case 0:
                     return "ID";
             case 1: 
-                    return "Semestre";
+                    return "Nombre Malla";
             case 2: 
-                    return "Fecha Inicio";
+                    return "Duracion";
             case 3: 
-                    return "Fecha Fin";
+                    return "Fecha Registro";
             case 4: 
-                    return "Año Academico";
+                return "Carrera";
             default:
                 return null;
         }
