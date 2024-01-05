@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package vista.tablas;
 
-import controlador.dao.Tarea.TareaDAO;
+import controlador.ControladorTarea;
+import controlador.Excepcion.VacioExcepcion;
+import controlador.TDA.listas.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,10 +23,10 @@ import modelo.Tarea;
  * @author Jhostin
  */
 public class ModeloTablaTarea {
- 
-    TareaDAO dao = null;
-    
-    public void visualizar(JTable tabla) {
+
+    ControladorTarea dao = null;
+
+    public void visualizar(JTable tabla) throws VacioExcepcion {
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override
@@ -42,15 +40,14 @@ public class ModeloTablaTarea {
         dt.addColumn("Fecha Creacion");
         dt.addColumn("Fecha Entrega");
         dt.addColumn("Archivo");
-    
-        
-        dao = new TareaDAO();
+
+        dao = new ControladorTarea();
         Tarea vo = new Tarea();
-        ArrayList<Tarea> list = dao.Listar_all();
-        
-        if (list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                Object fila[] = new Object[7]; 
+        LinkedList<Tarea> list = dao.listar(); // Cambiado a LinkedList
+
+        if (list.getSize() > 0) {
+            for (int i = 0; i < list.getSize(); i++) {
+                Object fila[] = new Object[7];
                 vo = list.get(i);
                 fila[0] = vo.getId();
                 fila[1] = vo.getTema();
@@ -60,7 +57,7 @@ public class ModeloTablaTarea {
                 fila[6] = vo.getExtensionArchivo();
                 String extension = vo.getExtensionArchivo();
                 System.out.println("La extension es: " + extension);
-                if (vo.getArchivo()!= null) {
+                if (vo.getArchivo() != null) {
                     JButton descargarArchivoBtn = new JButton("Descargar Archivo");
                     Blob archivoBlob = vo.getArchivo();
                     descargarArchivoBtn.putClientProperty("archivo", archivoBlob);
@@ -98,7 +95,6 @@ public class ModeloTablaTarea {
                     });
                     fila[5] = descargarArchivoBtn;
 
-                    
                 } else {
                     fila[5] = new JButton("Vacio");
                     fila[6] = vo.getExtensionArchivo();
