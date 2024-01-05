@@ -15,14 +15,14 @@ public class PeriodoAcademico {
     private Integer id;
     private String semestre;
     private String añoAcademico;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private String fechaInicio;
+    private String fechaFin;
     private Integer id_Matricula;
     
     public PeriodoAcademico() {
     }
 
-    public PeriodoAcademico(Integer id, String semestre, String añoAcademico, Date fechaInicio, Date fechaFin, Integer id_Matricula) {
+    public PeriodoAcademico(Integer id, String semestre, String añoAcademico, String fechaInicio, String fechaFin, Integer id_Matricula) {
         this.id = id;
         this.semestre = semestre;
         this.añoAcademico = añoAcademico;
@@ -55,19 +55,19 @@ public class PeriodoAcademico {
         this.añoAcademico = añoAcademico;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
 
