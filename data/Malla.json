@@ -1,0 +1,1 @@
+{"controlador.TDA.listas.LinkedList":{"head":{"data":{"@class":"modelo.Malla","id":1,"nombreMalla":"Malla Curricular","duracion":"6 años","fechaRegistro":"12-12-2019","Carrera":"Computacion"}},"last":{"@reference":"..\/head"},"size":1}}

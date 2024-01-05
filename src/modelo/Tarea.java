@@ -12,12 +12,11 @@ import java.util.Date;
  * @author Usuario iTC
  */
 public class Tarea {
-    
-    //Atributos
-    private int id;
+
+    private Integer id;
     private String tema;
-    private String fechaCreacion;
-    private String fechaEntrega;
+    private Date fechaCreacion;
+    private Date fechaEntrega;
     private String descripcion;
     private Blob archivo;
     private String extensionArchivo;
@@ -25,11 +24,11 @@ public class Tarea {
     public Tarea() {
     }
 
-    public int getId() {
+     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -39,22 +38,6 @@ public class Tarea {
 
     public void setTema(String tema) {
         this.tema = tema;
-    }
-
-    public String getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public String getFechaEntrega() {
-        return fechaEntrega;
-    }
-
-    public void setFechaEntrega(String fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
     }
 
     public String getDescripcion() {
@@ -80,5 +63,26 @@ public class Tarea {
     public void setExtensionArchivo(String extensionArchivo) {
         this.extensionArchivo = extensionArchivo;
     }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Date getFechaEntrega() {
+        if (fechaEntrega == null) {
+            fechaEntrega = new Date();
+        }
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(Date fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+   
 
 }
