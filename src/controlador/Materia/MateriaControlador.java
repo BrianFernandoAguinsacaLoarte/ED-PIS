@@ -33,6 +33,7 @@ public class MateriaControlador extends DataAccessObject<Materia>{
     }
 
     public Boolean saved() {
+        materia.setId(generated_id());
         return save(materia);
     }
 
