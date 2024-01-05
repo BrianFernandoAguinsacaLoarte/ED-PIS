@@ -5,7 +5,10 @@
 package vista.listas.util;
 
 import controlador.Excepcion.VacioExcepcion;
+import controlador.TDA.listas.LinkedList;
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import modelo.enums.Genero;
 import modelo.Persona;
 import modelo.enums.Rol;

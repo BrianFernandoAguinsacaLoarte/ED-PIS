@@ -81,7 +81,6 @@ public class FrmCursa extends javax.swing.JDialog {
                 cc.getCursa().setCodigo(Integer.parseInt(txtCodigo.getText()));
                 cc.getCursa().setCapacidad(Integer.parseInt(txtCapacidad.getText()));
                 cc.getCursa().setId_Estudiante(UtilVista.getComboPersonaEstudiante(cbxEstudiante).getId()); 
-                
                 //Guardar
                 if(cc.getCursa().getId() == null){
                    if(cc.save()){
