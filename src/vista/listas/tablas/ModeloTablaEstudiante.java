@@ -31,7 +31,7 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 7;
     }
 
     @Override
@@ -50,6 +50,14 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
                     return (estudiante != null)? estudiante.getId_Persona(): "";
             case 2:
                     return (estudiante != null)? estudiante.getColegioAnterior(): "";
+            case 3:
+                    return (estudiante != null)? estudiante.getActividadExtracurricular(): "";
+            case 4:
+                    return (estudiante != null)? estudiante.getProyectosAcademicos(): "";
+            case 5:
+                    return (estudiante != null)? estudiante.getReconocimientos(): "";
+            case 6:
+                    return (estudiante != null)? estudiante.getCertificaciones(): "";
             default:
                 return null;
         }
@@ -61,9 +69,17 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
             case 0:
                     return "ID";
             case 1: 
-                    return "Persona";
+                    return "ID-Persona";
             case 2: 
-                    return "Cogelio Proveniente";
+                    return "Institucion Educativa";
+            case 3:
+                    return "Actividad Extracurricular";
+            case 4: 
+                    return "Proyectos Academicos";
+            case 5:
+                    return "Reconocimientos";
+            case 6:
+                    return "Certificacion";
             default:
                 return null;
         }

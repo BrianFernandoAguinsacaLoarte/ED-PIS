@@ -195,7 +195,7 @@ public class FrmDocente extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel4.setText("Docente:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 100, 20));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 100, 20));
 
         jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel10.setText("Certificaciones:");
@@ -209,7 +209,7 @@ public class FrmDocente extends javax.swing.JDialog {
         jPanel1.add(txtCertificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 240, -1));
 
         cbxPersona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
+        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 240, -1));
 
         jTableDocente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

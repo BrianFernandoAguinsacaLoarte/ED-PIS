@@ -16,6 +16,10 @@ public class Estudiante extends Persona {
     //Atributos
     private Integer id_Persona;
     private String colegioAnterior;
+    private String actividadExtracurricular;
+    private String proyectosAcademicos;
+    private String reconocimientos;
+    private String Certificaciones;
     
     
     //Constructores
@@ -44,6 +48,40 @@ public class Estudiante extends Persona {
     public void setId_Persona(Integer id_Persona) {
         this.id_Persona = id_Persona;
     }
+
+    public String getActividadExtracurricular() {
+        return actividadExtracurricular;
+    }
+
+    public void setActividadExtracurricular(String actividadExtracurricular) {
+        this.actividadExtracurricular = actividadExtracurricular;
+    }
+
+    public String getProyectosAcademicos() {
+        return proyectosAcademicos;
+    }
+
+    public void setProyectosAcademicos(String proyectosAcademicos) {
+        this.proyectosAcademicos = proyectosAcademicos;
+    }
+
+    public String getReconocimientos() {
+        return reconocimientos;
+    }
+
+    public void setReconocimientos(String reconocimientos) {
+        this.reconocimientos = reconocimientos;
+    }
+
+    public String getCertificaciones() {
+        return Certificaciones;
+    }
+
+    public void setCertificaciones(String Certificaciones) {
+        this.Certificaciones = Certificaciones;
+    }
+    
+    
     
     
     //Print

@@ -20,7 +20,6 @@ public class Docente extends Persona{
     private Integer experienciaLaboral;
     private String certificaciones;
     
-    //private Persona persona;
     
     //Constructores
     public Docente() {
@@ -51,13 +50,6 @@ public class Docente extends Persona{
     
     
 
-//    public Persona getPersona() {
-//        return persona;
-//    }
-//
-//    public void setPersona(Persona persona) {
-//        this.persona = persona;
-//    }
 
     public String getEspecializacion() {
         return especializacion;

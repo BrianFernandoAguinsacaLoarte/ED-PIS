@@ -58,7 +58,10 @@ public class FrmEstudiante extends javax.swing.JDialog {
     private void limpiar(){
         txtColegio.setText("");
         cbxPersona.setSelectedItem(-1);//Limpio Combo
-       
+        txtActividadEx.setText("");
+        txtCertificaciones.setText("");
+        txtProyectoA.setText("");
+        txtReconocimientos.setText("");
         
         ec.setEstudiante(null);
         ec.setEstudiantes(new LinkedList<>());
@@ -79,7 +82,10 @@ public class FrmEstudiante extends javax.swing.JDialog {
             try {
                 ec.getEstudiante().setColegioAnterior(txtColegio.getText());
                 ec.getEstudiante().setId_Persona(UtilVista.getComboPersonaEstudiante(cbxPersona).getId()); 
-                
+                ec.getEstudiante().setActividadExtracurricular(txtActividadEx.getText());
+                ec.getEstudiante().setProyectosAcademicos(txtProyectoA.getText());
+                ec.getEstudiante().setReconocimientos(txtReconocimientos.getText());
+                ec.getEstudiante().setCertificaciones(txtCertificaciones.getText());
                 //Guardar
                 if(ec.getEstudiante().getId() == null){
                    if(ec.save()){
@@ -127,7 +133,10 @@ public class FrmEstudiante extends javax.swing.JDialog {
                 ec.setEstudiante(mte.getEstudiantes().get(ec.getIndex()));
                 txtColegio.setText(ec.getEstudiante().getColegioAnterior());
                 cbxPersona.setSelectedItem(UtilVista.getComboPersonaEstudiante(cbxPersona));
-                
+                txtActividadEx.setText(ec.getEstudiante().getActividadExtracurricular());
+                txtProyectoA.setText(ec.getEstudiante().getProyectosAcademicos());
+                txtReconocimientos.setText(ec.getEstudiante().getReconocimientos());
+                txtCertificaciones.setText(ec.getEstudiante().getCertificaciones());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -179,6 +188,14 @@ public class FrmEstudiante extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        txtCertificaciones = new javax.swing.JTextField();
+        txtActividadEx = new javax.swing.JTextField();
+        txtProyectoA = new javax.swing.JTextField();
+        txtReconocimientos = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -190,22 +207,22 @@ public class FrmEstudiante extends javax.swing.JDialog {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 190, -1));
 
         jLabel4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel4.setText("Persona:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 100, 20));
+        jLabel4.setText("Estudiante:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 130, 20));
 
         cbxPersona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
+        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 240, -1));
 
         jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel10.setText("Colegio Proveniente:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 190, 40));
+        jLabel10.setText("Certificaciones: ");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 170, 40));
 
         txtColegio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtColegioActionPerformed(evt);
             }
         });
-        jPanel1.add(txtColegio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, 240, -1));
+        jPanel1.add(txtColegio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 240, -1));
 
         jTableEstudiante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,7 +237,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTableEstudiante);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 110));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 970, 110));
 
         btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -267,13 +284,31 @@ public class FrmEstudiante extends javax.swing.JDialog {
         });
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
 
+        jLabel11.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel11.setText("Institución Graudado/a:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 220, 40));
+
+        jLabel12.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel12.setText("Actividad Extracurricular: ");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 240, 40));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel13.setText("Proyectos Academicos: ");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 240, 40));
+
+        jLabel14.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel14.setText("Reconocimientos: ");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 170, 170, 40));
+        jPanel1.add(txtCertificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 230, 240, -1));
+        jPanel1.add(txtActividadEx, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, 240, -1));
+        jPanel1.add(txtProyectoA, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, 240, -1));
+        jPanel1.add(txtReconocimientos, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 180, 240, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 834, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,10 +397,18 @@ public class FrmEstudiante extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableEstudiante;
+    private javax.swing.JTextField txtActividadEx;
+    private javax.swing.JTextField txtCertificaciones;
     private javax.swing.JTextField txtColegio;
+    private javax.swing.JTextField txtProyectoA;
+    private javax.swing.JTextField txtReconocimientos;
     // End of variables declaration//GEN-END:variables
 }
