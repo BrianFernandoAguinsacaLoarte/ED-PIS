@@ -48,7 +48,7 @@ public class FrmDocente extends javax.swing.JDialog {
     
     //Verifico si el texto sin espacios esta vacio
     private boolean validar(){
-        return !txtTitulo.getText().trim().isEmpty();
+        return !txtCertificaciones.getText().trim().isEmpty();
                
     }
     
@@ -56,7 +56,9 @@ public class FrmDocente extends javax.swing.JDialog {
     private void limpiar(){
         txtTitulo.setText("");
         cbxPersona.setSelectedItem(-1);//Limpio Combo
-       
+        txtEspecializacion.setText("");
+        txtExperiencia.setText("");
+        txtCertificaciones.setText("");
         
         dc.setDocente(null);
         dc.setDocentes(new LinkedList<>());
@@ -77,7 +79,9 @@ public class FrmDocente extends javax.swing.JDialog {
             try {
                 dc.getDocente().setTitulo(txtTitulo.getText());
                 dc.getDocente().setId_Persona(UtilVista.getComboPersonaDocente(cbxPersona).getId()); 
-                
+                dc.getDocente().setEspecializacion(txtEspecializacion.getText());
+                dc.getDocente().setExperienciaLaboral(Integer.parseInt(txtExperiencia.getText()));
+                dc.getDocente().setCertificaciones(txtCertificaciones.getText());
                 //Guardar
                 if(dc.getDocente().getId() == null){
                    if(dc.save()){
@@ -125,6 +129,10 @@ public class FrmDocente extends javax.swing.JDialog {
                 dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
                 txtTitulo.setText(dc.getDocente().getTitulo());
                 cbxPersona.setSelectedItem(UtilVista.getComboPersonaDocente(cbxPersona));
+                txtEspecializacion.setText(dc.getDocente().getEspecializacion());
+                txtExperiencia.setText(dc.getDocente().getExperienciaLaboral().toString());
+                txtCertificaciones.setText(dc.getDocente().getCertificaciones());
+                
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -157,7 +165,7 @@ public class FrmDocente extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtTitulo = new javax.swing.JTextField();
+        txtCertificaciones = new javax.swing.JTextField();
         cbxPersona = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDocente = new javax.swing.JTable();
@@ -166,6 +174,12 @@ public class FrmDocente extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtTitulo = new javax.swing.JTextField();
+        txtEspecializacion = new javax.swing.JTextField();
+        txtExperiencia = new javax.swing.JTextField();
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setText("Nombres: ");
@@ -180,19 +194,19 @@ public class FrmDocente extends javax.swing.JDialog {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 190, -1));
 
         jLabel4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel4.setText("Persona:");
+        jLabel4.setText("Docente:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 100, 20));
 
         jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel10.setText("Titulo:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+        jLabel10.setText("Certificaciones:");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 160, 20));
 
-        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+        txtCertificaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTituloActionPerformed(evt);
+                txtCertificacionesActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 240, -1));
+        jPanel1.add(txtCertificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, 240, -1));
 
         cbxPersona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
@@ -257,6 +271,39 @@ public class FrmDocente extends javax.swing.JDialog {
         });
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
 
+        jLabel11.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel11.setText("Titulo Académico:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 170, 20));
+
+        jLabel12.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel12.setText("Especialización:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 170, 20));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel13.setText("Experiencia Laboral:");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 190, 20));
+
+        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTituloActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 240, -1));
+
+        txtEspecializacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEspecializacionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtEspecializacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 240, -1));
+
+        txtExperiencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtExperienciaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtExperiencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 240, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,9 +320,9 @@ public class FrmDocente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
+    private void txtCertificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCertificacionesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTituloActionPerformed
+    }//GEN-LAST:event_txtCertificacionesActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
@@ -298,6 +345,18 @@ public class FrmDocente extends javax.swing.JDialog {
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTituloActionPerformed
+
+    private void txtEspecializacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEspecializacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEspecializacionActionPerformed
+
+    private void txtExperienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExperienciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtExperienciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,11 +409,17 @@ public class FrmDocente extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDocente;
+    private javax.swing.JTextField txtCertificaciones;
+    private javax.swing.JTextField txtEspecializacion;
+    private javax.swing.JTextField txtExperiencia;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,7 +16,11 @@ public class Docente extends Persona{
     //Atributos
     private Integer id_Persona;
     private String titulo;
-    private Persona persona;
+    private String especializacion;
+    private Integer experienciaLaboral;
+    private String certificaciones;
+    
+    //private Persona persona;
     
     //Constructores
     public Docente() {
@@ -28,7 +32,6 @@ public class Docente extends Persona{
     }
 
    
-    
     //Getter and Setter
     public String getTitulo() {
         return titulo;
@@ -45,13 +48,40 @@ public class Docente extends Persona{
     public void setId_Persona(Integer id_Persona) {
         this.id_Persona = id_Persona;
     }
+    
+    
 
-    public Persona getPersona() {
-        return persona;
+//    public Persona getPersona() {
+//        return persona;
+//    }
+//
+//    public void setPersona(Persona persona) {
+//        this.persona = persona;
+//    }
+
+    public String getEspecializacion() {
+        return especializacion;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setEspecializacion(String especializacion) {
+        this.especializacion = especializacion;
+    }
+
+
+    public Integer getExperienciaLaboral() {
+        return experienciaLaboral;
+    }
+
+    public void setExperienciaLaboral(Integer experienciaLaboral) {
+        this.experienciaLaboral = experienciaLaboral;
+    }
+
+    public String getCertificaciones() {
+        return certificaciones;
+    }
+
+    public void setCertificaciones(String certificaciones) {
+        this.certificaciones = certificaciones;
     }
 
     

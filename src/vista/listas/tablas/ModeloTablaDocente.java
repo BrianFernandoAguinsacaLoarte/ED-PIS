@@ -36,7 +36,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -54,6 +54,12 @@ public class ModeloTablaDocente extends AbstractTableModel {
                     return (docente != null)? docente.getId_Persona(): "";
             case 2:
                     return (docente != null)? docente.getTitulo(): "";
+            case 3:
+                    return (docente != null)? docente.getEspecializacion(): "";
+            case 4:
+                    return (docente != null)? docente.getExperienciaLaboral() + " años": "";
+            case 5:
+                    return (docente != null)? docente.getCertificaciones(): "";
             default:
                 return null;
         }
@@ -70,6 +76,12 @@ public class ModeloTablaDocente extends AbstractTableModel {
                     return "ID-Persona";
             case 2:
                     return "Título";
+            case 3:
+                    return "Especialización";
+            case 4:
+                    return "Experiencia Laboral";
+            case 5: 
+                    return "Certificaciones";
             default:
                 return null;
         }
