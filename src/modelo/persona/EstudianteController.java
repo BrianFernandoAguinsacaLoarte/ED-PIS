@@ -83,7 +83,7 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
 
     public LinkedList<Estudiante> quickSort(LinkedList<Estudiante> lista, int izq, int der, Integer type, String field, int[] contador) throws VacioExcepcion {
         Estudiante[] m = lista.toArray(); // Transformo la lista a arreglo
-        Field faux = Utilidades.getField(Persona.class, field);
+        Field faux = Utilidades.getField(Estudiante.class, field);
 
         if (faux != null && izq < der) {
             int i = izq;

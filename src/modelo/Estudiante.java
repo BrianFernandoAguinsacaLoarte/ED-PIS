@@ -14,6 +14,7 @@ import modelo.enums.Rol;
 public class Estudiante extends Persona {
     
     //Atributos
+    private Integer id;
     private Integer id_Persona;
     private String colegioAnterior;
     private String actividadExtracurricular;
@@ -32,7 +33,7 @@ public class Estudiante extends Persona {
     }
     
     //Getter and Setter
-
+    
     public String getColegioAnterior() {
         return colegioAnterior;
     }
@@ -80,6 +81,15 @@ public class Estudiante extends Persona {
     public void setCertificaciones(String Certificaciones) {
         this.Certificaciones = Certificaciones;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
     
     
     
@@ -100,84 +110,78 @@ public class Estudiante extends Persona {
     }
     
     //Metodo Compare
-    public Integer compareQuickSort(Persona c, Integer type, String field) {
+    public Integer compareQuickSort(Estudiante c, Integer type, String field) {
     switch (type) {
         case 0:
-            if (field.equalsIgnoreCase("nombres")) {
-                return this.getNombres().compareTo(c.getNombres());
+            if (field.equalsIgnoreCase("colegioanterior")) {
+                return this.getColegioAnterior().compareTo(c.getColegioAnterior());
+                
             } else if (field.equalsIgnoreCase("id")) {
                 return this.getId().compareTo(c.getId());
-            } else if (field.equalsIgnoreCase("apellidos")) {
-                return this.getApellidos().compareTo(c.getApellidos());
-            } else if (field.equalsIgnoreCase("direccion")) {
-                return this.getDireccion().compareTo(c.getDireccion());
-            } else if (field.equalsIgnoreCase("rol")) {
-                return this.getRol().compareTo(c.getRol());
-            }else if (field.equalsIgnoreCase("edad")) {
-                return this.getEdad().compareTo(c.getEdad());
-            }else if (field.equalsIgnoreCase("genero")) {
-                return this.getGenero().compareTo(c.getGenero());
-            }else if (field.equalsIgnoreCase("correo")) {
-                return this.getCorreo().compareTo(c.getCorreo());
-            }else if (field.equalsIgnoreCase("cedula")) {
-                return this.getCedula().compareTo(c.getCedula());
-            }else if (field.equalsIgnoreCase("telefono")) {
-                return this.getTelefono().compareTo(c.getTelefono());
+                
+            } else if (field.equalsIgnoreCase("actividadextracurricular")) {
+                return this.getActividadExtracurricular().compareTo(c.getActividadExtracurricular());
+                
+            } else if (field.equalsIgnoreCase("proyectosecademicos")) {
+                return this.getProyectosAcademicos().compareTo(c.getProyectosAcademicos());
+                
+            } else if (field.equalsIgnoreCase("reconocimientos")) {
+                return this.getReconocimientos().compareTo(c.getReconocimientos());
+                
+            }else if (field.equalsIgnoreCase("certificaciones")) {
+                return this.getCertificaciones().compareTo(c.getCertificaciones());
             }
+            
         case 1:
-            if (field.equalsIgnoreCase("nombres")) {
-                return c.getNombres().compareTo(this.getNombres());
+            if (field.equalsIgnoreCase("colegioanterior")) {
+                return c.getColegioAnterior().compareTo(this.getColegioAnterior());
+                
             } else if (field.equalsIgnoreCase("id")) {
                 return c.getId().compareTo(this.getId());
-            } else if (field.equalsIgnoreCase("apellidos")) {
-                return c.getApellidos().compareTo(this.getApellidos());
-            } else if (field.equalsIgnoreCase("direccion")) {
-                return c.getDireccion().compareTo(this.getDireccion());
-            } else if (field.equalsIgnoreCase("rol")) {
-                return c.getRol().compareTo(this.getRol());
-            }else if (field.equalsIgnoreCase("edad")) {
-                return c.getEdad().compareTo(this.getEdad());
-            }else if (field.equalsIgnoreCase("genero")) {
-                return c.getGenero().compareTo(this.getGenero());
-            }else if (field.equalsIgnoreCase("correo")) {
-                return c.getCorreo().compareTo(this.getCorreo());
-            }else if (field.equalsIgnoreCase("cedula")) {
-                return c.getCedula().compareTo(this.getCedula());
-            }else if (field.equalsIgnoreCase("telefono")) {
-                return c.getTelefono().compareTo(this.getTelefono());
+                
+            } else if (field.equalsIgnoreCase("actividadextracurricular")) {
+                return c.getActividadExtracurricular().compareTo(this.getActividadExtracurricular());
+                
+            } else if (field.equalsIgnoreCase("proyectosacademicos")) {
+                return c.getProyectosAcademicos().compareTo(this.getProyectosAcademicos());
+                
+            } else if (field.equalsIgnoreCase("reconocimientos")) {
+                return c.getReconocimientos().compareTo(this.getReconocimientos());
+                
+            }else if (field.equalsIgnoreCase("certificaciones")) {
+                return c.getCertificaciones().compareTo(this.getCertificaciones());
             }
+            
         default:
-            throw new AssertionError();
+            return 0;
         }
     }
     
     //Criterios para las busquedas
-    public static String criterio(Persona persona, String field) {
+    public static String criterio(Estudiante estudiante ,String field) {
         switch (field.toLowerCase()) {
-            case "nombres":
-                return persona.getNombres();
-            case "apellidos":
-                return persona.getApellidos();
-            case "direccion":
-                return persona.getDireccion();
-            case "correo":
-                return persona.getCorreo();
-            case "cedula":
-                return persona.getCedula();
-            case "telefono":
-                return persona.getTelefono();
+            case "colegioanterior":
+                return estudiante.getColegioAnterior();
+            case "actividadextracurricular":
+                return estudiante.getActividadExtracurricular();
+            case "proyectosacademicos":
+                return estudiante.getDireccion();
+            case "reconocimientos":
+                return estudiante.getReconocimientos();
+            case "certificaciones":
+                return estudiante.getCertificaciones();
             default:
                 throw new IllegalArgumentException("Opcion invalida");
         }
     }
     
     //Para casos con valor Int
-    public static Integer criterioEntero(Persona persona, String field) {
+    public static Integer criterioEntero(Estudiante estudiante, String field) {
         switch (field.toLowerCase()) {
             case "id":
-                return persona.getId();
-            case "edad":
-                return persona.getEdad();
+                return estudiante.getId();
+            case "id_persona":
+                return estudiante.getId_Persona();
             default:
                 throw new IllegalArgumentException("Opcion invalida");
         }

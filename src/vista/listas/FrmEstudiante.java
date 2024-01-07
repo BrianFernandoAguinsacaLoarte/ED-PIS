@@ -6,6 +6,8 @@ package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
+import modelo.Estudiante;
+import modelo.Persona;
 import modelo.enums.Rol;
 import modelo.persona.EstudianteController;
 import vista.listas.tablas.ModeloTablaEstudiante;
@@ -150,7 +152,77 @@ public class FrmEstudiante extends javax.swing.JDialog {
     }
     
     
+     private void ordenar(){
+        //Obtengo el criterio y el ordenamiento de Ascendente y Descendente
+        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        Integer ascdesc = cbxAscDesc.getSelectedIndex();//Me da un valor numerico 0 o 1
+         System.out.println(criterio);
+            try {
+                System.out.println("Ordenando con QuickSOrt");
+                mte.setEstudiantes(ec.ordenarQuickSort(ec.getEstudiantes(), ascdesc, criterio));
+                jTableEstudiante.setModel(mte);
+                jTableEstudiante.updateUI();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+    }
     
+    private void buscar() {
+        String text = txtBusqueda.getText().toString().toLowerCase();
+        String field = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        String busqueda = cbxBusqueda.getSelectedItem().toString();
+        
+
+        try {
+            LinkedList<Estudiante> listaResultado;
+            switch (busqueda) {
+                case "Busqueda Binaria":
+                    if (field.equalsIgnoreCase("colegioanterior") || field.equalsIgnoreCase("actividadExtracurricular")
+                            || field.equalsIgnoreCase("proyectosAcademicos") || field.equalsIgnoreCase("reconocimientos")
+                            || field.equalsIgnoreCase("Certificaciones")) {
+                        listaResultado = ec.busquedaBinaria(ec.getEstudiantes(), text, field);
+                    } else if (field.equalsIgnoreCase("id") || field.equalsIgnoreCase("id_Persona")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = ec.busquedaBinariaEntero(ec.getEstudiantes(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                case "Busqueda Lineal":
+                    if (field.equalsIgnoreCase("colegioAnterior") || field.equalsIgnoreCase("actividadExtracurricular")
+                            || field.equalsIgnoreCase("proyectosAcademicos") || field.equalsIgnoreCase("reconocimientos")
+                            || field.equalsIgnoreCase("Certificaciones")) {
+                        listaResultado = ec.busquedaLinealBinaria(ec.getEstudiantes(), text, field);
+                    } else if (field.equalsIgnoreCase("id") || field.equalsIgnoreCase("id_Persona")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = ec.busquedaLinealBinariaEntero(ec.getEstudiantes(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Tipo de búsqueda no reconocido: " + busqueda);
+            }
+
+            mte.setEstudiantes(listaResultado);
+            jTableEstudiante.setModel(mte);
+            jTableEstudiante.updateUI();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     
     
@@ -201,6 +273,17 @@ public class FrmEstudiante extends javax.swing.JDialog {
         txtActividadEx = new javax.swing.JTextField();
         txtProyectoA = new javax.swing.JTextField();
         txtReconocimientos = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabelTexto1 = new javax.swing.JLabel();
+        txtBusqueda = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        cbxBusqueda = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        cbxCriterio = new javax.swing.JComboBox<>();
+        cbxAscDesc = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -309,19 +392,91 @@ public class FrmEstudiante extends javax.swing.JDialog {
         jPanel1.add(txtProyectoA, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, 240, -1));
         jPanel1.add(txtReconocimientos, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 240, -1));
 
+        jLabel15.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Busquedas");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, 200, 40));
+
+        jLabelTexto1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabelTexto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelTexto1.setText("Texto de Busqueda:");
+        jPanel1.add(jLabelTexto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 210, 40));
+
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBusquedaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, 170, 40));
+
+        jLabel16.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel16.setText("Métodos de Busqueda:");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 230, 210, 40));
+
+        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Busqueda Binaria", "Busqueda Lineal", " " }));
+        jPanel1.add(cbxBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 290, 210, 40));
+
+        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 350, 160, 60));
+
+        jLabel17.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel17.setText("Ordenamiento");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 60, 200, 40));
+
+        jLabel18.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Criterios:");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 100, 130, 40));
+
+        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "ID_PERSONA", "COLEGIO ANTERIOR", "ACTIVIDAD EXTRACURRICULAR", "PROYECTOS ACADEMICOS", "RECONOCIMIENTOS", "CERTIFICACIONES", " " }));
+        cbxCriterio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCriterioItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(cbxCriterio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 170, -1, 40));
+
+        cbxAscDesc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ASCENDENTE", "DESCENDENTE" }));
+        cbxAscDesc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxAscDescItemStateChanged(evt);
+            }
+        });
+        cbxAscDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAscDescActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxAscDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 220, -1, 40));
+
+        jButton4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton4.setText("Ordenar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 350, 160, 60));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 834, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1522, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
         );
 
         pack();
@@ -352,6 +507,41 @@ public class FrmEstudiante extends javax.swing.JDialog {
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        buscar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cbxCriterioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCriterioItemStateChanged
+        //ordenar();
+
+        /*
+        if(evt.getItem().toString().equalsIgnoreCase("MARCA")){
+            txtBusqueda.setVisible(false);
+            cbxMarcaB.setVisible(true);
+
+        }else{
+            txtBusqueda.setVisible(true);
+            cbxMarcaB.setVisible(false);
+        }
+        */
+    }//GEN-LAST:event_cbxCriterioItemStateChanged
+
+    private void cbxAscDescItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAscDescItemStateChanged
+        //ordenar();
+    }//GEN-LAST:event_cbxAscDescItemStateChanged
+
+    private void cbxAscDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAscDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxAscDescActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        ordenar();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,20 +589,31 @@ public class FrmEstudiante extends javax.swing.JDialog {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxAscDesc;
+    private javax.swing.JComboBox<String> cbxBusqueda;
+    private javax.swing.JComboBox<String> cbxCriterio;
     private javax.swing.JComboBox<String> cbxPersona;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelTexto1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableEstudiante;
     private javax.swing.JTextField txtActividadEx;
+    private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtCertificaciones;
     private javax.swing.JTextField txtColegio;
     private javax.swing.JTextField txtProyectoA;
