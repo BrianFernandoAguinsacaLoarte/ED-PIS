@@ -6,6 +6,12 @@ package vista;
 
 import controlador.MatriculaController;
 import controlador.TDA.listas.LinkedList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import vista.listas.FrmBuscarEstudiante;
@@ -27,6 +33,12 @@ public class FrmMatricula extends javax.swing.JFrame {
     public FrmMatricula() {
         initComponents();
         limpiarCampos();
+        cerrar();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = dateFormat.format(calendar.getTime());
+        txtFechaAsignacion.setText(fechaActual);
+        
     }
     
     private void cargarTabla(){
@@ -51,13 +63,95 @@ public class FrmMatricula extends javax.swing.JFrame {
             UtilVista.cargarMateria(cbxMaterias);
             cbxMaterias.setVisible(true);
             UtilVista.cargarPeriodoAcademico(cbxPeriodo);
+            cbxPeriodo.setVisible(true);
         } catch (Exception e) {
         }
         
     }
+//    private void guardar(){
+//        if (validar()) {
+//            try {
+//                
+//                SimpleDateFormat formatoFechaHora = new SimpleDateFormat("dd-MM-yyyy");
+//
+//                String fechaAsignacionString = txtFechaAsignacion.getText();
+//                Date fechaAsignacion = formatoFechaHora.parse(fechaAsignacionString);
+//                
+//                mc.getMatricula().setEstudiante(UtilVista.getComboPersonaEstudiante(cbx).getNombres());
+//                mc.getMatricula().setCurso(UtilVista.get);
+//                mc.getMatricula().setMateria(UtilVista.getComboMateria(cbxMaterias));
+//                mc.getMatricula().setP_academico(UtilVista.getComboPeriodoAcademico(cbxPeriodo));
+//                mc.getMatricula().setFechaMatricula(fechaAsignacion);
+//                
+//                lc.getDivorciada().setEdad(Integer.parseInt(txtEdad.getText()));
+//                lc.getDivorciada().setEstadoCivil(txtEstadoCivil.getText());
+//                lc.getDivorciada().setDni(txtCedula.getText());
+//                lc.getDivorciada().setEstadoEmocional(cbxEstado.getSelectedItem().toString());
+//                lc.getDivorciada().setFechaDivorcio(txtFecha.getText());
+//                
+//                if (lc.getDivorciada().getId() == null) {
+//                if(lc.save()){
+////                    cargarTabla();
+//                    limpiarCampos();
+//                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Error", JOptionPane.INFORMATION_MESSAGE);
+//                    
+//                    
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "No se pudo guardar", "Error", JOptionPane.ERROR_MESSAGE);
+//                    
+//                }
+//                }else{
+//                    if (lc.update(lc.getIndex())) {
+//                        limpiarCampos();
+//                        JOptionPane.showMessageDialog(null,
+//                                "Se Modifico correctamente",
+//                                "Mensaje",
+//                                JOptionPane.INFORMATION_MESSAGE);
+//
+//                    } else {
+//                        JOptionPane.showMessageDialog(null,
+//                                "Error al Modificar",
+//                                "Error",
+//                                JOptionPane.ERROR_MESSAGE);
+//                    }
+//
+//                }
+//                
+//        
+//
+//            } catch (Exception e) {
+//                System.out.println("Error Inesperado");
+//            }
+//         else {
+//            JOptionPane.showMessageDialog(null,
+//                    "Llene todos los campos",
+//                    "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+//    }
+//    
+//    }
     
+    public void cerrar(){
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(
+               new WindowAdapter() {
+                  public void windowClosing(WindowEvent e){
+                      confirmarSalida();
+                  }
+               }
+            );
+            this.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+   public void confirmarSalida(){
+            this.setVisible(false);
+            System.exit(0);
+        }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,6 +179,9 @@ public class FrmMatricula extends javax.swing.JFrame {
         btnQuitar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new javax.swing.JTable();
+        CalendarioFecha = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        txtFechaAsignacion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -173,6 +270,17 @@ public class FrmMatricula extends javax.swing.JFrame {
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 650, 310));
 
+        CalendarioFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                CalendarioFechaPropertyChange(evt);
+            }
+        });
+        jPanel3.add(CalendarioFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 160, -1));
+
+        jLabel2.setText("Fecha Matricula:");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 100, -1));
+        jPanel3.add(txtFechaAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 170, -1));
+
         jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,6 +306,13 @@ public class FrmMatricula extends javax.swing.JFrame {
     private void btnElegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElegirActionPerformed
         new FrmBuscarEstudiante().setVisible(true);
     }//GEN-LAST:event_btnElegirActionPerformed
+
+    private void CalendarioFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CalendarioFechaPropertyChange
+        if (CalendarioFecha.getDate() != null) {
+            SimpleDateFormat fc = new SimpleDateFormat("dd-MM-yyyy");
+            txtFechaAsignacion.setText(fc.format(CalendarioFecha.getDate()));
+        }
+    }//GEN-LAST:event_CalendarioFechaPropertyChange
 
     /**
      * @param args the command line arguments
@@ -235,6 +350,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser CalendarioFecha;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnElegir;
@@ -244,6 +360,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxMaterias;
     private javax.swing.JComboBox<String> cbxPeriodo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -253,5 +370,6 @@ public class FrmMatricula extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblTabla;
     private javax.swing.JTextField txtEstudiante;
+    private javax.swing.JTextField txtFechaAsignacion;
     // End of variables declaration//GEN-END:variables
 }

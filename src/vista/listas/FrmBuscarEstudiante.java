@@ -5,8 +5,11 @@
 package vista.listas;
 
 import controlador.Excepcion.VacioExcepcion;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.persona.EstudianteController;
@@ -26,6 +29,7 @@ public class FrmBuscarEstudiante extends javax.swing.JFrame {
      */
     public FrmBuscarEstudiante() {
         initComponents();
+        cerrar();
         this.setLocationRelativeTo(null);
         mte.setEstudiantes(ec.getEstudiantes());
         tblEstudiantes.setModel(mte);
@@ -33,6 +37,35 @@ public class FrmBuscarEstudiante extends javax.swing.JFrame {
         
     }
     
+     public void cerrar(){
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(
+               new WindowAdapter() {
+                  public void windowClosing(WindowEvent e){
+                      confirmarSalida();
+                  }
+               }
+            );
+            this.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     public void confirmarSalida(){
+        
+            this.setVisible(false);
+            
+    }
+    
+//    public void confirmarSalida(){
+//        int valor = JOptionPane.showConfirmDialog(this, "¿Seguro de cerrar la venta?", "Advertencia", JOptionPane.YES_NO_OPTION);
+//        if (valor == JOptionPane.YES_OPTION) {
+//            this.setVisible(false);
+//            
+//        }
+//    }
+//    
     
 
     /**
