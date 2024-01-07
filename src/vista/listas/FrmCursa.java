@@ -49,8 +49,7 @@ public class FrmCursa extends javax.swing.JDialog {
     
     //Verifico si el texto sin espacios esta vacio
     private boolean validar(){
-        return !txtCodigo.getText().trim().isEmpty() &
-               !txtCapacidad.getText().trim().isEmpty();
+        return !txtCodigo.getText().trim().isEmpty();
                
     }
     
@@ -58,7 +57,6 @@ public class FrmCursa extends javax.swing.JDialog {
     private void limpiar(){
         txtCodigo.setText(cc.generatedCode());
         txtCodigo.setEnabled(false);
-        txtCapacidad.setText("");
         cbxEstudiante.setSelectedItem(-1);//Limpio Combo
        
         
@@ -80,7 +78,7 @@ public class FrmCursa extends javax.swing.JDialog {
         if(validar()){
             try {
                 cc.getCursa().setCodigo(txtCodigo.getText());
-                cc.getCursa().setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+                
                 cc.getCursa().setId_Estudiante(UtilVista.getComboPersonaEstudiante(cbxEstudiante).getId()); 
                 //Guardar
                 if(cc.getCursa().getId() == null){
@@ -128,7 +126,7 @@ public class FrmCursa extends javax.swing.JDialog {
             try {
                 cc.setCursa(mtc.getCursas().get(cc.getIndex()));
                 txtCodigo.setText(cc.getCursa().getCodigo().toString());
-                txtCapacidad.setText(cc.getCursa().getCapacidad().toString());
+                
                 cbxEstudiante.setSelectedItem(UtilVista.getComboPersonaEstudiante(cbxEstudiante));
                 
             } catch (Exception e) {
@@ -173,9 +171,7 @@ public class FrmCursa extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableCursa = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        txtCapacidad = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -210,11 +206,7 @@ public class FrmCursa extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel4.setText("Estudiante");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 100, 20));
-
-        jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel10.setText("Capacidad:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
 
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,13 +214,6 @@ public class FrmCursa extends javax.swing.JDialog {
             }
         });
         jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 240, -1));
-
-        txtCapacidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCapacidadActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtCapacidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 240, -1));
 
         btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -276,7 +261,7 @@ public class FrmCursa extends javax.swing.JDialog {
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
 
         cbxEstudiante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cbxEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 240, -1));
+        jPanel1.add(cbxEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 240, -1));
 
         jLabel5.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel5.setText("Codigo:");
@@ -299,10 +284,6 @@ public class FrmCursa extends javax.swing.JDialog {
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
-
-    private void txtCapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCapacidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCapacidadActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
@@ -376,13 +357,11 @@ public class FrmCursa extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCursa;
-    private javax.swing.JTextField txtCapacidad;
     private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
 }

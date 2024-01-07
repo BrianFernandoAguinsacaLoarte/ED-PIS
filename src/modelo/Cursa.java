@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import controlador.TDA.listas.LinkedList;
+
 /**
  *
  * @author Usuario iTC
@@ -12,19 +14,21 @@ public class Cursa {
     //Atributos
     private Integer id;
     private Integer id_Estudiante;
+    private LinkedList<Estudiante> estudiantes;
+    private LinkedList<Materia> materias;
     private String codigo;
-    private Integer capacidad;
     
     //Constructor
     
     public Cursa(){
-        
+        estudiantes = new LinkedList<>();
+        materias = new LinkedList<>();
     }
+    
     public Cursa(Integer id, Integer id_Estudiante, String codigo, Integer capacidad) {
         this.id = id;
         this.id_Estudiante = id_Estudiante;
         this.codigo = codigo;
-        this.capacidad = capacidad;
     }
     
     //Getter and Setter
@@ -54,12 +58,25 @@ public class Cursa {
     }
 
 
-    public Integer getCapacidad() {
-        return capacidad;
+    
+    public LinkedList<Estudiante> getEstudiantes() {
+        return estudiantes;
     }
 
-    public void setCapacidad(Integer capacidad) {
-        this.capacidad = capacidad;
+    public void setEstudiantes(LinkedList<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
     }
+
+    public LinkedList<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(LinkedList<Materia> materias) {
+        this.materias = materias;
+    }
+    
+    
+    
+    
     
 }
