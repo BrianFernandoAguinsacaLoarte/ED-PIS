@@ -40,6 +40,18 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
         return update(estudiante,index);
     }
     
+    public String obtenerNombre(Integer idPersona) throws VacioExcepcion {
+        PersonaController pc = new PersonaController();
+
+        for (int i = 0; i < pc.getPersonas().getSize(); i++) {
+            Persona persona = pc.getPersonas().get(i);
+            if (persona.getId().equals(idPersona)) {
+                 return persona.getNombres() + " " + persona.getApellidos();
+            }
+        }
+        return "";
+    }
+    
     //Getter and Setter
     public Estudiante getEstudiante() {
         

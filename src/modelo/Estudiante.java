@@ -4,8 +4,10 @@
  */
 package modelo;
 
+import controlador.Excepcion.VacioExcepcion;
 import modelo.enums.Genero;
 import modelo.enums.Rol;
+import modelo.persona.PersonaController;
 
 /**
  *
@@ -92,8 +94,6 @@ public class Estudiante extends Persona {
     
     
     
-    
-    
     //Print
     @Override
     public String toString() {
@@ -103,10 +103,8 @@ public class Estudiante extends Persona {
     
     //Main
     public static void main (String[] args){
-        Estudiante e = new Estudiante();
+       
         
-        e.setColegioAnterior("La Dolorosa");
-        System.out.println(e.toString());
     }
     
     //Metodo Compare

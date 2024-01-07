@@ -7,6 +7,7 @@ package vista.listas.tablas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
 import modelo.Estudiante;
+import modelo.persona.EstudianteController;
 
 /**
  *
@@ -15,7 +16,7 @@ import modelo.Estudiante;
 public class ModeloTablaEstudiante extends AbstractTableModel {
     //Objeto
     LinkedList<Estudiante> estudiantes = new LinkedList<>();
-    
+    EstudianteController ec = new EstudianteController();
     //Getter and Setter
     public LinkedList<Estudiante> getEstudiantes() {
         return estudiantes;
@@ -33,9 +34,11 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
     public int getColumnCount() {
         return 7;
     }
-
+    //Metodo de busqueda
+    
+    
     @Override
-    public Object getValueAt(int fila, int columna) {
+    public Object getValueAt(int fila, int columna)  {
         Estudiante estudiante = null;
         
         try {
@@ -47,7 +50,13 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
             case 0:
                     return (estudiante != null)? estudiante.getId(): "";
             case 1:
-                    return (estudiante != null)? estudiante.getId_Persona(): "";
+                    Integer idPersona = (estudiante != null) ? estudiante.getId_Persona() : null;
+                    try {
+                        String nombrePersona = ec.obtenerNombre(idPersona);
+                        return nombrePersona;
+                    } catch (Exception ex) {
+                        return "Error";
+                    }
             case 2:
                     return (estudiante != null)? estudiante.getColegioAnterior(): "";
             case 3:
@@ -69,7 +78,7 @@ public class ModeloTablaEstudiante extends AbstractTableModel {
             case 0:
                     return "ID";
             case 1: 
-                    return "Persona";
+                    return "Estudiante";
             case 2: 
                     return "Institucion Educativa";
             case 3:
