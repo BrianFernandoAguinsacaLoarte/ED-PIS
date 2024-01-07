@@ -4,6 +4,9 @@
  */
 package vista;
 
+import javax.swing.JOptionPane;
+import modelo.Estudiante;
+
 /**
  *
  * @author Usuario
@@ -17,6 +20,18 @@ public class FrmMatricula extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    
+//    static public void recibirEstudiante(Estudiante estudiante){
+//        
+//        if (listaJugadores.add(jugador)) {
+//            equipo.setListaJugadores(listaJugadores);
+//            JOptionPane.showMessageDialog(null, "Se agregó el jugador correctamente");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Hubo un error, intente nuevamente");
+//        }
+//        
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
