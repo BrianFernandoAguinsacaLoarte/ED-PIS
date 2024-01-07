@@ -4,8 +4,13 @@
  */
 package vista;
 
+import controlador.MatriculaController;
+import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
+import vista.listas.FrmBuscarEstudiante;
+import vista.listas.tablas.ModeloTablaMatricula;
+import vista.listas.util.UtilVista;
 
 /**
  *
@@ -13,25 +18,46 @@ import modelo.Estudiante;
  */
 public class FrmMatricula extends javax.swing.JFrame {
 
+    MatriculaController mc = new MatriculaController();
+    ModeloTablaMatricula ml = new ModeloTablaMatricula();
+    
     /**
      * Creates new form FrmMatricula
      */
     public FrmMatricula() {
         initComponents();
+        limpiarCampos();
     }
+    
+    private void cargarTabla(){
+        ml.setLista(mc.listAll());
+        tblTabla.setModel(ml);
+        tblTabla.updateUI();
+        
+    }
+    
+    private void limpiarCampos() {
+        txtEstudiante.setText("");
+        txtEstudiante.setEnabled(false);
+        mc.setMatricula(null);
+        mc.setMatriculas(new LinkedList<>());
+        cargarTabla();
+        tblTabla.clearSelection();
+        mc.setIndex(-1);
+        cbxCurso.removeAllItems();
+        cbxMaterias.removeAllItems();
+        cbxPeriodo.removeAllItems();
+        try {
+            UtilVista.cargarMateria(cbxMaterias);
+            cbxMaterias.setVisible(true);
+            UtilVista.cargarPeriodoAcademico(cbxPeriodo);
+        } catch (Exception e) {
+        }
+        
+    }
+    
+    
 
-    
-    
-//    static public void recibirEstudiante(Estudiante estudiante){
-//        
-//        if (listaJugadores.add(jugador)) {
-//            equipo.setListaJugadores(listaJugadores);
-//            JOptionPane.showMessageDialog(null, "Se agregó el jugador correctamente");
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Hubo un error, intente nuevamente");
-//        }
-//        
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,13 +73,11 @@ public class FrmMatricula extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        cbxCarrera = new javax.swing.JComboBox<>();
+        txtEstudiante = new javax.swing.JTextField();
+        btnElegir = new javax.swing.JButton();
         cbxMaterias = new javax.swing.JComboBox<>();
         cbxCurso = new javax.swing.JComboBox<>();
         cbxPeriodo = new javax.swing.JComboBox<>();
@@ -101,38 +125,37 @@ public class FrmMatricula extends javax.swing.JFrame {
         jLabel1.setText("Estudiante:");
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 45, 60, -1));
 
-        jLabel2.setText("Carrera:");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 60, -1));
-
         jLabel3.setText("Materias:");
         jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 60, -1));
 
         jLabel4.setText("Curso:");
-        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jLabel5.setText("Periodo :");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, -1, -1));
-        jPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 220, -1));
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 50, -1, -1));
+        jPanel3.add(txtEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 220, -1));
 
-        jButton1.setText("Buscar");
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, 70, -1));
-
-        cbxCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(cbxCarrera, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 220, -1));
+        btnElegir.setText("Elegir");
+        btnElegir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElegirActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnElegir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, 70, -1));
 
         cbxMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cbxMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 220, -1));
 
         cbxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(cbxCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, 210, -1));
+        jPanel3.add(cbxCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 220, -1));
 
         cbxPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, 200, -1));
+        jPanel3.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, 200, -1));
 
-        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/mas.png"))); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\mas.png")); // NOI18N
         jPanel3.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 30));
 
-        btnQuitar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/imagenes/menos.png"))); // NOI18N
+        btnQuitar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\menos.png")); // NOI18N
         jPanel3.add(btnQuitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 30, 30));
 
         tblTabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -172,6 +195,10 @@ public class FrmMatricula extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnElegirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElegirActionPerformed
+        new FrmBuscarEstudiante().setVisible(true);
+    }//GEN-LAST:event_btnElegirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -210,15 +237,13 @@ public class FrmMatricula extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnElegir;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnQuitar;
-    private javax.swing.JComboBox<String> cbxCarrera;
     private javax.swing.JComboBox<String> cbxCurso;
     private javax.swing.JComboBox<String> cbxMaterias;
     private javax.swing.JComboBox<String> cbxPeriodo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -226,7 +251,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblTabla;
+    private javax.swing.JTextField txtEstudiante;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,7 +17,7 @@ import modelo.Cuenta;
 public class InicioSesionController extends DataAccessObject<Cuenta>{
     private Cuenta cuenta = new Cuenta();
     private LinkedList<Cuenta> cuentas = new LinkedList<>();
-    private Integer index;
+    private Integer index = -1;
 
     public InicioSesionController() {
         super(Cuenta.class);

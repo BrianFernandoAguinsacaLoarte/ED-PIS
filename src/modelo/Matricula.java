@@ -21,6 +21,10 @@ public class Matricula {
     private PeriodoAcademico p_academico;
     private Date fechaMatricula;
 
+    public Matricula() {
+    }
+
+    
     public Matricula(Estudiante estudiante, Curso curso, Date fechaMatricula) {
         this.estudiante = estudiante;
         this.curso = curso;
