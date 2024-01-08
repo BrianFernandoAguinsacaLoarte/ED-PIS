@@ -4,6 +4,16 @@
  */
 package vista;
 
+<<<<<<< HEAD
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+=======
+import controlador.Excepcion.VacioExcepcion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vista.listas.FrmAsignacionTarea;
+>>>>>>> aab98de41cc94c401caf329c394dd339976c79ae
 import vista.listas.FrmCursa;
 import vista.listas.FrmDocente;
 import vista.listas.FrmEstudiante;
@@ -20,8 +30,27 @@ public class FrmInicio extends javax.swing.JFrame {
      */
     public FrmInicio() {
         initComponents();
+        cerrar();
         this.setLocationRelativeTo(null);
     }
+    public void cerrar(){
+        try {
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            addWindowListener(
+               new WindowAdapter() {
+                  public void windowClosing(WindowEvent e){
+                      confirmarSalida();
+                  }
+               }
+            );
+            this.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+   public void confirmarSalida(){
+            this.setVisible(false);
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,6 +80,8 @@ public class FrmInicio extends javax.swing.JFrame {
         btnDocente = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         btnEstudiante = new javax.swing.JButton();
+        btnPeriodoAcademico1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -64,8 +95,8 @@ public class FrmInicio extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(51, 51, 51));
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Periodo Academico:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, -1, -1));
+        jLabel2.setText("Tareas");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 460, -1, -1));
 
         btnMeterias.setBackground(new java.awt.Color(255, 255, 255));
         btnMeterias.setText("|");
@@ -182,11 +213,28 @@ public class FrmInicio extends javax.swing.JFrame {
         });
         jPanel1.add(btnEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 140, 140));
 
+        btnPeriodoAcademico1.setBackground(new java.awt.Color(255, 255, 255));
+        btnPeriodoAcademico1.setText("|");
+        btnPeriodoAcademico1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPeriodoAcademico1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPeriodoAcademico1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 490, 140, 140));
+
+        jLabel9.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Periodo Academico:");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +264,7 @@ public class FrmInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMallaActionPerformed
 
     private void btnMatriculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculasActionPerformed
-        
+        new FrmMatricula().setVisible(true);
     }//GEN-LAST:event_btnMatriculasActionPerformed
 
     private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
@@ -249,6 +297,18 @@ public class FrmInicio extends javax.swing.JFrame {
         e.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEstudianteActionPerformed
+
+    private void btnPeriodoAcademico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeriodoAcademico1ActionPerformed
+        // TODO add your handling code here:
+        FrmAsignacionTarea e = null;
+        try {
+            e = new FrmAsignacionTarea();
+        } catch (VacioExcepcion ex) {
+            Logger.getLogger(FrmInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        e.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPeriodoAcademico1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,6 +355,7 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JButton btnMatriculas;
     private javax.swing.JButton btnMeterias;
     private javax.swing.JButton btnPeriodoAcademico;
+    private javax.swing.JButton btnPeriodoAcademico1;
     private javax.swing.JButton btnPersona;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -304,6 +365,7 @@ public class FrmInicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

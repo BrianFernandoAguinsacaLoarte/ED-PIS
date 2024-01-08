@@ -12,11 +12,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import modelo.DocenteMateria;
+import modelo.Estudiante;
 import modelo.Materia;
 import modelo.PeriodoAcademico;
 import modelo.enums.Genero;
 import modelo.Persona;
 import modelo.enums.Rol;
+import static modelo.enums.Rol.Estudiante;
 import modelo.persona.DocenteMateriaController;
 import modelo.persona.PersonaController;
 
@@ -64,6 +66,9 @@ public class UtilVista {
     
     public static Persona getComboPersonaDocente(JComboBox cbxPersona){
         return (Persona) cbxPersona.getSelectedItem();
+    }
+    public static Estudiante getComboEstudiante(JComboBox cbxPersona){
+        return (Estudiante) cbxPersona.getSelectedItem();
     }
     
     

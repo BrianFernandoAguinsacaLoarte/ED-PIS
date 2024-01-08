@@ -6,6 +6,7 @@ package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
+import modelo.Estudiante;
 import modelo.enums.Rol;
 import modelo.persona.CursaController;
 import vista.FrmInicio;
@@ -21,6 +22,7 @@ public class FrmCursa extends javax.swing.JDialog {
     //Objetos
     CursaController cc = new CursaController();
     ModeloTablaCursa mtc = new ModeloTablaCursa();
+    LinkedList<Estudiante> estudiantes = new LinkedList<>();
     
     
     /**
@@ -70,15 +72,27 @@ public class FrmCursa extends javax.swing.JDialog {
             UtilVista.cargarPersonaEstudiante(cbxEstudiante, Rol.Estudiante);
         } catch (Exception e) {
         }
+        
+        
     }
     
-    
+    private void agregarEstudianteALista() {
+    Estudiante estudianteSeleccionado = UtilVista.getComboEstudiante(cbxEstudiante);
+
+    if (estudianteSeleccionado != null) {
+        // Agregar estudiante a la lista de estudiantes del curso actual
+        cc.agregarEstudiante(cc.getCursa(), estudianteSeleccionado);
+        // Puedes actualizar la vista o realizar otras acciones aquí si es necesario
+    } else {
+        JOptionPane.showMessageDialog(null, "Selecciona un estudiante antes de agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }
     //Guardo la informacion 
     private void guardar(){
         if(validar()){
             try {
                 cc.getCursa().setCodigo(txtCodigo.getText());
-                
+                cc.getCursa().getEstudiantes().add((Estudiante) UtilVista.getComboPersonaEstudiante(cbxEstudiante));
                 cc.getCursa().setId_Estudiante(UtilVista.getComboPersonaEstudiante(cbxEstudiante).getId()); 
                 //Guardar
                 if(cc.getCursa().getId() == null){

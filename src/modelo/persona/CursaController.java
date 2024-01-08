@@ -79,5 +79,15 @@ public class CursaController extends DataAccessObject<Cursa> {
         this.index = index;
     }
     
-    
+    public void agregarEstudiante(Cursa cursa, Estudiante estudiante) {
+        if (cursa != null && estudiante != null) {
+            // Asegurarse de que la lista de estudiantes no sea nula antes de agregar
+            if (cursa.getEstudiantes() == null) {
+                cursa.setEstudiantes(new LinkedList<>());
+            }
+
+            // Agregar el estudiante a la lista del curso
+            cursa.getEstudiantes().add(estudiante);
+        }
+    }
 }
