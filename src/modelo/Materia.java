@@ -9,7 +9,7 @@ package modelo;
  * @author Usuario iTC
  */
 public class Materia {
-    
+
     private Integer id;
     private String Codigo;
     private String nombreMateria;
@@ -61,7 +61,34 @@ public class Materia {
     public String toString() {
         return nombreMateria;
     }
-    
-    
-    
+
+    public Boolean comparar(Materia m, String field, Integer type) {
+
+        switch (type) {
+            case 1:
+                if (field.equalsIgnoreCase("nombreMateria")) {
+                    return getNombreMateria().compareTo(m.getNombreMateria()) > 0;
+                } else if (field.equalsIgnoreCase("descripcion")) {
+                    return getDescripcion().compareTo(m.getDescripcion()) > 0;
+                } else if (field.equalsIgnoreCase("codigo")) {
+                    return getCodigo().compareTo(m.getCodigo()) > 0;
+                }
+
+                break;
+            case 0:
+                if (field.equalsIgnoreCase("nombreMateria")) {
+                    return getNombreMateria().compareTo(m.getNombreMateria()) < 0;
+                } else if (field.equalsIgnoreCase("descripcion")) {
+                    return getDescripcion().compareTo(m.getDescripcion()) < 0;
+                } else if (field.equalsIgnoreCase("codigo")) {
+                    return getCodigo().compareTo(m.getCodigo()) < 0;
+                }
+
+                break;
+            default:
+                return null;
+        }
+        return null;
+    }
+
 }

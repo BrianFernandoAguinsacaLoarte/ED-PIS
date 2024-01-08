@@ -280,6 +280,12 @@ public class FrmAsignacionTarea extends javax.swing.JFrame {
             }
         });
         getContentPane().add(calendarioEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 180, 140, -1));
+
+        txtHoraEntrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHoraEntregaActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtHoraEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 153, -1));
         getContentPane().add(txtFechaAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 153, -1));
 
@@ -418,12 +424,15 @@ public class FrmAsignacionTarea extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            // TODO add your handling code here:
             modificarTarea();
         } catch (Exception ex) {
             Logger.getLogger(FrmAsignacionTarea.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtHoraEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraEntregaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraEntregaActionPerformed
 
     /**
      * @param args the command line arguments
