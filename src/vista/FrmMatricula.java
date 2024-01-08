@@ -4,6 +4,7 @@
  */
 package vista;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.MatriculaController;
 import controlador.TDA.listas.LinkedList;
 import java.awt.event.WindowAdapter;
@@ -14,6 +15,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
+import modelo.persona.EstudianteController;
 import vista.listas.FrmBuscarEstudiante;
 import vista.listas.tablas.ModeloTablaMatricula;
 import vista.listas.util.UtilVista;
@@ -26,6 +28,7 @@ public class FrmMatricula extends javax.swing.JFrame {
 
     MatriculaController mc = new MatriculaController();
     ModeloTablaMatricula ml = new ModeloTablaMatricula();
+    EstudianteController ec = new EstudianteController();
     
     /**
      * Creates new form FrmMatricula
@@ -68,29 +71,32 @@ public class FrmMatricula extends javax.swing.JFrame {
         }
         
     }
-//    private void guardar(){
-//        if (validar()) {
-//            try {
-//                
+    
+    private void agregarmateria(){
+        mc.getMatricula().setMateria(UtilVista.getComboMateria(cbxMaterias));
+    }
+    private void guardar(){
+        Estudiante es = null;
+            try {
+                
 //                SimpleDateFormat formatoFechaHora = new SimpleDateFormat("dd-MM-yyyy");
 //
 //                String fechaAsignacionString = txtFechaAsignacion.getText();
 //                Date fechaAsignacion = formatoFechaHora.parse(fechaAsignacionString);
-//                
-//                mc.getMatricula().setEstudiante(UtilVista.getComboPersonaEstudiante(cbx).getNombres());
-//                mc.getMatricula().setCurso(UtilVista.get);
+                
+                es = ec.buscarEstudiantePorNombre(txtEstudiante.getText());
+                mc.getMatricula().setEstudiante(es);
+                mc.getMatricula().setCurso(null);
+//                mc.getMatricula().setFechaMatricula(fechaAsignacion);
 //                mc.getMatricula().setMateria(UtilVista.getComboMateria(cbxMaterias));
 //                mc.getMatricula().setP_academico(UtilVista.getComboPeriodoAcademico(cbxPeriodo));
 //                mc.getMatricula().setFechaMatricula(fechaAsignacion);
-//                
-//                lc.getDivorciada().setEdad(Integer.parseInt(txtEdad.getText()));
-//                lc.getDivorciada().setEstadoCivil(txtEstadoCivil.getText());
-//                lc.getDivorciada().setDni(txtCedula.getText());
-//                lc.getDivorciada().setEstadoEmocional(cbxEstado.getSelectedItem().toString());
-//                lc.getDivorciada().setFechaDivorcio(txtFecha.getText());
-//                
-//                if (lc.getDivorciada().getId() == null) {
-//                if(lc.save()){
+                mc.save();
+                
+              
+                
+//                if (mc.getMatricula().getId() == null) {
+//                if(mc.save()){
 ////                    cargarTabla();
 //                    limpiarCampos();
 //                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -101,7 +107,7 @@ public class FrmMatricula extends javax.swing.JFrame {
 //                    
 //                }
 //                }else{
-//                    if (lc.update(lc.getIndex())) {
+//                    if (mc.update(mc.getIndex())) {
 //                        limpiarCampos();
 //                        JOptionPane.showMessageDialog(null,
 //                                "Se Modifico correctamente",
@@ -116,21 +122,21 @@ public class FrmMatricula extends javax.swing.JFrame {
 //                    }
 //
 //                }
-//                
-//        
-//
-//            } catch (Exception e) {
-//                System.out.println("Error Inesperado");
-//            }
+                
+        
+
+            } catch (Exception e) {
+                System.out.println("Error Inesperado");
+            }
 //         else {
 //            JOptionPane.showMessageDialog(null,
 //                    "Llene todos los campos",
 //                    "Error",
 //                    JOptionPane.ERROR_MESSAGE);
 //        }
-//    }
-//    
-//    }
+    
+    
+    }
     
     public void cerrar(){
         try {
@@ -151,6 +157,12 @@ public class FrmMatricula extends javax.swing.JFrame {
             this.setVisible(false);
             System.exit(0);
         }
+   
+   public static void cargarEstudiante(Estudiante estudiante) throws VacioExcepcion{
+       EstudianteController ec = new EstudianteController(); 
+       String nombrePersona = ec.obtenerNombre(estudiante.getId_Persona());
+       txtEstudiante.setText(nombrePersona);
+   }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -190,6 +202,11 @@ public class FrmMatricula extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         btnGuardar.setText("Guardar Matrícula");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
@@ -250,6 +267,11 @@ public class FrmMatricula extends javax.swing.JFrame {
         jPanel3.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, 200, -1));
 
         btnAgregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\mas.png")); // NOI18N
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, 40, 30));
 
         btnQuitar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Usuario\\Desktop\\menos.png")); // NOI18N
@@ -314,6 +336,15 @@ public class FrmMatricula extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CalendarioFechaPropertyChange
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        agregarmateria();
+        tblTabla.updateUI();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,7 +400,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblTabla;
-    private javax.swing.JTextField txtEstudiante;
+    private static javax.swing.JTextField txtEstudiante;
     private javax.swing.JTextField txtFechaAsignacion;
     // End of variables declaration//GEN-END:variables
 }

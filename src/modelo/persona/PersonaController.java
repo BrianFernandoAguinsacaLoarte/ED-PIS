@@ -69,7 +69,14 @@ public class PersonaController extends DataAccessObject<Persona> {
         this.index = index;
     }
     
-    
+    public Persona obtenerPersonaPorId(int idPersona) {
+    for (Persona persona : personas.toArray()) {
+        if (persona.getId() != null && persona.getId().equals(idPersona)) {
+            return persona;
+        }
+    }
+    return null; // Retorna null si no se encuentra la persona con el ID especificado
+}
     //ORDENAMIENTO QUICKSORT
     public LinkedList<Persona> ordenarQuickSort(LinkedList<Persona> lista, Integer type, String field) throws VacioExcepcion {
         int[] contador = {0};
@@ -254,6 +261,7 @@ public class PersonaController extends DataAccessObject<Persona> {
         return personas;  // Si no se encuentra ninguna coincidencia
     }
    
+    
     
     
     
