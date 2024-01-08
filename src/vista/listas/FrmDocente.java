@@ -180,6 +180,7 @@ public class FrmDocente extends javax.swing.JDialog {
         txtTitulo = new javax.swing.JTextField();
         txtEspecializacion = new javax.swing.JTextField();
         txtExperiencia = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setText("Nombres: ");
@@ -304,6 +305,15 @@ public class FrmDocente extends javax.swing.JDialog {
         });
         jPanel1.add(txtExperiencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 240, -1));
 
+        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton3.setText("Registros");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 520, 170, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -358,6 +368,12 @@ public class FrmDocente extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtExperienciaActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        FrmDocenteRegistros newFrame = new FrmDocenteRegistros();
+        newFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -407,6 +423,7 @@ public class FrmDocente extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cbxPersona;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

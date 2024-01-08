@@ -7,6 +7,7 @@ package vista.listas.tablas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
 import modelo.Docente;
+import modelo.persona.DocenteController;
 
 /**
  *
@@ -16,6 +17,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     //Objeto
     LinkedList<Docente> docentes = new LinkedList<>();
+    DocenteController dc = new DocenteController();
     
    
     //Getter and Setter
@@ -51,7 +53,13 @@ public class ModeloTablaDocente extends AbstractTableModel {
             case 0:
                     return (docente != null)? docente.getId(): "";
             case 1:
-                    return (docente != null)? docente.getId_Persona(): "";
+                    Integer idPersona = (docente != null) ? docente.getId_Persona() : null;
+                    try {
+                        String nombrePersona = dc.obtenerNombre(idPersona);
+                        return nombrePersona;
+                    } catch (Exception ex) {
+                        return "Error";
+                    }
             case 2:
                     return (docente != null)? docente.getTitulo(): "";
             case 3:
@@ -73,7 +81,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
             case 0:
                     return "ID";
             case 1:
-                    return "ID-Persona";
+                    return "Docente";
             case 2:
                     return "Título";
             case 3:

@@ -76,7 +76,78 @@ public class Docente extends Persona{
         this.certificaciones = certificaciones;
     }
 
+    //Metodo Compare
+    public Integer compareQuickSort(Docente c, Integer type, String field) {
+    switch (type) {
+        case 0:
+            if (field.equalsIgnoreCase("id_Persona")) {
+                return this.getId_Persona().compareTo(c.getId_Persona());
+                
+            } else if (field.equalsIgnoreCase("titulo")) {
+                return this.getTitulo().compareTo(c.getTitulo());
+                
+            } else if (field.equalsIgnoreCase("especializacion")) {
+                return this.getEspecializacion().compareTo(c.getEspecializacion());
+                
+            } else if (field.equalsIgnoreCase("experiencialaboral")) {
+                return this.getExperienciaLaboral().compareTo(c.getExperienciaLaboral());
+                
+            } else if (field.equalsIgnoreCase("certificaciones")) {
+                return this.getCertificaciones().compareTo(c.getCertificaciones());
+                
+            }
+            
+        case 1:
+            if (field.equalsIgnoreCase("id_Persona")) {
+                return c.getId_Persona().compareTo(this.getId_Persona());
+                
+            } else if (field.equalsIgnoreCase("titulo")) {
+                return c.getTitulo().compareTo(this.getTitulo());
+                
+            } else if (field.equalsIgnoreCase("especializacion")) {
+                return c.getEspecializacion().compareTo(this.getEspecializacion());
+                
+            } else if (field.equalsIgnoreCase("experiencialaboral")) {
+                return c.getExperienciaLaboral().compareTo(this.getExperienciaLaboral());
+                
+            } else if (field.equalsIgnoreCase("certificaciones")) {
+                return c.getCertificaciones().compareTo(this.getCertificaciones());
+                
+            }
+            
+        default:
+            return 0;
+        }
+    }
     
+    //Criterios para las busquedas
+    public static String criterio(Docente docente ,String field) {
+        switch (field.toLowerCase()) {
+            case "titulo":
+                return docente.getTitulo();
+            case "especializacion":
+                return docente.getEspecializacion();
+            case "certificaciones":
+                return docente.getCertificaciones();
+            
+            default:
+                throw new IllegalArgumentException("Opcion invalida");
+        }
+    }
+    
+    //Para casos con valor Int
+    public static Integer criterioEntero(Docente docente, String field) {
+        switch (field.toLowerCase()) {
+            case "id":
+                return docente.getId();
+            case "id_persona":
+                return docente.getId_Persona();
+            case "experiencialaboral":
+                return docente.getExperienciaLaboral();
+            default:
+                throw new IllegalArgumentException("Opcion invalida");
+        }
+    }
     
     //Print
     @Override
