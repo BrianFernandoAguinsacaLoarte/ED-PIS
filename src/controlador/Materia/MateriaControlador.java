@@ -7,6 +7,9 @@ package controlador.Materia;
 import controlador.TDA.listas.LinkedList;
 import modelo.Materia;
 import controlador.dao.DataAccessObject;
+import controlador.util.Utilidades;
+import java.lang.reflect.Field;
+import controlador.Excepcion.VacioExcepcion;
 /**
  *
  * @author juanc
@@ -81,10 +84,40 @@ public class MateriaControlador extends DataAccessObject<Materia>{
         this.index = index;
     }
 
-//    public LinkedList<Materia> getMaterias() {
-//        if (lista.isEmpty()) {
-//            lista = listAll();
-//        }
-//        return lista;
-//    }
+    public LinkedList<Materia> getMaterias() {
+        if (lista.isEmpty()) {
+            lista = listAll();
+        }
+        return lista;
+    }
+    
+    public LinkedList<Materia> ordenar(Integer type, String field, LinkedList<Materia> lista) throws VacioExcepcion, Exception {
+
+        getMateria();
+        Integer n = lista.getSize();
+        Materia[] m = lista.toArray();
+        Field faux = Utilidades.getField(Materia.class, field);
+        if (faux != null) {
+     
+            for (int i = 0; i < n - 1; i++) {
+                int k = i;
+                Materia t = m[i];
+                for (int j = i + 1; j < n; j++) {
+                    //condicion por objetos
+                    Materia mj = m[j];
+                    if (mj.comparar(t, field, type)) {
+                        t = mj;
+                        k = j;
+                    }
+                }
+                m[k] = m[i];
+                m[i] = t;
+            }
+            lista = lista.toList(m);
+        }else{
+            throw new Exception("No existe ese criterio de busqueda");
+        }return lista;
+    }
+    
+    
 }

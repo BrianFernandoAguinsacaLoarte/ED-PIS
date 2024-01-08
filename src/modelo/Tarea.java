@@ -65,7 +65,10 @@ public class Tarea {
     }
 
     public Date getFechaCreacion() {
-        return fechaCreacion;
+        if (fechaEntrega == null) {
+            fechaEntrega = new Date();
+        }
+        return fechaEntrega;
     }
 
     public void setFechaCreacion(Date fechaCreacion) {

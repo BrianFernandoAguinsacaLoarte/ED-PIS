@@ -74,7 +74,7 @@ public class FrmEstudiante extends javax.swing.JDialog {
         } catch (Exception e) {
         }
     }
-    
+
     
     //Guardo la informacion 
     private void guardar(){

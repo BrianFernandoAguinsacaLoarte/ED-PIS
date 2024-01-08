@@ -40,6 +40,18 @@ public class FrmMateria extends javax.swing.JFrame {
         tblTabla.updateUI();
     }
     
+    private void ordenar(){
+        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
+        Integer ascdec = cbxAscDes.getSelectedIndex();
+        try{
+            mtll.setMaterias(matCon.ordenar(ascdec, criterio, matCon.getMaterias()));
+            tblTabla.setModel(mtll);
+            tblTabla.updateUI();
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void limpiar() {
         txtCodigo.setText(matCon.generatedCode());
         txtCodigo.setEnabled(false);
@@ -131,6 +143,8 @@ public class FrmMateria extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        cbxCriterio = new javax.swing.JComboBox<>();
+        cbxAscDes = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -202,6 +216,27 @@ public class FrmMateria extends javax.swing.JFrame {
         });
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 380, 130, 30));
 
+        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CODIGO", "NOMBREMATERIA", "DESCRIPCION", "" }));
+        cbxCriterio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxCriterioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxCriterio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
+
+        cbxAscDes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ASCENDENTE", "DESCENDENTE" }));
+        cbxAscDes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxAscDesItemStateChanged(evt);
+            }
+        });
+        cbxAscDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAscDesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxAscDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -241,6 +276,21 @@ public class FrmMateria extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
+    private void cbxAscDesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAscDesItemStateChanged
+        // TODO add your handling code here:
+        ordenar();
+    }//GEN-LAST:event_cbxAscDesItemStateChanged
+
+    private void cbxAscDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAscDesActionPerformed
+        // TODO add your handling code here:
+        ordenar();
+    }//GEN-LAST:event_cbxAscDesActionPerformed
+
+    private void cbxCriterioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCriterioActionPerformed
+        // TODO add your handling code here:
+        ordenar();
+    }//GEN-LAST:event_cbxCriterioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -278,6 +328,8 @@ public class FrmMateria extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxAscDes;
+    private javax.swing.JComboBox<String> cbxCriterio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
