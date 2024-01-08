@@ -149,6 +149,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
    public void confirmarSalida(){
             this.setVisible(false);
+            System.exit(0);
         }
     
     /**
@@ -242,7 +243,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         cbxMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cbxMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 220, -1));
 
-        cbxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PRIMERO", "SEGUNDO", "TERCERO" }));
+        cbxCurso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cbxCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 220, -1));
 
         cbxPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));

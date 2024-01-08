@@ -166,11 +166,7 @@ public class FrmMalla extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cbxCriterio = new javax.swing.JComboBox<>();
         cbxAscDes = new javax.swing.JComboBox<>();
-<<<<<<< HEAD
-        jLabel7 = new javax.swing.JLabel();
-=======
         jButton1 = new javax.swing.JButton();
->>>>>>> 3f942922e42c4fbf1b55a8da6771779430a4b906
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -335,7 +331,7 @@ public class FrmMalla extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 102, 102));
         jLabel8.setText("Criterio:");
 
-        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nombreMalla", "fechaRegistro" }));
+        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semestre", "Año Academico" }));
 
         cbxAscDes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascendente", "Descendente" }));
 
@@ -381,12 +377,6 @@ public class FrmMalla extends javax.swing.JFrame {
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, 730, 300));
         jPanel3.getAccessibleContext().setAccessibleName("Lista Mallas");
 
-<<<<<<< HEAD
-        jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 204, 204));
-        jLabel7.setText("(Imagen)");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 330, -1));
-=======
         jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jButton1.setText("Regresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -395,7 +385,6 @@ public class FrmMalla extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 514, 170, 30));
->>>>>>> 3f942922e42c4fbf1b55a8da6771779430a4b906
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -503,7 +492,6 @@ public class FrmMalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

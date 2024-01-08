@@ -36,7 +36,7 @@ public class ModeloTablaCursa extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -56,8 +56,6 @@ public class ModeloTablaCursa extends AbstractTableModel {
                     return (cursa != null)? cursa.getId_Estudiante(): "";
             case 2: 
                     return (cursa != null)? cursa.getCodigo(): "";
-            case 3: 
-                    return (cursa != null)? cursa.getEstudiantes().toString(): "";
             
             default:
                 return null;
@@ -74,8 +72,6 @@ public class ModeloTablaCursa extends AbstractTableModel {
                     return "ID-Estudiante";
             case 2:
                     return "Codigo";
-            case 3:
-                    return "Estudiante";
             
             default:
                 return null;

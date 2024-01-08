@@ -47,8 +47,8 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
+        txtContra = new javax.swing.JTextField();
         btnIngresar = new javax.swing.JButton();
-        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,13 +112,13 @@ public class FrmInicioSesion extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtPassword)))
+                                .addComponent(txtContra))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(134, 134, 134))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnIngresar)
@@ -131,13 +131,13 @@ public class FrmInicioSesion extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(47, 47, 47)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addComponent(btnIngresar)
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -161,7 +161,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
         controlador.TDA.listas.LinkedList<Cuenta> listaCuentas = ic.listAll();
 
         if (ic.getCuenta().getUsuario() != null && ic.getCuenta().getUsuario().equals(txtUsuario.getText())
-                && ic.getCuenta().getContraseña() != null && ic.getCuenta().getContraseña().equals(txtPassword.getText())) {
+                && ic.getCuenta().getContraseña() != null && ic.getCuenta().getContraseña().equals(txtContra.getText())) {
             JOptionPane.showMessageDialog(null, "Acceso correcto");
             this.setVisible(false);
         } else {
@@ -171,7 +171,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
                 for (int i = 0; i < listaCuentas.getSize(); i++) {
                     Cuenta cuenta = listaCuentas.get(i);
                     if (cuenta.getUsuario() != null && cuenta.getUsuario().equals(txtUsuario.getText())
-                            && cuenta.getContraseña() != null && cuenta.getContraseña().equals(txtPassword.getText())) {
+                            && cuenta.getContraseña() != null && cuenta.getContraseña().equals(txtContra.getText())) {
                         cuentaEncontrada = true;
                         JOptionPane.showMessageDialog(null, "Acceso correcto");
                         this.setVisible(false);
@@ -259,7 +259,7 @@ public class FrmInicioSesion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtContra;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

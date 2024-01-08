@@ -72,20 +72,20 @@ public class MallaController extends DataAccessObject<Malla>{
     
 //    public LinkedList<Malla> ordenar(Integer type, String field, LinkedList<Malla> lista) throws VacioExcepcion, Exception {
 //
-//        getMalla();
+//        getPeriodoAcademico();
 //        Integer n = lista.getSize();
-//        Malla[] m = lista.toArray();
-//        Field faux = Utilidades.getField(Malla.class, field);
+//        PeriodoAcademico[] m = lista.toArray();
+//        Field faux = Utilidades.getField(PeriodoAcademico.class, field);
 //        if (faux != null) {
 //            //Double Integer
 //            // < > numericos
 //            //String compareTo
 //            for (int i = 0; i < n - 1; i++) {
 //                int k = i;
-//                Malla t = m[i];
+//                PeriodoAcademico t = m[i];
 //                for (int j = i + 1; j < n; j++) {
 //                    //condicion por objetos
-//                    Malla mj = m[j];
+//                    PeriodoAcademico mj = m[j];
 //                    if (mj.comparar(t, field, type)) {
 //                        t = mj;
 //                        k = j;

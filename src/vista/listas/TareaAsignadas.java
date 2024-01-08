@@ -187,7 +187,6 @@ public class TareaAsignadas extends javax.swing.JFrame {
                 
                 String fechaCreacion = "" + tblTabla.getValueAt(row, 3);
                 txtFechaCreacion.setText(fechaCreacion);
-                System.out.println("");
 
                 String fechaEntrega = "" + tblTabla.getValueAt(row, 4);
                 txtFechaLimite.setText(fechaEntrega);
