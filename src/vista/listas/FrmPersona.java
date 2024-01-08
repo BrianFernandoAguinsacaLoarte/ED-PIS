@@ -6,6 +6,7 @@ package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
+import modelo.Persona;
 import modelo.persona.PersonaController;
 import vista.listas.tablas.ModeloTablaPersona;
 import vista.listas.util.UtilVista;
@@ -152,7 +153,82 @@ public class FrmPersona extends javax.swing.JDialog {
     }
     
     
+     private void ordenar(){
+        //Obtengo el criterio y el ordenamiento de Ascendente y Descendente
+        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        Integer ascdesc = cbxAscDesc.getSelectedIndex();//Me da un valor numerico 0 o 1
+        
+     
+            try {
+                System.out.println("Ordenando con QuickSOrt");
+                mtp.setPersonas(pc.ordenarQuickSort(pc.getPersonas(), ascdesc, criterio));
+                jTablePersona.setModel(mtp);
+                jTablePersona.updateUI();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        
+        
+    }
     
+    private void buscar() {
+        String text = txtBusqueda.getText().toString().toLowerCase();
+        String field = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        String busqueda = cbxBusqueda.getSelectedItem().toString();
+        
+
+        try {
+            LinkedList<Persona> listaResultado;
+            switch (busqueda) {
+                case "Busqueda Binaria":
+                    if (field.equalsIgnoreCase("nombres") || field.equalsIgnoreCase("apellidos")
+                            || field.equalsIgnoreCase("correo") || field.equalsIgnoreCase("genero")
+                            || field.equalsIgnoreCase("rol") || field.equalsIgnoreCase("direccion")
+                            || field.equalsIgnoreCase("telefono") || field.equalsIgnoreCase("cedula")) {
+                        listaResultado = pc.busquedaBinaria(pc.getPersonas(), text, field);
+                    } else if (field.equalsIgnoreCase("id") || field.equalsIgnoreCase("edad")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = pc.busquedaBinariaEntero(pc.getPersonas(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                case "Busqueda Lineal":
+                    if (field.equalsIgnoreCase("nombres") || field.equalsIgnoreCase("apellidos")
+                            || field.equalsIgnoreCase("correo") || field.equalsIgnoreCase("genero")
+                            || field.equalsIgnoreCase("rol") || field.equalsIgnoreCase("direccion")
+                            || field.equalsIgnoreCase("telefono") || field.equalsIgnoreCase("cedula")) {
+                        listaResultado = pc.busquedaLinealBinaria(pc.getPersonas(), text, field);
+                    } else if (field.equalsIgnoreCase("id") || field.equalsIgnoreCase("edad")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = pc.busquedaLinealBinariaEntero(pc.getPersonas(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Tipo de búsqueda no reconocido: " + busqueda);
+            }
+
+            mtp.setPersonas(listaResultado);
+            jTablePersona.setModel(mtp);
+            jTablePersona.updateUI();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     
     
@@ -197,6 +273,17 @@ public class FrmPersona extends javax.swing.JDialog {
         btnRegresar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         cbxRol = new javax.swing.JComboBox<>();
+        jLabelTexto1 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtBusqueda = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        cbxBusqueda = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        cbxCriterio = new javax.swing.JComboBox<>();
+        cbxAscDesc = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -361,11 +448,85 @@ public class FrmPersona extends javax.swing.JDialog {
         cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(cbxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 240, -1));
 
+        jLabelTexto1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabelTexto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelTexto1.setText("Texto de Busqueda:");
+        jPanel1.add(jLabelTexto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 210, 40));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("Busquedas");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, 200, 40));
+
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBusquedaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, 170, 40));
+
+        jLabel14.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel14.setText("Métodos de Busqueda:");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 230, 210, 40));
+
+        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Busqueda Binaria", "Busqueda Lineal", " " }));
+        jPanel1.add(cbxBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 290, 210, 40));
+
+        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 350, 160, 60));
+
+        jLabel12.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel12.setText("Ordenamiento");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 60, 200, 40));
+
+        jLabel11.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Criterios:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 100, 130, 40));
+
+        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NOMBRES", "APELLIDOS", "DIRECCION", "ROL", "GENERO", "CORREO", "CEDULA", "TELEFONO", "ID", "EDAD", " " }));
+        cbxCriterio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCriterioItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(cbxCriterio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 170, -1, 40));
+
+        cbxAscDesc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ASCENDENTE", "DESCENDENTE" }));
+        cbxAscDesc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxAscDescItemStateChanged(evt);
+            }
+        });
+        cbxAscDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAscDescActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxAscDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 250, -1, 40));
+
+        jButton4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton4.setText("Ordenar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 350, 160, 60));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1504, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,6 +585,41 @@ public class FrmPersona extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        buscar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cbxCriterioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCriterioItemStateChanged
+        //ordenar();
+
+        /*
+        if(evt.getItem().toString().equalsIgnoreCase("MARCA")){
+            txtBusqueda.setVisible(false);
+            cbxMarcaB.setVisible(true);
+
+        }else{
+            txtBusqueda.setVisible(true);
+            cbxMarcaB.setVisible(false);
+        }
+        */
+    }//GEN-LAST:event_cbxCriterioItemStateChanged
+
+    private void cbxAscDescItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAscDescItemStateChanged
+        //ordenar();
+    }//GEN-LAST:event_cbxAscDescItemStateChanged
+
+    private void cbxAscDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAscDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxAscDescActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        ordenar();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -471,12 +667,21 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxAscDesc;
+    private javax.swing.JComboBox<String> cbxBusqueda;
+    private javax.swing.JComboBox<String> cbxCriterio;
     private javax.swing.JComboBox<String> cbxGenero;
     private javax.swing.JComboBox<String> cbxRol;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -485,10 +690,12 @@ public class FrmPersona extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelTexto1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersona;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccion;
