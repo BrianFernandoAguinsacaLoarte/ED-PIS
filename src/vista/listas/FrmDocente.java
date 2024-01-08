@@ -7,6 +7,8 @@ package vista.listas;
 import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.JOptionPane;
+import modelo.Docente;
+import modelo.Estudiante;
 import modelo.enums.Rol;
 import modelo.persona.DocenteController;
 import vista.listas.tablas.ModeloTablaDocente;
@@ -55,7 +57,9 @@ public class FrmDocente extends javax.swing.JDialog {
     private void limpiar(){
         txtTitulo.setText("");
         cbxPersona.setSelectedItem(-1);//Limpio Combo
-       
+        txtEspecializacion.setText("");
+        txtExperiencia.setText("");
+        txtCertificaciones.setText("");
         
         dc.setDocente(null);
         dc.setDocentes(new LinkedList<>());
@@ -76,6 +80,9 @@ public class FrmDocente extends javax.swing.JDialog {
             try {
                 dc.getDocente().setTitulo(txtTitulo.getText());
                 dc.getDocente().setId_Persona(UtilVista.getComboPersonaDocente(cbxPersona).getId()); 
+                dc.getDocente().setEspecializacion(txtEspecializacion.getText());
+                dc.getDocente().setExperienciaLaboral(Integer.parseInt(txtExperiencia.getText()));
+                dc.getDocente().setCertificaciones(txtCertificaciones.getText());
                 
                 //Guardar
                 if(dc.getDocente().getId() == null){
@@ -124,6 +131,10 @@ public class FrmDocente extends javax.swing.JDialog {
                 dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
                 txtTitulo.setText(dc.getDocente().getTitulo());
                 cbxPersona.setSelectedItem(UtilVista.getComboPersonaDocente(cbxPersona));
+                txtEspecializacion.setText(dc.getDocente().getEspecializacion());
+                txtExperiencia.setText(dc.getDocente().getExperienciaLaboral().toString());
+                txtCertificaciones.setText(dc.getDocente().getCertificaciones());
+                
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), 
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -133,7 +144,75 @@ public class FrmDocente extends javax.swing.JDialog {
     
     
     
+    private void ordenar(){
+        //Obtengo el criterio y el ordenamiento de Ascendente y Descendente
+        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        Integer ascdesc = cbxAscDesc.getSelectedIndex();//Me da un valor numerico 0 o 1
+         System.out.println(criterio);
+            try {
+                System.out.println("Ordenando con QuickSOrt");
+                mtd.setDocentes(dc.ordenarQuickSort(dc.getDocentes(), ascdesc, criterio));
+                jTableDocente.setModel(mtd);
+                jTableDocente.updateUI();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(),
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+    }
     
+    private void buscar() {
+        String text = txtBusqueda.getText().toString().toLowerCase();
+        String field = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
+        String busqueda = cbxBusqueda.getSelectedItem().toString();
+        
+
+        try {
+            LinkedList<Docente> listaResultado;
+            switch (busqueda) {
+                case "Busqueda Binaria":
+                    if (field.equalsIgnoreCase("titulo") || field.equalsIgnoreCase("especializacion")
+                            || field.equalsIgnoreCase("certificaciones")) {
+                        listaResultado = dc.busquedaBinaria(dc.getDocentes(), text, field);
+                    } else if (field.equalsIgnoreCase("id_Persona") || field.equalsIgnoreCase("experienciaLaboral")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = dc.busquedaBinariaEntero(dc.getDocentes(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                case "Busqueda Lineal":
+                    if (field.equalsIgnoreCase("titulo") || field.equalsIgnoreCase("especializacion")
+                            || field.equalsIgnoreCase("certificaciones")) {
+                        listaResultado = dc.busquedaLinealBinaria(dc.getDocentes(), text, field);
+                    } else if (field.equalsIgnoreCase("id_Persona") || field.equalsIgnoreCase("experienciaLaboral")) {
+                        try {
+                            int textoEntero = Integer.parseInt(text);
+                            listaResultado = dc.busquedaLinealBinariaEntero(dc.getDocentes(), textoEntero, field);
+                        } catch (NumberFormatException ex) {
+                            throw new IllegalArgumentException("Debe ser entero");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("No existe el campo " + field);
+                    }
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Tipo de búsqueda no reconocido: " + busqueda);
+            }
+
+            mtd.setDocentes(listaResultado);
+            jTableDocente.setModel(mtd);
+            jTableDocente.updateUI();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     
     
@@ -165,6 +244,23 @@ public class FrmDocente extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtCertificaciones = new javax.swing.JTextField();
+        txtEspecializacion = new javax.swing.JTextField();
+        txtExperiencia = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabelTexto1 = new javax.swing.JLabel();
+        txtBusqueda = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        cbxBusqueda = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        cbxCriterio = new javax.swing.JComboBox<>();
+        cbxAscDesc = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setText("Nombres: ");
@@ -183,8 +279,8 @@ public class FrmDocente extends javax.swing.JDialog {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 100, 20));
 
         jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel10.setText("Titulo:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+        jLabel10.setText("Certificaciones:");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 160, 20));
 
         txtTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,11 +352,100 @@ public class FrmDocente extends javax.swing.JDialog {
         });
         jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
 
+        jLabel11.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel11.setText("Titulo:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+
+        jLabel12.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel12.setText("Especialización:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 160, 20));
+
+        jLabel13.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel13.setText("Experiencia Laboral:");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 200, 20));
+        jPanel1.add(txtCertificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 240, -1));
+        jPanel1.add(txtEspecializacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 240, -1));
+        jPanel1.add(txtExperiencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 240, -1));
+
+        jLabel15.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Busquedas");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, 200, 40));
+
+        jLabelTexto1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabelTexto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelTexto1.setText("Texto de Busqueda:");
+        jPanel1.add(jLabelTexto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 210, 40));
+
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBusquedaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, 170, 40));
+
+        jLabel16.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel16.setText("Métodos de Busqueda:");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 230, 210, 40));
+
+        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Busqueda Binaria", "Busqueda Lineal", " " }));
+        jPanel1.add(cbxBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 290, 210, 40));
+
+        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 350, 160, 60));
+
+        jLabel17.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel17.setText("Ordenamiento");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 60, 200, 40));
+
+        jLabel18.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Criterios:");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 100, 130, 40));
+
+        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID_PERSONA", "TITULO", "ESPECIALIZACION", "EXPERIENCIA LABORAL", "CERTIFICACIONES", " " }));
+        cbxCriterio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCriterioItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(cbxCriterio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 170, -1, 40));
+
+        cbxAscDesc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ASCENDENTE", "DESCENDENTE" }));
+        cbxAscDesc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxAscDescItemStateChanged(evt);
+            }
+        });
+        cbxAscDesc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAscDescActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxAscDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 220, -1, 40));
+
+        jButton4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        jButton4.setText("Ordenar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 350, 160, 60));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1469, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,6 +482,41 @@ public class FrmDocente extends javax.swing.JDialog {
         newFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        buscar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cbxCriterioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCriterioItemStateChanged
+        //ordenar();
+
+        /*
+        if(evt.getItem().toString().equalsIgnoreCase("MARCA")){
+            txtBusqueda.setVisible(false);
+            cbxMarcaB.setVisible(true);
+
+        }else{
+            txtBusqueda.setVisible(true);
+            cbxMarcaB.setVisible(false);
+        }
+        */
+    }//GEN-LAST:event_cbxCriterioItemStateChanged
+
+    private void cbxAscDescItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAscDescItemStateChanged
+        //ordenar();
+    }//GEN-LAST:event_cbxAscDescItemStateChanged
+
+    private void cbxAscDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAscDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxAscDescActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        ordenar();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,16 +564,33 @@ public class FrmDocente extends javax.swing.JDialog {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxAscDesc;
+    private javax.swing.JComboBox<String> cbxBusqueda;
+    private javax.swing.JComboBox<String> cbxCriterio;
     private javax.swing.JComboBox<String> cbxPersona;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelTexto1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDocente;
+    private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtCertificaciones;
+    private javax.swing.JTextField txtEspecializacion;
+    private javax.swing.JTextField txtExperiencia;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

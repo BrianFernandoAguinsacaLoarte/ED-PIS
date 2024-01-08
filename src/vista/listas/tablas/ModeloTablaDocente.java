@@ -7,6 +7,7 @@ package vista.listas.tablas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
 import modelo.Docente;
+import modelo.persona.DocenteController;
 
 /**
  *
@@ -16,7 +17,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     //Objeto
     LinkedList<Docente> docentes = new LinkedList<>();
-    
+    DocenteController dc = new DocenteController();
    
     //Getter and Setter
     public LinkedList<Docente> getDocentes() {
@@ -36,7 +37,7 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -51,9 +52,22 @@ public class ModeloTablaDocente extends AbstractTableModel {
             case 0:
                     return (docente != null)? docente.getId(): "";
             case 1:
-                    return (docente != null)? docente.getId_Persona(): "";
+                    Integer idPersona = (docente != null) ? docente.getId_Persona() : null;
+                    try {
+                        String nombrePersona = dc.obtenerNombre(idPersona);
+                        return nombrePersona;
+                    } catch (Exception ex) {
+                        return "Error";
+                    }
+                   
             case 2:
                     return (docente != null)? docente.getTitulo(): "";
+            case 3:
+                    return (docente != null)? docente.getEspecializacion(): "";
+            case 4:
+                    return (docente != null)? docente.getExperienciaLaboral() + " años": "";
+            case 5:
+                    return (docente != null)? docente.getCertificaciones(): "";
             default:
                 return null;
         }
@@ -70,6 +84,12 @@ public class ModeloTablaDocente extends AbstractTableModel {
                     return "ID-Persona";
             case 2:
                     return "Título";
+             case 3:
+                    return "Especialización";
+            case 4:
+                    return "Experiencia Laboral";
+            case 5: 
+                    return "Certificaciones";
             default:
                 return null;
         }
