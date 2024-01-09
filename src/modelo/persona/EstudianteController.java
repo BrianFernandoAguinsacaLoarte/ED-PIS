@@ -21,6 +21,7 @@ import modelo.Persona;
 public class EstudianteController extends DataAccessObject<Estudiante>{
     
     //Objetos
+    private PersonaController pc = new PersonaController();
     private Estudiante estudiante = new Estudiante();
     private LinkedList<Estudiante> estudiantes = new LinkedList<>();
     private Integer index = -1; 
@@ -85,6 +86,19 @@ public class EstudianteController extends DataAccessObject<Estudiante>{
     public void setIndex(Integer index) {
         this.index = index;
     }
+    
+    public Estudiante buscarEstudiantePorNombre(String nombre) throws VacioExcepcion {
+    for (Estudiante estudiante : this.getEstudiantes().toArray()) {
+        // Obtener la persona asociada al estudiante
+        Persona persona = pc.obtenerPersonaPorId(estudiante.getId_Persona());
+        
+        // Verificar si la persona tiene el nombre buscado
+        if (persona != null && persona.getNombres().equalsIgnoreCase(nombre)) {
+            return estudiante;
+        }
+    }
+    return null; // Retorna null si no se encuentra el estudiante con el nombre especificado
+}
     
      //ORDENAMIENTO QUICKSORT
     public LinkedList<Estudiante> ordenarQuickSort(LinkedList<Estudiante> lista, Integer type, String field) throws VacioExcepcion {

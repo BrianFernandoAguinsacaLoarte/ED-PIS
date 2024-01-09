@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.persona.EstudianteController;
+import vista.FrmMatricula;
 import vista.listas.tablas.ModeloTablaEstudiante;
 
 /**
@@ -189,7 +190,8 @@ public class FrmBuscarEstudiante extends javax.swing.JFrame {
             
         }else{
         
-            
+            FrmMatricula.cargarEstudiante(estudiante);
+            JOptionPane.showMessageDialog(null, "Se agrego el estudiante");
         }
     }//GEN-LAST:event_btnElegirActionPerformed
 
