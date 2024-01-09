@@ -190,7 +190,11 @@ public class FrmBuscarEstudiante extends javax.swing.JFrame {
             
         }else{
         
-            FrmMatricula.cargarEstudiante(estudiante);
+            try {
+                FrmMatricula.cargarEstudiante(estudiante);
+            } catch (VacioExcepcion ex) {
+                Logger.getLogger(FrmBuscarEstudiante.class.getName()).log(Level.SEVERE, null, ex);
+            }
             JOptionPane.showMessageDialog(null, "Se agrego el estudiante");
         }
     }//GEN-LAST:event_btnElegirActionPerformed

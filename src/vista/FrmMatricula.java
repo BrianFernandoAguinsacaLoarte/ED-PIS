@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
+import modelo.Materia;
 import modelo.persona.EstudianteController;
 import vista.listas.FrmBuscarEstudiante;
 import vista.listas.tablas.ModeloTablaMatricula;
@@ -29,6 +30,7 @@ public class FrmMatricula extends javax.swing.JFrame {
     MatriculaController mc = new MatriculaController();
     ModeloTablaMatricula ml = new ModeloTablaMatricula();
     EstudianteController ec = new EstudianteController();
+    LinkedList<Materia> lm = new LinkedList<>();
     
     /**
      * Creates new form FrmMatricula
@@ -45,7 +47,8 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
     
     private void cargarTabla(){
-        ml.setLista(mc.listAll());
+//        ml.setLista(mc.listAll());
+        ml.setLista2(lm);
         tblTabla.setModel(ml);
         tblTabla.updateUI();
         
@@ -73,7 +76,12 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
     
     private void agregarmateria(){
-        mc.getMatricula().setMateria(UtilVista.getComboMateria(cbxMaterias));
+//        mc.getMatricula().setMateria(UtilVista.getComboMateria(cbxMaterias));
+        lm.add(UtilVista.getComboMateria(cbxMaterias));
+//         ml.setLista(mc.listAll());
+        ml.setLista2(lm);
+        tblTabla.setModel(ml);
+        tblTabla.updateUI();
     }
     private void guardar(){
         Estudiante es = null;
