@@ -5,11 +5,29 @@
 package vista.listas.util;
 
 import controlador.Excepcion.VacioExcepcion;
-import javax.swing.JComboBox;
-import modelo.enums.Genero;
+import modelo.Ciclo;
+import modelo.Docente;
+import modelo.Estudiante;
+import modelo.Genero;
+import modelo.Malla;
+import modelo.Materia;
+import modelo.PeriodoAcademico;
 import modelo.Persona;
-import modelo.enums.Rol;
-import modelo.persona.PersonaController;
+import modelo.Rol;
+import modelo.TipoLogro;
+import modelo.controladores.CicloController;
+import modelo.controladores.DocenteController;
+import modelo.controladores.EstudianteController;
+import modelo.controladores.GeneroController;
+import modelo.controladores.MallaController;
+import modelo.controladores.MateriaController;
+import modelo.controladores.PeriodoAcademicoController;
+import modelo.controladores.RolController;
+import modelo.controladores.TipoLogroController;
+import modelo.enums.Estado;
+import modelo.enums.Modalidad;
+import modelo.enums.Turno;
+import org.edisoncor.gui.comboBox.ComboBoxRect;
 
 /**
  *
@@ -17,61 +35,220 @@ import modelo.persona.PersonaController;
  */
 public class UtilVista {
     
-    public static void cargarGenero(JComboBox cbxGenero){
+    
+    //CARGO GENERO
+    public static void cargarGenero(ComboBoxRect cbxGenero) throws VacioExcepcion{
+        GeneroController gc = new GeneroController();
         cbxGenero.removeAllItems();
-        cbxGenero.addItem(Genero.Masculino);
-        cbxGenero.addItem(Genero.Femenino);
-        cbxGenero.addItem(Genero.Otro);
+        
+        for(int i = 0; i < gc.getGeneros().getSize(); i++){
+            Genero genero = gc.getGeneros().get(i);
+            cbxGenero.addItem(genero);
+        }
+        
     }
     
-    public static Genero getComboGenero(JComboBox cbxGenero){
+    public static Genero getComboGenero(ComboBoxRect cbxGenero){
         return (Genero) cbxGenero.getSelectedItem();
     }
     
-    public static void cargarRol(JComboBox cbxRol){
-        cbxRol.removeAllItems();
-        cbxRol.addItem(Rol.Docente);
-        cbxRol.addItem(Rol.Estudiante);
+    //CARGO ROL
+   public static void cargarRoles(ComboBoxRect cbxRol, String tipoRol) throws VacioExcepcion {
+    RolController rc = new RolController();
+    cbxRol.removeAllItems();
+
+    for (int i = 0; i < rc.getRoles().getSize(); i++) {
+        Rol rol = rc.getRoles().get(i);
+
+        // Verificar si el rol coincide con el tipo especificado (docente o estudiante)
+        if (rol.getNombre().equalsIgnoreCase(tipoRol)) {
+            cbxRol.addItem(rol);
+        }
     }
+}
+
     
-    public static Rol getComboRol(JComboBox cbxRol){
+    public static Rol getComboRol(ComboBoxRect cbxRol){
         return (Rol) cbxRol.getSelectedItem();
     }
     
     
     
-    public static void cargarPersonaDocente(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
-        
-        PersonaController pc = new PersonaController();
-        cbxPersona.removeAllItems();
-        
-        for(int i = 0; i < pc.getPersonas().getSize(); i++){
-            Persona persona = pc.getPersonas().get(i);
-            
-            if(persona.getRol() == rol)
-            cbxPersona.addItem(persona);
+    
+    
+    
+    //CARGO DOCENTE
+     public static void cargarDocente(ComboBoxRect cbxDocente) throws VacioExcepcion {
+        DocenteController dc = new DocenteController();
+
+        cbxDocente.removeAllItems();
+        try {
+            for (int i = 0; i < dc.getDocentes().getSize(); i++) {
+                cbxDocente.addItem(dc.getDocentes().get(i));
+            }
+        } catch (VacioExcepcion e) {
+            e.printStackTrace();
         }
     }
-    
-    public static Persona getComboPersonaDocente(JComboBox cbxPersona){
-        return (Persona) cbxPersona.getSelectedItem();
+
+    public static Docente getCargarDocente(ComboBoxRect cbx) {
+        return (Docente) cbx.getSelectedItem();
     }
     
     
-    public static void cargarPersonaEstudiante(JComboBox cbxPersona, Rol rol) throws VacioExcepcion{
-        
-        PersonaController pc = new PersonaController();
-        cbxPersona.removeAllItems();
-        
-        for(int i = 0; i < pc.getPersonas().getSize(); i++){
-            Persona persona = pc.getPersonas().get(i);
-            
-            if(persona.getRol() == rol)
-            cbxPersona.addItem(persona);
+    //CARGO ESTUDIANTE
+    public static void cargarEstudiante(ComboBoxRect cbxEstudiante) throws VacioExcepcion {
+        EstudianteController ec = new EstudianteController();
+
+        cbxEstudiante.removeAllItems();
+        try {
+            for (int i = 0; i < ec.getEstudiantes().getSize(); i++) {
+                cbxEstudiante.addItem(ec.getEstudiantes().get(i));
+            }
+        } catch (VacioExcepcion e) {
+            e.printStackTrace();
         }
     }
-    
-    public static Persona getComboPersonaEstudiante(JComboBox cbxPersona){
-        return (Persona) cbxPersona.getSelectedItem();
+
+    public static Estudiante getCargarEstudiante(ComboBoxRect cbx) {
+        return (Estudiante) cbx.getSelectedItem();
     }
+    
+    
+    
+    //CARGO TIPOS DE LOGRO
+    public static void cargarTipoLogro (ComboBoxRect cbxGenero) throws VacioExcepcion{
+        TipoLogroController cc = new TipoLogroController();
+        cbxGenero.removeAllItems();
+        
+        for(int i = 0; i < cc.getTiposLogro().getSize(); i++){
+            TipoLogro tipo = cc.getTiposLogro().get(i);
+            cbxGenero.addItem(tipo);
+        }
+        
+    }
+    
+    public static TipoLogro getComboTipoLogro (ComboBoxRect cbxGenero){
+        return (TipoLogro) cbxGenero.getSelectedItem();
+    }
+    
+    //CARGO Periodos
+    public static void cargarPeriodoAca (ComboBoxRect cbxPeriodo) throws VacioExcepcion{
+        PeriodoAcademicoController cc = new PeriodoAcademicoController();
+        cbxPeriodo.removeAllItems();
+        
+        for(int i = 0; i < cc.getPeriodos().getSize(); i++){
+            PeriodoAcademico periodo = cc.getPeriodos().get(i);
+            cbxPeriodo.addItem(periodo);
+        }
+        
+    }
+    
+    public static PeriodoAcademico getComboPeriodoAca(ComboBoxRect cbxGenero){
+        return (PeriodoAcademico) cbxGenero.getSelectedItem();
+    }
+    
+    //CARGO ESTADO
+    public static void cargarEstados(ComboBoxRect cbxEstado) throws VacioExcepcion{
+        cbxEstado.removeAllItems();
+        
+        cbxEstado.addItem(Estado.ACTIVO);
+        cbxEstado.addItem(Estado.INACTIVO);
+       
+        
+    }
+    
+    public static Estado getComboEstados (ComboBoxRect cbxEstado){
+        return (Estado) cbxEstado.getSelectedItem();
+    }
+    
+    //CARGO MODALIDAD
+    public static void cargarModalidad (ComboBoxRect cbxModadlidad) throws VacioExcepcion{
+        cbxModadlidad.removeAllItems();
+        
+        cbxModadlidad.addItem(Modalidad.PRESENCIAL);
+        cbxModadlidad.addItem(Modalidad.DISTANCIA);
+       
+        
+    }
+    
+    public static Modalidad getComboModalidad(ComboBoxRect cbxEstado){
+        return (Modalidad) cbxEstado.getSelectedItem();
+    }
+    
+    //CARGO TURNO
+    public static void cargarTurno(ComboBoxRect cbxEstado) throws VacioExcepcion{
+        cbxEstado.removeAllItems();
+        
+        cbxEstado.addItem(Turno.MATUTINA);
+        cbxEstado.addItem(Turno.VESPERTINA);
+        cbxEstado.addItem(Turno.NOCTURNA);
+       
+        
+    }
+    
+    public static Turno getComboTurno (ComboBoxRect cbxEstado){
+        return (Turno) cbxEstado.getSelectedItem();
+    }
+    
+    
+    //CARGO Mallas
+    public static void cargarMalla (ComboBoxRect cbxMalla) throws VacioExcepcion{
+        MallaController mc = new MallaController();
+        cbxMalla.removeAllItems();
+        
+        for(int i = 0; i < mc.getMallas().getSize(); i++){
+            Malla malla = mc.getMallas().get(i);
+            cbxMalla.addItem(malla);
+        }
+        
+    }
+    
+    public static Malla getComboMalla(ComboBoxRect cbxMalla){
+        return (Malla) cbxMalla.getSelectedItem();
+    }
+    
+     //CARGO Materias
+    public static void cargarMateria(ComboBoxRect cbxMateria) throws VacioExcepcion{
+        MateriaController mc = new MateriaController();
+        cbxMateria.removeAllItems();
+        
+        for(int i = 0; i < mc.getMaterias().getSize(); i++){
+            Materia materia = mc.getMaterias().get(i);
+            cbxMateria.addItem(materia);
+        }
+        
+    }
+    
+    public static Materia getComboMateria(ComboBoxRect cbxMateria){
+        return (Materia) cbxMateria.getSelectedItem();
+    }
+    
+    //CARGO CICLOS
+    public static void cargarCiclo(ComboBoxRect cbxCiclo) throws VacioExcepcion{
+        CicloController cc = new CicloController();
+        cbxCiclo.removeAllItems();
+        
+        for(int i = 0; i < cc.getCiclos().getSize(); i++){
+            Ciclo ciclo = cc.getCiclos().get(i);
+            cbxCiclo.addItem(ciclo);
+        }
+        
+    }
+    
+    public static Ciclo getComboCiclo(ComboBoxRect cbxCiclo){
+        return (Ciclo) cbxCiclo.getSelectedItem();
+    }
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
 }
+
+    

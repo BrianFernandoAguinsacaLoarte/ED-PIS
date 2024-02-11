@@ -49,25 +49,16 @@ public class ModeloTablaPersona extends AbstractTableModel{
         
         switch (columna) {
             case 0:
-                    return (persona != null)? persona.getId(): "";
+                    return (persona != null)? persona.getCedula(): "";    
             case 1:
                     return (persona != null)? persona.getNombres(): "";
             case 2:
                     return (persona != null)? persona.getApellidos(): "";
             case 3:
-                    return (persona != null)? persona.getEdad(): "";
+                    return (persona != null)? persona.getFechaNacimiento(): "";
             case 4:
-                    return (persona != null)? persona.getGenero(): "";
-            case 5:
-                    return (persona != null)? persona.getRol(): "";
-            case 6:
                     return (persona != null)? persona.getCorreo(): "";
-            case 7:
-                    return (persona != null)? persona.getDireccion(): "";
-            case 8:
-                    return (persona != null)? persona.getTelefono(): "";        
-            case 9:
-                    return (persona != null)? persona.getCedula(): "";    
+            
                 
             default:
                 return null;
@@ -79,7 +70,7 @@ public class ModeloTablaPersona extends AbstractTableModel{
     public String getColumnName(int columna) {
         switch (columna) {
             case 0:
-                    return "ID";
+                    return "Cédula";
             case 1:
                     return "Nombres";
             case 2:
@@ -96,8 +87,7 @@ public class ModeloTablaPersona extends AbstractTableModel{
                     return "Dirección";
             case 8:
                     return "Teléfono";
-            case 9:
-                    return "Cédula";
+            
                     
             default:
                 return null;

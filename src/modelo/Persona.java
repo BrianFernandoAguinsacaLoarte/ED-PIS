@@ -4,8 +4,8 @@
  */
 package modelo;
 
-import modelo.enums.Genero;
-import modelo.enums.Rol;
+import java.util.Date;
+
 
 /**
  *
@@ -15,33 +15,42 @@ public class Persona {
     
     //Atributos
     private Integer id;
+    private String cedula;
     private String nombres;
     private String apellidos;
     private String correo;
-    private Integer edad;
-    private Genero genero;
-    private Rol rol;
+    private Date fechaNacimiento;
     private String direccion;
     private String telefono;
-    private String cedula;
+    
+    //Llaves foraneas
+    private Integer id_genero;
+    private Integer id_rol;
+    private Integer id_cuenta;
+    
+    
     
     //Constructor
     
     public Persona(){
     }
-    
-    public Persona(Integer id, String nombres, String apellidos,String correo, Integer edad, Genero genero, Rol rol, String direccion, String telefono, String cedula) {
+
+    public Persona(Integer id, String cedula, String nombres, String apellidos, String correo, Date fechaNacimiento, String direccion, String telefono, Integer id_genero, Integer id_rol, Integer id_cuenta) {
         this.id = id;
+        this.cedula = cedula;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.correo = correo;
-        this.edad = edad;
-        this.genero = genero;
-        this.rol = rol;
+        this.fechaNacimiento = fechaNacimiento;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.cedula = cedula;
+        this.id_genero = id_genero;
+        this.id_rol = id_rol;
+        this.id_cuenta = id_cuenta;
     }
+
+       
+
     
     
     //Getter and Setter
@@ -52,6 +61,14 @@ public class Persona {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public String getNombres() {
@@ -66,6 +83,10 @@ public class Persona {
         return apellidos;
     }
 
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
     public String getCorreo() {
         return correo;
     }
@@ -73,35 +94,39 @@ public class Persona {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
+    public Integer getId_genero() {
+        return id_genero;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public void setId_genero(Integer id_genero) {
+        this.id_genero = id_genero;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public Integer getId_rol() {
+        return id_rol;
     }
 
-    public Rol getRol() {
-        return rol;
+    public void setId_rol(Integer id_rol) {
+        this.id_rol = id_rol;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public Integer getId_cuenta() {
+        return id_cuenta;
     }
-    
+
+    public void setId_cuenta(Integer id_cuenta) {
+        this.id_cuenta = id_cuenta;
+    }
+
     public String getDireccion() {
         return direccion;
     }
@@ -117,19 +142,15 @@ public class Persona {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
+    
+    
+    
+    
     
     //Print
     @Override
     public String toString() {
-        return nombres +" "+ apellidos;
+        return nombres + " " + apellidos;
     }
     
     //Main
@@ -140,109 +161,5 @@ public class Persona {
     }
     
     
-    //Metodo Comparar para el QuickSort
-    public Integer compareQuickSort(Persona c, Integer type, String field) {
-    switch (type) {
-        case 0:
-            if (field.equalsIgnoreCase("id")) {
-                return this.getId().compareTo(c.getId());
-                
-            } else if (field.equalsIgnoreCase("nombres")) {
-                return this.getNombres().compareTo(c.getNombres());
-                
-            } else if (field.equalsIgnoreCase("apellidos")) {
-                return this.getApellidos().compareTo(c.getApellidos());
-                
-            } else if (field.equalsIgnoreCase("correo")) {
-                return this.getCorreo().compareTo(c.getCorreo());
-                
-            } else if (field.equalsIgnoreCase("edad")) {
-                return this.getEdad().compareTo(c.getEdad());
-                
-            }else if (field.equalsIgnoreCase("genero")) {
-                return this.getGenero().compareTo(c.getGenero());
-                
-            }else if (field.equalsIgnoreCase("rol")) {
-                return this.getRol().compareTo(c.getRol());
-                
-            }else if (field.equalsIgnoreCase("direccion")) {
-                return this.getDireccion().compareTo(c.getDireccion());
-                
-            }else if (field.equalsIgnoreCase("telefono")) {
-                return this.getTelefono().compareTo(c.getTelefono());
-                
-            }else if (field.equalsIgnoreCase("cedula")) {
-                return this.getCedula().compareTo(c.getCedula());
-            }
-        case 1:
-            if (field.equalsIgnoreCase("id")) {
-                return c.getId().compareTo(this.getId());
-                
-            } else if (field.equalsIgnoreCase("nombres")) {
-                return c.getNombres().compareTo(this.getNombres());
-                
-            } else if (field.equalsIgnoreCase("apellidos")) {
-                return c.getApellidos().compareTo(this.getApellidos());
-                
-            } else if (field.equalsIgnoreCase("correo")) {
-                return c.getCorreo().compareTo(this.getCorreo());
-                
-            } else if (field.equalsIgnoreCase("edad")) {
-                return c.getEdad().compareTo(this.getEdad());
-                
-            }else if (field.equalsIgnoreCase("genero")) {
-                return c.getGenero().compareTo(this.getGenero());
-                
-            }else if (field.equalsIgnoreCase("rol")) {
-                return c.getRol().compareTo(this.getRol());
-                
-            }else if (field.equalsIgnoreCase("direccion")) {
-                return c.getDireccion().compareTo(this.getDireccion());
-                
-            }else if (field.equalsIgnoreCase("telefono")) {
-                return c.getTelefono().compareTo(this.getTelefono());
-                
-            }else if (field.equalsIgnoreCase("cedula")) {
-                return c.getCedula().compareTo(this.getCedula());
-            }
-        default:
-            throw new AssertionError();
-        }
-    }
     
-    //Criterios para las busquedas
-    public static String criterio(Persona persona, String field) {
-        switch (field.toLowerCase()) {
-            case "nombres":
-                return persona.getNombres();
-            case "apellidos":
-                return persona.getApellidos();
-            case "correo":
-                return persona.getCorreo();
-//            case "genero":
-//                return persona.getGenero();
-//            case "rol":
-//                return persona.getRol();
-            case "direccion":
-                return persona.getDireccion();
-            case "telefono":
-                return persona.getTelefono();
-            case "cedula":
-                return persona.getCedula();
-            default:
-                throw new IllegalArgumentException("Opcion invalida");
-        }
-    }
-    
-    //Para casos con valor Int
-    public static Integer criterioEntero(Persona persona, String field) {
-        switch (field.toLowerCase()) {
-            case "id":
-                return persona.getId();
-            case "edad":
-                return persona.getEdad();
-            default:
-                throw new IllegalArgumentException("Opcion invalida");
-        }
-    }
 }

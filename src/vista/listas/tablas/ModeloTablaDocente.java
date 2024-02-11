@@ -7,7 +7,8 @@ package vista.listas.tablas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.table.AbstractTableModel;
 import modelo.Docente;
-import modelo.persona.DocenteController;
+import modelo.controladores.GeneroController;
+import modelo.controladores.RolController;
 
 /**
  *
@@ -17,7 +18,9 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     //Objeto
     LinkedList<Docente> docentes = new LinkedList<>();
-    DocenteController dc = new DocenteController();
+    GeneroController gc = new GeneroController();
+    RolController rc = new RolController();
+  
    
     //Getter and Setter
     public LinkedList<Docente> getDocentes() {
@@ -37,37 +40,43 @@ public class ModeloTablaDocente extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 10;
     }
 
     @Override
     public Object getValueAt(int fila, int columna) {
         Docente docente = null;
+        String rol = "";
+        String genero = "";
         try {
             docente = docentes.get(fila);
+            rol = rc.obtener(docente.getId_rol()).getNombre();
+            genero = gc.obtener(docente.getId_genero()).getNombre();
             
         } catch (Exception e) {
         }
         switch (columna) {
             case 0:
-                    return (docente != null)? docente.getId(): "";
+                    return (docente != null)? docente.getNombres(): "";
             case 1:
-                    Integer idPersona = (docente != null) ? docente.getId_Persona() : null;
-                    try {
-                        String nombrePersona = dc.obtenerNombre(idPersona);
-                        return nombrePersona;
-                    } catch (Exception ex) {
-                        return "Error";
-                    }
-                   
+                    return (docente != null)? docente.getApellidos(): "";
             case 2:
-                    return (docente != null)? docente.getTitulo(): "";
+                    return (docente != null)? docente.getCorreo(): "";
             case 3:
-                    return (docente != null)? docente.getEspecializacion(): "";
+                    return (docente != null)? docente.getFechaNacimiento(): "";
             case 4:
-                    return (docente != null)? docente.getExperienciaLaboral() + " años": "";
+                    return (docente != null)? genero: "";
             case 5:
-                    return (docente != null)? docente.getCertificaciones(): "";
+                    return (docente != null)? rol: "";
+            case 6:
+                    return (docente != null)? docente.getCedula(): "";
+            case 7:
+                    return (docente != null)? docente.getDireccion(): "";
+            case 8:
+                    return (docente != null)? docente.getTelefono(): "";
+            case 9:
+                    return (docente != null)? docente.getExperienciaLaboral() + " años": "";
+           
             default:
                 return null;
         }
@@ -79,17 +88,25 @@ public class ModeloTablaDocente extends AbstractTableModel {
         
         switch (columna) {
             case 0:
-                    return "ID";
+                    return "Nombres";
             case 1:
-                    return "ID-Persona";
+                    return "Apellidos";
             case 2:
-                    return "Título";
-             case 3:
-                    return "Especialización";
+                    return "Correo";
+            case 3:
+                    return "Fecha de Nacimiento";
             case 4:
+                    return "Género";
+            case 5:
+                    return "Rol";
+            case 6:
+                    return "Cédula";
+            case 7:
+                    return "Dirección";
+            case 8:
+                    return "Teléfono";
+            case 9: 
                     return "Experiencia Laboral";
-            case 5: 
-                    return "Certificaciones";
             default:
                 return null;
         }

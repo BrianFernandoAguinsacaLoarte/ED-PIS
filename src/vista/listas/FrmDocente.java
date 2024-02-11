@@ -1,16 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vista.listas;
 
-import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Docente;
-import modelo.Estudiante;
-import modelo.enums.Rol;
-import modelo.persona.DocenteController;
+import modelo.controladores.DocenteController;
 import vista.listas.tablas.ModeloTablaDocente;
 import vista.listas.util.UtilVista;
 
@@ -18,201 +16,109 @@ import vista.listas.util.UtilVista;
  *
  * @author Usuario iTC
  */
-public class FrmDocente extends javax.swing.JDialog {
+public class FrmDocente extends javax.swing.JFrame {
 
-    //Objetos
     DocenteController dc = new DocenteController();
     ModeloTablaDocente mtd = new ModeloTablaDocente();
     
-        
-    /**
-     * Creates new form FrmDocente
-     */
-    public FrmDocente(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        limpiar();
-        this.setLocationRelativeTo(null);
-    }
     public FrmDocente() {
         initComponents();
-        limpiar();
+        panelLogo.setIcon(new ImageIcon("multimedia/LogoUNL.jpg"));
         this.setLocationRelativeTo(null);
-    }
-    
-    //Cargo mi tabla en la vista
-    private void cargarTabla(){
-        mtd.setDocentes(dc.getDocentes());
-        jTableDocente.setModel(mtd);
-        jTableDocente.updateUI();
-    }
-    
-    //Verifico si el texto sin espacios esta vacio
-    private boolean validar(){
-        return !txtTitulo.getText().trim().isEmpty();
-               
-    }
-    
-    //Cargar datos en la vista
-    private void limpiar(){
-        txtTitulo.setText("");
-        cbxPersona.setSelectedItem(-1);//Limpio Combo
-        txtEspecializacion.setText("");
-        txtExperiencia.setText("");
-        txtCertificaciones.setText("");
+        limpiar();
         
+    }
+    
+    public Boolean validar() {
+        return !txtNombre.getText().trim().isEmpty() &&
+               !txtApellido.getText().trim().isEmpty() &&
+               !txtCedula.getText().trim().isEmpty() &&
+               !txtCorreo.getText().trim().isEmpty() &&
+               !txtDireccion.getText().trim().isEmpty() &&
+               !txtTelefono.getText().trim().isEmpty() &&
+               !txtExperienciaL.getText().trim().isEmpty();
+    
+    }
+    
+    public void cargarTabla() {
+        mtd.setDocentes(dc.getLista());
+        jTablaDocente.setModel(mtd);
+        jTablaDocente.updateUI();
+    }
+     
+    private void limpiar() {
         dc.setDocente(null);
-        dc.setDocentes(new LinkedList<>());
-        cargarTabla();
-        //Actualizar tabla -BDD desaparece
-        jTableDocente.clearSelection();
+        dc.setLista(new LinkedList<>());
+        dc.setDocente(null);
         dc.setIndex(-1);
-         try {
-            UtilVista.cargarPersonaDocente(cbxPersona, Rol.Docente);
-        } catch (Exception e) {
-        }
-    }
-    
-    
-    //Guardo la informacion 
-    private void guardar(){
-        if(validar()){
-            try {
-                dc.getDocente().setTitulo(txtTitulo.getText());
-                dc.getDocente().setId_Persona(UtilVista.getComboPersonaDocente(cbxPersona).getId()); 
-                dc.getDocente().setEspecializacion(txtEspecializacion.getText());
-                dc.getDocente().setExperienciaLaboral(Integer.parseInt(txtExperiencia.getText()));
-                dc.getDocente().setCertificaciones(txtCertificaciones.getText());
-                
-                //Guardar
-                if(dc.getDocente().getId() == null){
-                   if(dc.save()){
-                    limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente", 
-                            "OK", JOptionPane.INFORMATION_MESSAGE);
-                   
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No se ha podido guardar", 
-                            "ERROR", JOptionPane.ERROR_MESSAGE);
-                    } 
-                }else{
-                    if(dc.update(dc.getIndex())){
-                    limpiar();
-                        JOptionPane.showMessageDialog(null, "Se ha editado correctamente", 
-                            "OK", JOptionPane.INFORMATION_MESSAGE);
-                   
-                    }else{
-                        JOptionPane.showMessageDialog(null, "No se ha podido editar", 
-                            "ERROR", JOptionPane.ERROR_MESSAGE);
-                    } 
-                }
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,e.getMessage() , 
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Llene todos los campos", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            
-        }
-    }
-    
-    
-    private void cargarVista(){
-        
-        //Cargo-modifico-envio
-        dc.setIndex(jTableDocente.getSelectedRow());
-        if(dc.getIndex().intValue() < 0){
-            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            try {
-                dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
-                txtTitulo.setText(dc.getDocente().getTitulo());
-                cbxPersona.setSelectedItem(UtilVista.getComboPersonaDocente(cbxPersona));
-                txtEspecializacion.setText(dc.getDocente().getEspecializacion());
-                txtExperiencia.setText(dc.getDocente().getExperienciaLaboral().toString());
-                txtCertificaciones.setText(dc.getDocente().getCertificaciones());
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-    
-    
-    
-    private void ordenar(){
-        //Obtengo el criterio y el ordenamiento de Ascendente y Descendente
-        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
-        Integer ascdesc = cbxAscDesc.getSelectedIndex();//Me da un valor numerico 0 o 1
-         System.out.println(criterio);
-            try {
-                System.out.println("Ordenando con QuickSOrt");
-                mtd.setDocentes(dc.ordenarQuickSort(dc.getDocentes(), ascdesc, criterio));
-                jTableDocente.setModel(mtd);
-                jTableDocente.updateUI();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(),
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-    }
-    
-    private void buscar() {
-        String text = txtBusqueda.getText().toString().toLowerCase();
-        String field = cbxCriterio.getSelectedItem().toString().toLowerCase().replaceAll("\\s", "");
-        String busqueda = cbxBusqueda.getSelectedItem().toString();
-        
-
+        cargarTabla();
         try {
-            LinkedList<Docente> listaResultado;
-            switch (busqueda) {
-                case "Busqueda Binaria":
-                    if (field.equalsIgnoreCase("titulo") || field.equalsIgnoreCase("especializacion")
-                            || field.equalsIgnoreCase("certificaciones")) {
-                        listaResultado = dc.busquedaBinaria(dc.getDocentes(), text, field);
-                    } else if (field.equalsIgnoreCase("id_Persona") || field.equalsIgnoreCase("experienciaLaboral")) {
-                        try {
-                            int textoEntero = Integer.parseInt(text);
-                            listaResultado = dc.busquedaBinariaEntero(dc.getDocentes(), textoEntero, field);
-                        } catch (NumberFormatException ex) {
-                            throw new IllegalArgumentException("Debe ser entero");
-                        }
-                    } else {
-                        throw new IllegalArgumentException("No existe el campo " + field);
-                    }
-                    break;
-
-                case "Busqueda Lineal":
-                    if (field.equalsIgnoreCase("titulo") || field.equalsIgnoreCase("especializacion")
-                            || field.equalsIgnoreCase("certificaciones")) {
-                        listaResultado = dc.busquedaLinealBinaria(dc.getDocentes(), text, field);
-                    } else if (field.equalsIgnoreCase("id_Persona") || field.equalsIgnoreCase("experienciaLaboral")) {
-                        try {
-                            int textoEntero = Integer.parseInt(text);
-                            listaResultado = dc.busquedaLinealBinariaEntero(dc.getDocentes(), textoEntero, field);
-                        } catch (NumberFormatException ex) {
-                            throw new IllegalArgumentException("Debe ser entero");
-                        }
-                    } else {
-                        throw new IllegalArgumentException("No existe el campo " + field);
-                    }
-                    break;
-
-                default:
-                    throw new IllegalArgumentException("Tipo de búsqueda no reconocido: " + busqueda);
-            }
-
-            mtd.setDocentes(listaResultado);
-            jTableDocente.setModel(mtd);
-            jTableDocente.updateUI();
-
+            UtilVista.cargarGenero(cbxGenero);
+            UtilVista.cargarRoles(cbxRol, "Docente");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+    
+     public void guardar() {
+        if (validar()) {
+            try {
+                Docente docente = new Docente();
+                docente.setNombres(txtNombre.getText());
+                docente.setApellidos(txtApellido.getText());
+                docente.setCorreo(txtCorreo.getText());
+                docente.setFechaNacimiento(jDate.getDate());
+                docente.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
+                docente.setId_rol(UtilVista.getComboRol(cbxRol).getId());
+                docente.setCedula(txtCedula.getText());
+                docente.setDireccion(txtDireccion.getText());
+                docente.setTelefono(txtTelefono.getText());
+                docente.setExperienciaLaboral(Integer.parseInt(txtExperienciaL.getText()));
+                
+                dc.setDocente(docente);
+                dc.guardar();
+                dc.setDocente(null);
+                limpiar();
+            } catch (Exception e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }
     }
+    
+    
+     private void modificar() {
+        try {
+            int filaSeleccionada = jTablaDocente.getSelectedRow();
+
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(null, "Seleccione un ciclo para modificar");
+                return;
+            }
+
+            Docente docente = mtd.getDocentes().get(filaSeleccionada);
+
+            docente.setNombres(txtNombre.getText());
+            docente.setApellidos(txtNombre.getText());
+            docente.setCorreo(txtNombre.getText());
+            docente.setFechaNacimiento(jDate.getDate());
+            docente.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
+            docente.setId_rol(UtilVista.getComboRol(cbxRol).getId());
+            docente.setCedula(txtNombre.getText());
+            docente.setExperienciaLaboral(Integer.parseInt(txtExperienciaL.getText()));
+
+            dc.modificar(docente);
+
+            limpiar();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al modificar el ciclo: " + e.getMessage());
+        }
+    }
+    
+    
+    
+    
     
     
     
@@ -230,69 +136,185 @@ public class FrmDocente extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtTitulo = new javax.swing.JTextField();
-        cbxPersona = new javax.swing.JComboBox<>();
+        panel1 = new org.edisoncor.gui.panel.Panel();
+        panel2 = new org.edisoncor.gui.panel.Panel();
+        labelRound1 = new org.edisoncor.gui.label.LabelRound();
+        panelLogo = new org.edisoncor.gui.panel.PanelImage();
+        labelRect3 = new org.edisoncor.gui.label.LabelRect();
+        txtExperienciaL = new org.edisoncor.gui.textField.TextField();
+        btnRegresar = new org.edisoncor.gui.button.ButtonRect();
+        btnGuardar = new org.edisoncor.gui.button.ButtonRect();
+        btnActualizar = new org.edisoncor.gui.button.ButtonRect();
+        btnCancelar = new org.edisoncor.gui.button.ButtonRect();
+        labelRect2 = new org.edisoncor.gui.label.LabelRect();
+        txtNombre = new org.edisoncor.gui.textField.TextField();
+        labelRect4 = new org.edisoncor.gui.label.LabelRect();
+        txtApellido = new org.edisoncor.gui.textField.TextField();
+        labelRect5 = new org.edisoncor.gui.label.LabelRect();
+        txtCorreo = new org.edisoncor.gui.textField.TextField();
+        labelRect6 = new org.edisoncor.gui.label.LabelRect();
+        labelRect7 = new org.edisoncor.gui.label.LabelRect();
+        cbxGenero = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        labelRect8 = new org.edisoncor.gui.label.LabelRect();
+        cbxRol = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        labelRect1 = new org.edisoncor.gui.label.LabelRect();
+        txtCedula = new org.edisoncor.gui.textField.TextField();
+        panelRect1 = new org.edisoncor.gui.panel.PanelRect();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableDocente = new javax.swing.JTable();
-        btnGuardar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        btnRegresar = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        txtCertificaciones = new javax.swing.JTextField();
-        txtEspecializacion = new javax.swing.JTextField();
-        txtExperiencia = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabelTexto1 = new javax.swing.JLabel();
-        txtBusqueda = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        cbxBusqueda = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        cbxCriterio = new javax.swing.JComboBox<>();
-        cbxAscDesc = new javax.swing.JComboBox<>();
-        jButton4 = new javax.swing.JButton();
+        jTablaDocente = new javax.swing.JTable();
+        jDate = new com.toedter.calendar.JDateChooser();
+        labelRect9 = new org.edisoncor.gui.label.LabelRect();
+        labelRect10 = new org.edisoncor.gui.label.LabelRect();
+        btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
+        txtTelefono = new org.edisoncor.gui.textField.TextField();
+        txtDireccion = new org.edisoncor.gui.textField.TextField();
 
-        jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel3.setText("Nombres: ");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        panel1.setColorPrimario(new java.awt.Color(255, 255, 255));
+        panel1.setColorSecundario(new java.awt.Color(255, 255, 255));
+        panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panel2.setColorPrimario(new java.awt.Color(0, 102, 153));
+        panel2.setColorSecundario(new java.awt.Color(0, 102, 153));
+        panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Registro Docente");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 190, -1));
+        labelRound1.setBackground(new java.awt.Color(0, 102, 153));
+        labelRound1.setText("Registro de Docente");
+        labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
+        labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
+        labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
+        labelRound1.setFont(new java.awt.Font("Roboto Light", 1, 18)); // NOI18N
+        panel2.add(labelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 1110, 90));
 
-        jLabel4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel4.setText("Persona:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 100, 20));
+        panelLogo.setBackground(new java.awt.Color(0, 102, 153));
+        panelLogo.setForeground(new java.awt.Color(0, 102, 153));
 
-        jLabel10.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel10.setText("Certificaciones:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 160, 20));
+        javax.swing.GroupLayout panelLogoLayout = new javax.swing.GroupLayout(panelLogo);
+        panelLogo.setLayout(panelLogoLayout);
+        panelLogoLayout.setHorizontalGroup(
+            panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+        panelLogoLayout.setVerticalGroup(
+            panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 90, Short.MAX_VALUE)
+        );
 
-        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+        panel2.add(panelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 90));
+
+        panel1.add(panel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 90));
+
+        labelRect3.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect3.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect3.setText("Teléfono:");
+        labelRect3.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect3.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 150, 30));
+        panel1.add(txtExperienciaL, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 400, 30));
+
+        btnRegresar.setBackground(new java.awt.Color(0, 102, 153));
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTituloActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 240, -1));
+        panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 580, 130, 40));
 
-        cbxPersona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cbxPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 240, -1));
+        btnGuardar.setBackground(new java.awt.Color(0, 102, 153));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        panel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 140, 130, 40));
 
-        jTableDocente.setModel(new javax.swing.table.DefaultTableModel(
+        btnActualizar.setBackground(new java.awt.Color(0, 102, 153));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        panel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 140, 130, 40));
+
+        btnCancelar.setBackground(new java.awt.Color(0, 102, 153));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        panel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 140, 130, 40));
+
+        labelRect2.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect2.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect2.setText("Nombre:");
+        labelRect2.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect2.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 30));
+        panel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 400, 30));
+
+        labelRect4.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect4.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect4.setText("Apellido:");
+        labelRect4.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect4.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 150, 30));
+        panel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 400, 30));
+
+        labelRect5.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect5.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect5.setText("Correo:");
+        labelRect5.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect5.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 150, 30));
+        panel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 400, 30));
+
+        labelRect6.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect6.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect6.setText("Fecha de Nacimiento:");
+        labelRect6.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect6.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 150, 30));
+
+        labelRect7.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect7.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect7.setText("Género:");
+        labelRect7.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect7.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 150, 30));
+        panel1.add(cbxGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 400, 30));
+
+        labelRect8.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect8.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect8.setText("Rol:");
+        labelRect8.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect8.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 150, 30));
+        panel1.add(cbxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 400, 30));
+
+        labelRect1.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect1.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect1.setText("Cédula:");
+        labelRect1.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect1.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 150, 30));
+        panel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 400, 30));
+
+        panelRect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTablaDocente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -303,220 +325,74 @@ public class FrmDocente extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableDocente);
+        jScrollPane1.setViewportView(jTablaDocente);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 790, 110));
+        panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 340));
 
-        btnGuardar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 680, 360));
+        panel1.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 400, 30));
+
+        labelRect9.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect9.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect9.setText("Experiencia Laboral:");
+        labelRect9.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect9.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 150, 30));
+
+        labelRect10.setBackground(new java.awt.Color(255, 255, 255));
+        labelRect10.setForeground(new java.awt.Color(0, 0, 0));
+        labelRect10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRect10.setText("Dirección:");
+        labelRect10.setColorDeBorde(new java.awt.Color(255, 255, 255));
+        labelRect10.setColorDeSombra(new java.awt.Color(255, 255, 255));
+        panel1.add(labelRect10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 150, 30));
+
+        btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnSeleccionarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 170, -1));
-
-        btnLimpiar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        btnLimpiar.setText("Seleccionar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 170, -1));
-
-        jButton1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton1.setText("Actualizar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 520, 170, -1));
-
-        jButton2.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 170, -1));
-
-        btnRegresar.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        btnRegresar.setText("Regresar");
-        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegresarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 170, 30));
-
-        jLabel11.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel11.setText("Titulo:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
-
-        jLabel12.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel12.setText("Especialización:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 160, 20));
-
-        jLabel13.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel13.setText("Experiencia Laboral:");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 200, 20));
-        jPanel1.add(txtCertificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 240, -1));
-        jPanel1.add(txtEspecializacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 240, -1));
-        jPanel1.add(txtExperiencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 240, -1));
-
-        jLabel15.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel15.setText("Busquedas");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 60, 200, 40));
-
-        jLabelTexto1.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabelTexto1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabelTexto1.setText("Texto de Busqueda:");
-        jPanel1.add(jLabelTexto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 100, 210, 40));
-
-        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBusquedaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, 170, 40));
-
-        jLabel16.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel16.setText("Métodos de Busqueda:");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 230, 210, 40));
-
-        cbxBusqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Busqueda Binaria", "Busqueda Lineal", " " }));
-        jPanel1.add(cbxBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 290, 210, 40));
-
-        jButton3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton3.setText("Buscar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 350, 160, 60));
-
-        jLabel17.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel17.setText("Ordenamiento");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 60, 200, 40));
-
-        jLabel18.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel18.setText("Criterios:");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 100, 130, 40));
-
-        cbxCriterio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID_PERSONA", "TITULO", "ESPECIALIZACION", "EXPERIENCIA LABORAL", "CERTIFICACIONES", " " }));
-        cbxCriterio.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxCriterioItemStateChanged(evt);
-            }
-        });
-        jPanel1.add(cbxCriterio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 170, -1, 40));
-
-        cbxAscDesc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ASCENDENTE", "DESCENDENTE" }));
-        cbxAscDesc.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxAscDescItemStateChanged(evt);
-            }
-        });
-        cbxAscDesc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxAscDescActionPerformed(evt);
-            }
-        });
-        jPanel1.add(cbxAscDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 220, -1, 40));
-
-        jButton4.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
-        jButton4.setText("Ordenar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 350, 160, 60));
+        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 130, 40));
+        panel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 520, 400, 30));
+        panel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 400, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1469, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTituloActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+       new FrmRegistroDocenteGeneral().setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        cargarVista();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        modificar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        guardar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        //limpiar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        limpiar();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        FrmRegistro newFrame = new FrmRegistro();
-        newFrame.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtBusquedaActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        buscar();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void cbxCriterioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCriterioItemStateChanged
-        //ordenar();
-
-        /*
-        if(evt.getItem().toString().equalsIgnoreCase("MARCA")){
-            txtBusqueda.setVisible(false);
-            cbxMarcaB.setVisible(true);
-
-        }else{
-            txtBusqueda.setVisible(true);
-            cbxMarcaB.setVisible(false);
-        }
-        */
-    }//GEN-LAST:event_cbxCriterioItemStateChanged
-
-    private void cbxAscDescItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxAscDescItemStateChanged
-        //ordenar();
-    }//GEN-LAST:event_cbxAscDescItemStateChanged
-
-    private void cbxAscDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAscDescActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxAscDescActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        ordenar();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -544,53 +420,54 @@ public class FrmDocente extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(FrmDocente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmDocente dialog = new FrmDocente(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new FrmDocente().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> cbxAscDesc;
-    private javax.swing.JComboBox<String> cbxBusqueda;
-    private javax.swing.JComboBox<String> cbxCriterio;
-    private javax.swing.JComboBox<String> cbxPersona;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabelTexto1;
-    private javax.swing.JPanel jPanel1;
+    private org.edisoncor.gui.button.ButtonRect btnActualizar;
+    private org.edisoncor.gui.button.ButtonRect btnCancelar;
+    private org.edisoncor.gui.button.ButtonRect btnGuardar;
+    private org.edisoncor.gui.button.ButtonRect btnRegresar;
+    private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
+    private org.edisoncor.gui.comboBox.ComboBoxRect cbxGenero;
+    private org.edisoncor.gui.comboBox.ComboBoxRect cbxRol;
+    private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableDocente;
-    private javax.swing.JTextField txtBusqueda;
-    private javax.swing.JTextField txtCertificaciones;
-    private javax.swing.JTextField txtEspecializacion;
-    private javax.swing.JTextField txtExperiencia;
-    private javax.swing.JTextField txtTitulo;
+    private javax.swing.JTable jTablaDocente;
+    private org.edisoncor.gui.label.LabelRect labelRect1;
+    private org.edisoncor.gui.label.LabelRect labelRect10;
+    private org.edisoncor.gui.label.LabelRect labelRect2;
+    private org.edisoncor.gui.label.LabelRect labelRect3;
+    private org.edisoncor.gui.label.LabelRect labelRect4;
+    private org.edisoncor.gui.label.LabelRect labelRect5;
+    private org.edisoncor.gui.label.LabelRect labelRect6;
+    private org.edisoncor.gui.label.LabelRect labelRect7;
+    private org.edisoncor.gui.label.LabelRect labelRect8;
+    private org.edisoncor.gui.label.LabelRect labelRect9;
+    private org.edisoncor.gui.label.LabelRound labelRound1;
+    private org.edisoncor.gui.panel.Panel panel1;
+    private org.edisoncor.gui.panel.Panel panel2;
+    private org.edisoncor.gui.panel.PanelImage panelLogo;
+    private org.edisoncor.gui.panel.PanelRect panelRect1;
+    private org.edisoncor.gui.textField.TextField txtApellido;
+    private org.edisoncor.gui.textField.TextField txtCedula;
+    private org.edisoncor.gui.textField.TextField txtCorreo;
+    private org.edisoncor.gui.textField.TextField txtDireccion;
+    private org.edisoncor.gui.textField.TextField txtExperienciaL;
+    private org.edisoncor.gui.textField.TextField txtNombre;
+    private org.edisoncor.gui.textField.TextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }
