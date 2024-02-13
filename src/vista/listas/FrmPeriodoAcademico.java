@@ -7,11 +7,8 @@ package vista.listas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import modelo.LogroEducativo;
 import modelo.PeriodoAcademico;
-import modelo.controladores.LogroEducativoController;
 import modelo.controladores.PeriodoAcademicoController;
-import vista.listas.tablas.ModeloTablaLogroEducativo;
 import vista.listas.tablas.ModeloTablaPeriodoAcademico;
 import vista.listas.util.UtilVista;
 
@@ -40,6 +37,10 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }
 
     private void limpiar() {
+        txtNombre.setText("");
+        jDateInicio.setDate(null);
+        jDateFin.setDate(null);
+        cbxEstado.setSelectedItem(-1);
         
         try {
             UtilVista.cargarEstados(cbxEstado);
@@ -80,18 +81,6 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
         }
     }
 
-//    private void cargarVista() {
-//        gc.setIndex(jTableGenero.getSelectedRow());
-//        if (gc.getIndex() < 0) {
-//            JOptionPane.showMessageDialog(null, "No");
-//        } else {
-//            try {
-//                gc.setGenero(mtg.getGeneros().get(gc.getIndex()));
-//                txtNombre.setText(gc.getGenero().getNombre().toString());
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
 
     private void modificar() {
         try {
@@ -118,7 +107,27 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }
     
     
-    
+     
+    private void cargarVista(){
+        tl.setIndex(jTablePeriodo.getSelectedRow());
+        if(tl.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                tl.setPeriodo(tl.getPeriodos().get(tl.getIndex()));
+                txtNombre.setText(tl.getPeriodo().getNombre());
+                jDateInicio.setDate(tl.getPeriodo().getFechaInicio());
+                jDateFin.setDate(tl.getPeriodo().getFechaFin());
+                cbxEstado.setSelectedItem(tl.getPeriodo().getEstado());
+               
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -313,11 +322,11 @@ public class FrmPeriodoAcademico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

@@ -5,21 +5,11 @@
 package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import modelo.Genero;
-import modelo.LogroEducativo;
 import modelo.Malla_materia;
-import modelo.TipoLogro;
-import modelo.controladores.GeneroController;
-import modelo.controladores.LogroEducativoController;
 import modelo.controladores.Malla_materiaController;
-import modelo.controladores.TipoLogroController;
-import vista.listas.tablas.ModeloTablaGenero;
-import vista.listas.tablas.ModeloTablaLogroEducativo;
 import vista.listas.tablas.ModeloTablaMallaMateria;
-import vista.listas.tablas.ModeloTablaTipoLogro;
 import vista.listas.util.UtilVista;
 
 /**
@@ -47,6 +37,10 @@ public class FrmMalla_Materia extends javax.swing.JFrame {
     }
 
     private void limpiar() {
+        
+        cbxCiclo.setSelectedItem(-1);//Limpio COmbo
+        cbxMalla.setSelectedItem(-1);//Limpio COmbo
+        cbxMateria.setSelectedItem(-1);//Limpio COmbo
         
         try {
             UtilVista.cargarMalla(cbxMalla);
@@ -88,19 +82,6 @@ public class FrmMalla_Materia extends javax.swing.JFrame {
         }
     }
 
-//    private void cargarVista() {
-//        gc.setIndex(jTableGenero.getSelectedRow());
-//        if (gc.getIndex() < 0) {
-//            JOptionPane.showMessageDialog(null, "No");
-//        } else {
-//            try {
-//                gc.setGenero(mtg.getGeneros().get(gc.getIndex()));
-//                txtNombre.setText(gc.getGenero().getNombre().toString());
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
-
     private void modificar() {
         try {
             int filaSeleccionada = jTableMallaMateria.getSelectedRow();
@@ -124,7 +105,27 @@ public class FrmMalla_Materia extends javax.swing.JFrame {
         }
     }
     
-    
+    private void cargarVista(){
+        tl.setIndex(jTableMallaMateria.getSelectedRow());
+        if(tl.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                tl.setMallaMateria(tl.getMallasMaterias().get(tl.getIndex()));
+                UtilVista.setComboMateria(cbxMateria, tl.getMallaMateria().getId_materia());
+                UtilVista.setComboMalla(cbxMalla, tl.getMallaMateria().getId_malla());
+                UtilVista.setComboCiclo(cbxCiclo, tl.getMallaMateria().getId_ciclo());
+                
+                
+                
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -170,7 +171,7 @@ public class FrmMalla_Materia extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Tipos de Logro Educativos");
+        labelRound1.setText("Registro de Malla-Materias-Ciclo");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -309,11 +310,11 @@ public class FrmMalla_Materia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

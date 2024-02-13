@@ -48,6 +48,21 @@ public class FrmEstudiante extends javax.swing.JFrame {
     }
      
     private void limpiar() {
+        
+        
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCorreo.setText("");
+        jDate.setDate(null);
+        cbxGenero.setSelectedItem(-1);//Limpio COmbo
+        cbxRol.setSelectedItem(-1);//Limpio Combo
+        txtCedula.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtTitulo.setText("");
+        
+        
+        
         ec.setEstudiante(null);
         ec.setLista(new LinkedList<>());
         ec.setEstudiante(null);
@@ -119,7 +134,31 @@ public class FrmEstudiante extends javax.swing.JFrame {
         }
     }
     
-    
+    private void cargarVista(){
+        ec.setIndex(jTablaEstudiante.getSelectedRow());
+        if(ec.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                ec.setEstudiante(mte.getEstudiantes().get(ec.getIndex()));
+                txtNombre.setText(ec.getEstudiante().getNombres());
+                txtApellido.setText(ec.getEstudiante().getApellidos());
+                txtCorreo.setText(ec.getEstudiante().getCorreo());
+                jDate.setDate(ec.getEstudiante().getFechaNacimiento());
+                UtilVista.setComboGenero(cbxGenero, ec.getEstudiante().getId_genero());
+                txtCedula.setText(ec.getEstudiante().getCedula());
+                txtDireccion.setText(ec.getEstudiante().getDireccion());
+                txtTelefono.setText(ec.getEstudiante().getTelefono());
+                txtTitulo.setText(ec.getEstudiante().getTituloBachiller().toString());
+                
+              
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -381,7 +420,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        //cargarVista();
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -393,7 +432,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        //limpiar();
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

@@ -41,6 +41,15 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
      
     private void limpiar() {
+        
+        cbxEst.setSelectedItem(-1);
+        cbxEstado.setSelectedItem(-1);
+        cbxGratuidad.setSelectedItem(-1);
+        jDateFecha.setDate(null);
+        cbxModalidad.setSelectedItem(-1);
+        cbxPeriodo.setSelectedItem(-1);
+        cbxTurno.setSelectedItem(-1);
+        
         dc.setMatricula(null);
         dc.setLista(new LinkedList<>());
         dc.setMatricula(null);
@@ -110,7 +119,29 @@ public class FrmMatricula extends javax.swing.JFrame {
     }
     
     
-    
+     
+    private void cargarVista(){
+        dc.setIndex(jTablaMatricula.getSelectedRow());
+        if(dc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                dc.setMatricula(dc.getMatriculas().get(dc.getIndex()));
+                UtilVista.setEstudiante(cbxEst, dc.getMatricula().getId_estudiante());
+                cbxEstado.setSelectedItem(dc.getMatricula().getEstado());
+                jDateFecha.setDate(dc.getMatricula().getFechaMatricula());
+                cbxGratuidad.setSelectedItem(dc.getMatricula().getGratuidad());
+                cbxModalidad.setSelectedItem(dc.getMatricula().getModalidad());
+                UtilVista.setPeriodoAca(cbxPeriodo, dc.getMatricula().getId_periodoAcademico());
+                cbxTurno.setSelectedItem(dc.getMatricula().getTurno());
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -347,11 +378,11 @@ public class FrmMatricula extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        //limpiar();
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        // TODO add your handling code here:
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**

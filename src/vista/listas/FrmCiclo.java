@@ -8,7 +8,6 @@ import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Ciclo;
-import modelo.Genero;
 import modelo.controladores.CicloController;
 import vista.listas.tablas.ModeloTablaCiclo;
 
@@ -37,6 +36,9 @@ public class FrmCiclo extends javax.swing.JFrame {
     }
 
     private void limpiar() {
+        
+        txtNombre.setText("");
+       
         gc.setCiclo(null);
         gc.setLista(new LinkedList<>());
         cargarTabla();
@@ -48,8 +50,8 @@ public class FrmCiclo extends javax.swing.JFrame {
     
     public void cargarTabla() {
         mtg.setCiclos(gc.getLista());
-        jTableGenero.setModel(mtg);
-        jTableGenero.updateUI();
+        jTableCiclo.setModel(mtg);
+        jTableCiclo.updateUI();
     }
 
     public void guardar() {
@@ -68,22 +70,11 @@ public class FrmCiclo extends javax.swing.JFrame {
         }
     }
 
-//    private void cargarVista() {
-//        gc.setIndex(jTableGenero.getSelectedRow());
-//        if (gc.getIndex() < 0) {
-//            JOptionPane.showMessageDialog(null, "No");
-//        } else {
-//            try {
-//                gc.setGenero(mtg.getGeneros().get(gc.getIndex()));
-//                txtNombre.setText(gc.getGenero().getNombre().toString());
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
+
 
     private void modificar() {
         try {
-            int filaSeleccionada = jTableGenero.getSelectedRow();
+            int filaSeleccionada = jTableCiclo.getSelectedRow();
 
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(null, "Seleccione un ciclo para modificar");
@@ -104,7 +95,22 @@ public class FrmCiclo extends javax.swing.JFrame {
     }
     
     
-    
+    private void cargarVista(){
+        gc.setIndex(jTableCiclo.getSelectedRow());
+        if(gc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                gc.setCiclo(mtg.getCiclos().get(gc.getIndex()));
+                txtNombre.setText(gc.getCiclo().getNombre());
+              
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -127,7 +133,7 @@ public class FrmCiclo extends javax.swing.JFrame {
         txtNombre = new org.edisoncor.gui.textField.TextField();
         panelRect1 = new org.edisoncor.gui.panel.PanelRect();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableGenero = new javax.swing.JTable();
+        jTableCiclo = new javax.swing.JTable();
         btnGuardar = new org.edisoncor.gui.button.ButtonRect();
         btnActualizar = new org.edisoncor.gui.button.ButtonRect();
         btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
@@ -145,7 +151,7 @@ public class FrmCiclo extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Géneros");
+        labelRound1.setText("Registro de Ciclos");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -181,7 +187,7 @@ public class FrmCiclo extends javax.swing.JFrame {
 
         panelRect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTableGenero.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCiclo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -192,7 +198,7 @@ public class FrmCiclo extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableGenero);
+        jScrollPane1.setViewportView(jTableCiclo);
 
         panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 300));
 
@@ -266,11 +272,11 @@ public class FrmCiclo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -327,7 +333,7 @@ public class FrmCiclo extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonRect btnRegresar;
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableGenero;
+    private javax.swing.JTable jTableCiclo;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRound labelRound1;
     private org.edisoncor.gui.panel.Panel panel1;

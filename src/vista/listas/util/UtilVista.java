@@ -12,7 +12,6 @@ import modelo.Genero;
 import modelo.Malla;
 import modelo.Materia;
 import modelo.PeriodoAcademico;
-import modelo.Persona;
 import modelo.Rol;
 import modelo.TipoLogro;
 import modelo.controladores.CicloController;
@@ -51,6 +50,89 @@ public class UtilVista {
     public static Genero getComboGenero(ComboBoxRect cbxGenero){
         return (Genero) cbxGenero.getSelectedItem();
     }
+    
+    //Setear los combos
+    public static void setComboGenero(ComboBoxRect cbxGenero, int idGenero) {
+        for (int i = 0; i < cbxGenero.getItemCount(); i++) {
+            Genero genero = (Genero) cbxGenero.getItemAt(i);
+            if (genero.getId() == idGenero) {
+                cbxGenero.setSelectedItem(genero);
+                return;
+            }
+        }
+    }
+    
+    public static void setComboDocente (ComboBoxRect cbxDocente, int idDocente) {
+        for (int i = 0; i < cbxDocente.getItemCount(); i++) {
+            Docente docente = (Docente) cbxDocente.getItemAt(i);
+            if (docente.getId() == idDocente) {
+                cbxDocente.setSelectedItem(docente);
+                return;
+            }
+        }
+    }
+    
+    public static void setComboTipoLogro(ComboBoxRect cbxTipoLogro, int idTipoLogro) {
+        for (int i = 0; i < cbxTipoLogro.getItemCount(); i++) {
+            TipoLogro tipo = (TipoLogro) cbxTipoLogro.getItemAt(i);
+            if (tipo.getId() == idTipoLogro) {
+                cbxTipoLogro.setSelectedItem(tipo);
+                return;
+            }
+        }
+    }
+    
+    public static void setComboCiclo (ComboBoxRect cbxCiclo, int idCiclo) {
+        for (int i = 0; i < cbxCiclo.getItemCount(); i++) {
+            Ciclo ciclo = (Ciclo) cbxCiclo.getItemAt(i);
+            if (ciclo.getId() == idCiclo) {
+                cbxCiclo.setSelectedItem(ciclo);
+                return;
+            }
+        }
+    }
+    
+    public static void setComboMalla(ComboBoxRect cbxMalla, int idMalla) {
+        for (int i = 0; i < cbxMalla.getItemCount(); i++) {
+            Malla malla = (Malla) cbxMalla.getItemAt(i);
+            if (malla.getId() == idMalla) {
+                cbxMalla.setSelectedItem(malla);
+                return;
+            }
+        }
+    }
+    
+    public static void setComboMateria(ComboBoxRect cbxMateria, int idMateria) {
+        for (int i = 0; i < cbxMateria.getItemCount(); i++) {
+            Materia materia = (Materia) cbxMateria.getItemAt(i);
+            if (materia.getId() == idMateria) {
+                cbxMateria.setSelectedItem(materia);
+                return;
+            }
+        }
+    }
+    
+    public static void setEstudiante(ComboBoxRect cbxEstudiante, int idEstudiante) {
+        for (int i = 0; i < cbxEstudiante.getItemCount(); i++) {
+            Estudiante estudiante = (Estudiante) cbxEstudiante.getItemAt(i);
+            if (estudiante.getId() == idEstudiante) {
+                cbxEstudiante.setSelectedItem(estudiante);
+                return;
+            }
+        }
+    }
+    
+    public static void setPeriodoAca(ComboBoxRect cbxPeriodo, int idPeriodo) {
+        for (int i = 0; i < cbxPeriodo.getItemCount(); i++) {
+            PeriodoAcademico periodo = (PeriodoAcademico) cbxPeriodo.getItemAt(i);
+            if (periodo.getId() == idPeriodo) {
+                cbxPeriodo.setSelectedItem(periodo);
+                return;
+            }
+        }
+    }
+    
+    
     
     //CARGO ROL
    public static void cargarRoles(ComboBoxRect cbxRol, String tipoRol) throws VacioExcepcion {

@@ -8,7 +8,9 @@ import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Docente;
+import modelo.Genero;
 import modelo.controladores.DocenteController;
+import org.edisoncor.gui.comboBox.ComboBoxRect;
 import vista.listas.tablas.ModeloTablaDocente;
 import vista.listas.util.UtilVista;
 
@@ -47,6 +49,18 @@ public class FrmDocente extends javax.swing.JFrame {
     }
      
     private void limpiar() {
+        
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCorreo.setText("");
+        jDate.setDate(null);
+        //cbxGenero.setSelectedItem(-1);//Limpio COmbo
+        cbxRol.setSelectedItem(-1);//Limpio Combo
+        txtCedula.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtExperienciaL.setText("");
+        
         dc.setDocente(null);
         dc.setLista(new LinkedList<>());
         dc.setDocente(null);
@@ -97,14 +111,15 @@ public class FrmDocente extends javax.swing.JFrame {
             }
 
             Docente docente = mtd.getDocentes().get(filaSeleccionada);
-
             docente.setNombres(txtNombre.getText());
-            docente.setApellidos(txtNombre.getText());
-            docente.setCorreo(txtNombre.getText());
+            docente.setApellidos(txtApellido.getText());
+            docente.setCorreo(txtCorreo.getText());
             docente.setFechaNacimiento(jDate.getDate());
             docente.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
             docente.setId_rol(UtilVista.getComboRol(cbxRol).getId());
-            docente.setCedula(txtNombre.getText());
+            docente.setCedula(txtCedula.getText());
+            docente.setDireccion(txtDireccion.getText());
+            docente.setTelefono(txtTelefono.getText());
             docente.setExperienciaLaboral(Integer.parseInt(txtExperienciaL.getText()));
 
             dc.modificar(docente);
@@ -118,6 +133,31 @@ public class FrmDocente extends javax.swing.JFrame {
     
     
     
+    private void cargarVista(){
+        dc.setIndex(jTablaDocente.getSelectedRow());
+        if(dc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                dc.setDocente(mtd.getDocentes().get(dc.getIndex()));
+                txtNombre.setText(dc.getDocente().getNombres());
+                txtApellido.setText(dc.getDocente().getApellidos());
+                txtCorreo.setText(dc.getDocente().getCorreo());
+                jDate.setDate(dc.getDocente().getFechaNacimiento());
+                UtilVista.setComboGenero(cbxGenero, dc.getDocente().getId_genero());
+                txtCedula.setText(dc.getDocente().getCedula());
+                txtDireccion.setText(dc.getDocente().getDireccion());
+                txtTelefono.setText(dc.getDocente().getTelefono());
+                txtExperienciaL.setText(dc.getDocente().getExperienciaLaboral().toString());
+                
+              
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -387,11 +427,11 @@ public class FrmDocente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        //limpiar();
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        // TODO add your handling code here:
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**

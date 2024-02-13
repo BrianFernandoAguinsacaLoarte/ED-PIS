@@ -6,21 +6,20 @@ package vista.listas.informacion;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
-import modelo.Docente;
-import modelo.controladores.DocenteController;
-import vista.listas.tablas.ModeloTablaDocente;
+import modelo.controladores.MallaController;
+import vista.listas.tablas.ModeloTablaMalla;
 import vista.listas.util.informacion.UtilVistaInfo;
 
 /**
  *
  * @author Usuario iTC
  */
-public class FrmDocenteTabla extends javax.swing.JFrame {
+public class FrmMallaTabla extends javax.swing.JFrame {
     
-    DocenteController dc = new DocenteController();
-    ModeloTablaDocente mtd = new ModeloTablaDocente();
+    MallaController dc = new MallaController();
+    ModeloTablaMalla mtd = new ModeloTablaMalla();
     
-    public FrmDocenteTabla() {
+    public FrmMallaTabla() {
         initComponents();
         panelLogo.setIcon(new ImageIcon("multimedia/LogoUNL.jpg"));
         this.setLocationRelativeTo(null);
@@ -28,7 +27,7 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
     }
     
      private void cargarTabla(){
-        mtd.setDocentes(dc.getDocentes());
+        mtd.setMallas(dc.getMallas());
         jTablaDocente.setModel(mtd);
         jTablaDocente.updateUI();
     }
@@ -40,7 +39,7 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
         } catch (Exception e) {
         }
 
-        dc.setDocente(null);
+        dc.setMalla(null);
         dc.setLista(new LinkedList<>());
         cargarTabla();
         //Actualizar tabla -BDD desaparece
@@ -49,46 +48,46 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
        
     }
     
-    private void ordenar() {
-        //String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
-        String criterio = cbxCriterio.getSelectedItem().toString().replaceAll("\\s", "").toLowerCase();
-        System.out.println(criterio);
-        Integer ascdesc = cbxOrden.getSelectedIndex();
-        try {
-            mtd.setDocentes(dc.ordenarporQuickSort(ascdesc, criterio, dc.getLista()));
-            jTablaDocente.setModel(mtd);
-            jTablaDocente.updateUI();
-        } catch (Exception ex) {
-            //Logger.getLogger(FrmDivorcio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void buscar() {
-        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
-        System.out.println(criterio);
-
-        try {
-            String textoBusqueda = txtBusqueda.getText();
-            System.out.println(textoBusqueda);
-            if (dc.getDocentes()!= null) {
-                LinkedList<Docente> resultados = dc.listar();
-
-                
-                // Búsqueda Lineal
-                resultados = dc.buscarporBusquedaLineal(textoBusqueda, criterio, mtd.getDocentes().toArray());
-                System.out.println(resultados.imprimir());
-
-                mtd.setDocentes(resultados);
-            } else {
-                // Manejo adecuado si divorciadas es null
-            }
-
-            jTablaDocente.setModel(mtd);
-            jTablaDocente.updateUI();
-        } catch (Exception ex) {
-            //Logger.getLogger(FrmDivorcio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    private void ordenar() {
+//        //String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
+//        String criterio = cbxCriterio.getSelectedItem().toString().replaceAll("\\s", "").toLowerCase();
+//        System.out.println(criterio);
+//        Integer ascdesc = cbxOrden.getSelectedIndex();
+//        try {
+//            mtd.setDocentes(dc.ordenarporQuickSort(ascdesc, criterio, dc.getLista()));
+//            jTablaDocente.setModel(mtd);
+//            jTablaDocente.updateUI();
+//        } catch (Exception ex) {
+//            //Logger.getLogger(FrmDivorcio.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//
+//    private void buscar() {
+//        String criterio = cbxCriterio.getSelectedItem().toString().toLowerCase();
+//        System.out.println(criterio);
+//
+//        try {
+//            String textoBusqueda = txtBusqueda.getText();
+//            System.out.println(textoBusqueda);
+//            if (dc.getDocentes()!= null) {
+//                LinkedList<Docente> resultados = dc.listar();
+//
+//                
+//                // Búsqueda Lineal
+//                resultados = dc.buscarporBusquedaLineal(textoBusqueda, criterio, mtd.getDocentes().toArray());
+//                System.out.println(resultados.imprimir());
+//
+//                mtd.setDocentes(resultados);
+//            } else {
+//                // Manejo adecuado si divorciadas es null
+//            }
+//
+//            jTablaDocente.setModel(mtd);
+//            jTablaDocente.updateUI();
+//        } catch (Exception ex) {
+//            //Logger.getLogger(FrmDivorcio.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
 
     /**
@@ -170,7 +169,7 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
         panel1.add(panel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 1300, 90));
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de los Docentes");
+        labelRound1.setText("Registro de las Mallas");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -246,11 +245,11 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBusquedaActionPerformed
 
     private void buttonRect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRect2ActionPerformed
-        ordenar();
+        //ordenar();
     }//GEN-LAST:event_buttonRect2ActionPerformed
 
     private void buttonRect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRect1ActionPerformed
-        buscar();
+        //buscar();
     }//GEN-LAST:event_buttonRect1ActionPerformed
 
     /**
@@ -270,21 +269,35 @@ public class FrmDocenteTabla extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmDocenteTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMallaTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmDocenteTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMallaTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmDocenteTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMallaTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmDocenteTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMallaTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmDocenteTabla().setVisible(true);
+                new FrmMallaTabla().setVisible(true);
             }
         });
     }

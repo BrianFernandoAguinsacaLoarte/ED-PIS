@@ -5,18 +5,11 @@
 package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import modelo.Genero;
 import modelo.LogroEducativo;
-import modelo.TipoLogro;
-import modelo.controladores.GeneroController;
 import modelo.controladores.LogroEducativoController;
-import modelo.controladores.TipoLogroController;
-import vista.listas.tablas.ModeloTablaGenero;
 import vista.listas.tablas.ModeloTablaLogroEducativo;
-import vista.listas.tablas.ModeloTablaTipoLogro;
 import vista.listas.util.UtilVista;
 
 /**
@@ -44,6 +37,10 @@ public class FrmLogroEducativo extends javax.swing.JFrame {
     }
 
     private void limpiar() {
+        
+        txtNombre.setText("");
+        cbxDocente.setSelectedItem(-1);
+        cbxTipo.setSelectedItem(-1);
         
         try {
             UtilVista.cargarDocente(cbxDocente);
@@ -84,18 +81,6 @@ public class FrmLogroEducativo extends javax.swing.JFrame {
         }
     }
 
-//    private void cargarVista() {
-//        gc.setIndex(jTableGenero.getSelectedRow());
-//        if (gc.getIndex() < 0) {
-//            JOptionPane.showMessageDialog(null, "No");
-//        } else {
-//            try {
-//                gc.setGenero(mtg.getGeneros().get(gc.getIndex()));
-//                txtNombre.setText(gc.getGenero().getNombre().toString());
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
 
     private void modificar() {
         try {
@@ -120,7 +105,24 @@ public class FrmLogroEducativo extends javax.swing.JFrame {
         }
     }
     
-    
+    private void cargarVista(){
+        tl.setIndex(jTableLogroEducativo.getSelectedRow());
+        if(tl.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                tl.setLogroEducativo(mtg.getLogros().get(tl.getIndex()));
+                txtNombre.setText(tl.getLogroEducativo().getNombre());
+                UtilVista.setComboDocente(cbxDocente, tl.getLogroEducativo().getId_docente());
+                UtilVista.setComboTipoLogro(cbxTipo, tl.getLogroEducativo().getId_tipoLogro());
+              
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -305,11 +307,11 @@ public class FrmLogroEducativo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

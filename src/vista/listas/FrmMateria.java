@@ -35,6 +35,9 @@ public class FrmMateria extends javax.swing.JFrame {
      
     private void limpiar(){
         
+        txtNombre.setText("");
+        txtHoras.setText("");
+        
         cc.setMateria(null);
         cc.setLista(new LinkedList<>());
         cargarTabla();
@@ -89,7 +92,23 @@ public class FrmMateria extends javax.swing.JFrame {
     }
     
     
-    
+     
+    private void cargarVista(){
+        cc.setIndex(jTablaMateria.getSelectedRow());
+        if(cc.getIndex().intValue() < 0){
+            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try {
+                cc.setMateria(cc.getMaterias().get(cc.getIndex()));
+                txtNombre.setText(cc.getMateria().getNombre());
+                txtHoras.setText(cc.getMateria().getTotalHoras().toString());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
     
     
@@ -257,6 +276,7 @@ public class FrmMateria extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        cargarVista();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -268,6 +288,7 @@ public class FrmMateria extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
