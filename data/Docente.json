@@ -1,1 +1,0 @@
-{"controlador.TDA.listas.LinkedList":{"head":{"data":{"@class":"modelo.Docente","id":1,"id_Persona":6,"experienciaLaboral":3},"next":{"data":{"@class":"modelo.Docente","id":2,"id_Persona":5,"experienciaLaboral":12}}},"last":{"@reference":"..\/head\/next"},"size":2}}
