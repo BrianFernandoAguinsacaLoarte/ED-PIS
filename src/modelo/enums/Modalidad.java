@@ -8,6 +8,6 @@ package modelo.enums;
  *
  * @author Usuario iTC
  */
-public enum Genero {
-    
+public enum Modalidad {
+    PRESENCIAL, DISTANCIA
 }

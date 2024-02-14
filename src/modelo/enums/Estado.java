@@ -8,6 +8,6 @@ package modelo.enums;
  *
  * @author Usuario iTC
  */
-public enum EstadoEntrega {
-    
+public enum Estado {
+    ACTIVO, INACTIVO
 }
