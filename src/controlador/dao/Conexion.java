@@ -30,7 +30,7 @@ public class Conexion {
 
     public String password = "1106017716";
 
-    private Connection conectar() {
+    public Connection conectar() {
         Connection conn = null;
 
         try {

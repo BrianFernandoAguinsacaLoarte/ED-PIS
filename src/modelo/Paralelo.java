@@ -6,13 +6,12 @@ package modelo;
 
 /**
  *
- * @author Usuario iTC
+ * @author juanc
  */
-public class Cuenta {
+public class Paralelo {
     
     private Integer id;
-    private String usuario;
-    private String clave;
+    private String nombre;
 
     public Integer getId() {
         return id;
@@ -22,24 +21,17 @@ public class Cuenta {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getClave() {
-        return clave;
+    @Override
+    public String toString() {
+        return this.nombre;
     }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-   
- 
-    
     
 }

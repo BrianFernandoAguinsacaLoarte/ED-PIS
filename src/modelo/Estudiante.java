@@ -35,7 +35,10 @@ public class Estudiante extends Persona {
         this.tituloBachiller = tituloBachiller;
     }
 
-   
+    @Override
+    public String toString() {
+        return getNombres() + " " + getApellidos();
+    }
    
     
 }

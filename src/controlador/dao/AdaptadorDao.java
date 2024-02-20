@@ -13,41 +13,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import modelo.CrearTarea;
+import modelo.EntregaTarea;
 
 public class AdaptadorDao<T> implements InterfazDao<T> {
 
-    private Conexion conexion;
+    private Conexion conetion;
     private Class clazz;
 
     public AdaptadorDao(Class clazz) {
-        this.conexion = new Conexion();
+        this.conetion = new Conexion();
         this.clazz = clazz;
     }
 
     @Override
     public Integer guardar(T obj) throws Exception {
-        //INSERT INTO <TABLA> (..) value (...)
         String query = queryInsert(obj);
         Integer idGenerado = -1;
-        PreparedStatement statement
-                = conexion.getConnection().prepareStatement(query,
-                        Statement.RETURN_GENERATED_KEYS);
-        statement.executeUpdate();
-        ResultSet generatedKeys = statement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            idGenerado = generatedKeys.getInt(1);
-        }
-
-        conexion.getConnection().close();
-        conexion.setConnection(null);
-        return idGenerado;
-    }
-   
-
-    public Integer guardar2(T obj) throws Exception {
-        String query = queryInsert(obj);
-        Integer idGenerado = -1;
-        PreparedStatement statement = conexion.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement statement = conetion.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
         setParameters(statement, obtenerObjeto(obj));
 
@@ -57,36 +40,102 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
             idGenerado = generatedKeys.getInt(1);
         }
 
-        conexion.getConnection().close();
-        conexion.setConnection(null);
+        conetion.getConnection().close();
+        conetion.setConnection(null);
         return idGenerado;
     }
 
     @Override
     public void modificar(T obj) throws Exception {
         String query = queryUpdate(obj);
-        Statement st = conexion.getConnection().createStatement();
-        st.executeUpdate(query);
-        conexion.getConnection().close();
-        conexion.setConnection(null);
-    }
-
-    public void modificar2(T obj) throws Exception {
-        String query = queryUpdate(obj);
-        PreparedStatement statement = conexion.getConnection().prepareStatement(query);
+        PreparedStatement statement = conetion.getConnection().prepareStatement(query);
 
         setParameters(statement, obtenerObjeto(obj));
 
         statement.executeUpdate();
-        conexion.getConnection().close();
-        conexion.setConnection(null);
+        conetion.getConnection().close();
+        conetion.setConnection(null);
+    }
+
+    public boolean modificar2(CrearTarea crearTarea) {
+        PreparedStatement consulta = null;
+        java.sql.Connection conexion = null;
+
+        try {
+            conexion = conetion.conectar();
+            consulta = conexion.prepareStatement("UPDATE creartarea SET tema = ?, fechaCreacion = ?, fechaEntrega = ?, descripcion = ?, archivo = ?, extensionArchivo = ?, id_docenteMateria = ? WHERE id = ?;");
+            consulta.setString(1, crearTarea.getTema());
+            consulta.setDate(2, new java.sql.Date(crearTarea.getFechaCreacion().getTime()));
+            consulta.setDate(3, new java.sql.Date(crearTarea.getFechaEntrega().getTime()));
+            consulta.setString(4, crearTarea.getDescripcion());
+            consulta.setBlob(5, crearTarea.getArchivo());
+            consulta.setString(6, crearTarea.getExtensionArchivo());
+            consulta.setInt(7, crearTarea.getId_docenteMateria());
+            consulta.setInt(8, crearTarea.getId());
+            consulta.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+        }
+        return false;
+    }
+
+    public boolean modificar3(EntregaTarea entregaTarea) {
+        PreparedStatement consulta = null;
+        java.sql.Connection conexion = null;
+
+        try {
+            conexion = conetion.conectar();
+            consulta = conexion.prepareStatement("UPDATE entregatarea SET nombreTarea = ?, estado = ?, fechaEntrega = ?, calificacion = ?, texto = ?, archivo = ?, extensionArchivo = ?, idCrearTarea = ?, idMatriculaCursoMateria = ? WHERE id = ?;");
+            consulta.setString(1, entregaTarea.getNombreTarea());
+            consulta.setString(2, entregaTarea.getEstado());
+            consulta.setDate(3, new java.sql.Date(entregaTarea.getFechaEntrega().getTime()));
+            consulta.setDouble(4, entregaTarea.getCalificacion());
+            consulta.setString(5, entregaTarea.getTexto());
+            consulta.setBlob(6, entregaTarea.getArchivo());
+            consulta.setString(7, entregaTarea.getExtensionArchivo());
+            consulta.setInt(8, entregaTarea.getIdCrearTarea());
+            consulta.setInt(9, entregaTarea.getIdMatriculaCursoMateria());
+            consulta.setInt(10, entregaTarea.getId());
+            consulta.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+        }
+        return false;
+    }
+
+    public boolean modificar4(EntregaTarea entregaTarea) {
+        PreparedStatement consulta = null;
+        java.sql.Connection conexion = null;
+
+        try {
+            conexion = conetion.conectar();
+            consulta = conexion.prepareStatement("UPDATE entregatarea SET nombreTarea = ?, estado = ?, fechaEntrega = ?, calificacion = ?, texto = ?, archivo = ?, extensionArchivo = ?, idCrearTarea = ?, idMatriculaCursoMateria = ?, codigo = ? WHERE id = ?;");
+            consulta.setString(1, entregaTarea.getNombreTarea());
+            consulta.setString(2, entregaTarea.getEstado());
+            consulta.setDate(3, new java.sql.Date(entregaTarea.getFechaEntrega().getTime()));
+            consulta.setDouble(4, entregaTarea.getCalificacion());
+            consulta.setString(5, entregaTarea.getTexto());
+            consulta.setBlob(6, entregaTarea.getArchivo());
+            consulta.setString(7, entregaTarea.getExtensionArchivo());
+            consulta.setInt(8, entregaTarea.getIdCrearTarea());
+            consulta.setInt(9, entregaTarea.getIdMatriculaCursoMateria());
+            consulta.setString(10, entregaTarea.getCodigo());
+            consulta.setInt(11, entregaTarea.getId());
+            consulta.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e);
+        }
+        return false;
     }
 
     @Override
     public LinkedList<T> listar() {
         LinkedList<T> lista = new LinkedList<>();
         try {
-            Statement stmt = conexion.getConnection().createStatement();
+            Statement stmt = conetion.getConnection().createStatement();
             String query = "SELECT * FROM " + clazz.getSimpleName().toLowerCase();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -102,7 +151,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
     public T obtener(Integer id) {
         T data = null;
         try {
-            Statement stmt = conexion.getConnection().createStatement();
+            Statement stmt = conetion.getConnection().createStatement();
             String query = "select * from " + clazz.getSimpleName().toLowerCase() + " where id = " + id;
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -196,7 +245,6 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
                 if (aux != null) {
                     mapa.put(atributo.toLowerCase(), aux);
                 }
-
             }
         } catch (Exception e) {
             System.out.println("No se pudo tener dato");
@@ -209,7 +257,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
             int index = 1;
             for (Map.Entry<String, Object> entry : parameters.entrySet()) {
                 if (entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Blob")) {
-                    statement.setBlob(index, (Blob) entry.getValue());
+                    statement.setBlob(index, (java.sql.Blob) entry.getValue());
                 } else {
                     statement.setObject(index, entry.getValue());
                 }
@@ -225,24 +273,13 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
         String query = "INSERT INTO " + clazz.getSimpleName().toLowerCase() + " (";
         for (Map.Entry<String, Object> entry : mapa.entrySet()) {
             query += entry.getKey() + ",";
-
         }
         query = query.substring(0, query.length() - 1);
         query += ") VALUES (";
         for (Map.Entry<String, Object> entry : mapa.entrySet()) {
-
-            if (entry.getValue().getClass().getSuperclass().getSimpleName().equalsIgnoreCase("Number") || entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Boolean")) {
-                query += entry.getValue() + ", ";
-            }
-            if (entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Date")) {
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                query += '"' + formato.format(entry.getValue()) + '"' + ", ";
-            }
-            if (entry.getValue().getClass().isEnum() || entry.getValue().getClass().getSimpleName().equalsIgnoreCase("String")) {
-                query += '"' + entry.getValue().toString() + '"' + ", ";
-            }
+            query += "?,";
         }
-        query = query.substring(0, query.length() - 2);
+        query = query.substring(0, query.length() - 1);
         query += ")";
         return query;
     }
@@ -255,22 +292,9 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
             if (entry.getKey().toString().equalsIgnoreCase("id")) {
                 id = (Integer) entry.getValue();
             } else {
-                query += entry.getKey() + " = ";
-                if (entry.getValue().getClass().getSuperclass().getSimpleName().equalsIgnoreCase("Number") || entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Boolean")) {
-                    query += entry.getValue() + ", ";
-                }
-                if (entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Date")) {
-                    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    query += '"' + formato.format(entry.getValue()) + '"' + ", ";
-                }
-                if (entry.getValue().getClass().isEnum() || entry.getValue().getClass().getSimpleName().equalsIgnoreCase("String")) {
-                    query += '"' + entry.getValue().toString() + '"' + ", ";
-                }
+                query += entry.getKey() + " = ?, ";
             }
-
         }
-
-        query += "";
 
         query = query.substring(0, query.length() - 2);
         query += " WHERE id = " + id;

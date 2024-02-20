@@ -4,8 +4,16 @@
  */
 package vista.listas;
 
+import controlador.TDA.listas.LinkedList;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import modelo.Cuenta;
+import modelo.Docente;
+import modelo.Estudiante;
+import modelo.controladores.CuentaController;
+import modelo.controladores.DocenteController;
+import modelo.controladores.EstudianteController;
 
 /**
  *
@@ -25,6 +33,63 @@ public class FrmLogin extends javax.swing.JFrame {
         
         
         
+    }
+     EstudianteController estudianteControlador = new EstudianteController();
+    DocenteController docenteControlador = new DocenteController();
+    CuentaController cuentaControlador = new CuentaController();
+
+
+
+
+    private Integer validarUsuario() {
+        LinkedList<Cuenta> cuentasRegistradas = cuentaControlador.listar();
+        Cuenta[] cuentas = cuentasRegistradas.toArray();
+        LinkedList<Estudiante> estudiantesRegistrados = estudianteControlador.listar();
+        Estudiante[] estudiantes = estudiantesRegistrados.toArray();
+        LinkedList<Docente> docentesRegistrados = docenteControlador.listar();
+        Docente[] docentes = docentesRegistrados.toArray();
+
+        String usuario = userTxt.getText();
+        String contra = passwordTxt.getText();
+        
+        for (Cuenta cuenta : cuentas) {
+            if (cuenta.getUsuario().equals(usuario) && cuenta.getClave().equals(contra)) {
+//                 El usuario es válido
+                for (Docente docente : docentes) {
+                    if (docente.getId_cuenta().equals(cuenta.getId())) {
+                        // El usuario es un docente, abre el formulario de docente
+                        JOptionPane.showMessageDialog(null, "Inicio Sesion Exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);
+//                        Integer idDocente = docente.getId();
+                        FrmPantallDocente frmDocente = new FrmPantallDocente();
+                        frmDocente.setIdDocente(docente.getId());
+                        frmDocente.setVisible(true);
+                        this.dispose();
+                        return 1;   
+                    }
+                }
+
+                for (Estudiante estudiante : estudiantes) {
+                    if (estudiante.getId_cuenta().equals(cuenta.getId())) {
+                        // El usuario es un estudiante, abre el formulario de estudiante
+                        JOptionPane.showMessageDialog(null, "Inicio Sesion Exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                        FrmPantallaEstudiante frmEstudiante = new FrmPantallaEstudiante();
+                        System.out.println("id Estudiante: " + estudiante.getId());
+                        frmEstudiante.setIdEstudiante(estudiante.getId());
+                        frmEstudiante.setVisible(true);
+                        this.dispose();
+                        return 1;
+                    }
+                }
+
+                // El usuario no es ni docente ni estudiante
+                JOptionPane.showMessageDialog(null, "Credenciales inválidas", "Error", JOptionPane.ERROR_MESSAGE);
+                return -1;
+            }
+        }
+
+        // Credenciales inválidas
+        JOptionPane.showMessageDialog(null, "Credenciales inválidas", "Error", JOptionPane.ERROR_MESSAGE);
+        return -1;
     }
 
     /**

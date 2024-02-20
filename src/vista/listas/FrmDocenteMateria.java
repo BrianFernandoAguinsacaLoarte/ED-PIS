@@ -7,109 +7,126 @@ package vista.listas;
 import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import modelo.Curso;
+import modelo.DocenteMateria;
+import modelo.Estudiante;
+import modelo.Materia;
 import modelo.Matricula;
-import modelo.controladores.MatriculaController;
-import vista.listas.tablas.ModeloTablaMatricula;
+import modelo.MatriculaCursoMateria;
+import modelo.controladores.DocenteMateriaController;
+import modelo.controladores.EstudianteController;
+import modelo.controladores.MatriculaCursoMateriaControlador;
+import vista.listas.tablas.ModeloTablaDocenteMateria;
+import vista.listas.tablas.ModeloTablaEstudiante;
+import vista.listas.tablas.ModeloTablaMatriculaCursoMateria;
 import vista.listas.util.UtilVista;
 
 /**
  *
  * @author Usuario iTC
  */
-public class FrmMatricula extends javax.swing.JFrame {
+public class FrmDocenteMateria extends javax.swing.JFrame {
 
-    MatriculaController dc = new MatriculaController();
-    ModeloTablaMatricula mtd = new ModeloTablaMatricula();
-    
-    public FrmMatricula() {
+    private DocenteMateriaController estCon = new DocenteMateriaController();
+    private ModeloTablaDocenteMateria mtll = new ModeloTablaDocenteMateria();
+
+    /**
+     * Creates new form FrmMatriculaCursoMateria
+     */
+    public FrmDocenteMateria() {
         initComponents();
-        panelLogo.setIcon(new ImageIcon("multimedia/LogoUNL.jpg"));
-        this.setLocationRelativeTo(null);
         limpiar();
-        
     }
-    
+
     public Boolean validar() {
         return true;
-    
     }
-    
-    public void cargarTabla() {
-        mtd.setMatriculas(dc.getLista());
-        jTablaMatricula.setModel(mtd);
-        jTablaMatricula.updateUI();
-    }
-     
-    private void limpiar() {
-        
-        cbxEst.setSelectedItem(-1);
-        cbxEstado.setSelectedItem(-1);
-        cbxGratuidad.setSelectedItem(-1);
-        jDateFecha.setDate(null);
-        cbxModalidad.setSelectedItem(-1);
-        cbxPeriodo.setSelectedItem(-1);
-        cbxTurno.setSelectedItem(-1);
-        
-        dc.setMatricula(null);
-        dc.setLista(new LinkedList<>());
-        dc.setMatricula(null);
-        dc.setIndex(-1);
-        cargarTabla();
-        try {
-            UtilVista.cargarEstudiante(cbxEst);
-            UtilVista.cargarPeriodoAca(cbxPeriodo);
-            UtilVista.cargarEstados(cbxGratuidad);
-            UtilVista.cargarTurno(cbxTurno);
-            UtilVista.cargarModalidad(cbxModalidad);
-            UtilVista.cargarEstados(cbxEstado);
-        } catch (Exception e) {
-        }
 
+    private void limpiar() {
+        estCon.setDocenteMateria(null);
+        estCon.setLista(new LinkedList<>());
+        cargarTabla();
+        estCon.setDocenteMateria(null);
+        estCon.setIndex(-1);
+        try {
+            UtilVista.cargarDocente(cbxDocentes);
+            UtilVista.cargarMateria(cbxMateria);
+            UtilVista.cargarCurso(cbxCurso);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-     public void guardar() {
+
+    public void cargarTabla() {
+        mtll.setDocentesMateria(estCon.getLista());
+        tblTabla.setModel(mtll);
+        tblTabla.updateUI();
+    }
+
+    public void guardar() {
         if (validar()) {
             try {
-                Matricula matricula = new Matricula();
-                matricula.setId_estudiante(UtilVista.getCargarEstudiante(cbxEst).getId());
-                matricula.setId_periodoAcademico(UtilVista.getComboPeriodoAca(cbxPeriodo).getId());
-                matricula.setFechaMatricula(jDateFecha.getDate());
-                matricula.setGratuidad(UtilVista.getComboEstados(cbxGratuidad));
-                matricula.setTurno(UtilVista.getComboTurno(cbxTurno));
-                matricula.setModalidad(UtilVista.getComboModalidad(cbxModalidad));
-                matricula.setEstado(UtilVista.getComboEstados(cbxEstado));
-                dc.setMatricula(matricula);
-                dc.guardar();
-                dc.setMatricula(null);
+                DocenteMateria matriculaCursoMateria = new DocenteMateria();
+
+                Curso cursoSeleccionado = (Curso) cbxCurso.getSelectedItem();
+                Integer idCursoSeleccionado = cursoSeleccionado.getId();
+
+                Materia materiaSeleccionado = (Materia) cbxMateria.getSelectedItem();
+                Integer idMateriaSeleccionado = materiaSeleccionado.getId();
+
+                Matricula matriculaSeleccionada = (Matricula) cbxDocentes.getSelectedItem();
+                Integer idMatriculaSeleccionada = matriculaSeleccionada.getId();
+
+                System.out.println("Curso: " + idCursoSeleccionado);
+                System.out.println("Estudiante: " + idMatriculaSeleccionada);
+                System.out.println("Materia: " + idMateriaSeleccionado);
+
+                matriculaCursoMateria.setId_curso(idCursoSeleccionado);
+                matriculaCursoMateria.setId_materia(idMateriaSeleccionado);
+                matriculaCursoMateria.setId_docente(idMatriculaSeleccionada);
+
+                estCon.setDocenteMateria(matriculaCursoMateria);
+                estCon.guardar();
+                estCon.setDocenteMateria(null);
                 limpiar();
             } catch (Exception e) {
+                System.out.println("No se pudo guardar");
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }
     }
-    
-    
-     private void modificar() {
+
+    private void modificar() {
         try {
-            int filaSeleccionada = jTablaMatricula.getSelectedRow();
+            int filaSeleccionada = tblTabla.getSelectedRow();
 
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(null, "Seleccione un ciclo para modificar");
                 return;
             }
 
-            Matricula matriculaSel = mtd.getMatriculas().get(filaSeleccionada);
-            matriculaSel.setId_estudiante(UtilVista.getCargarEstudiante(cbxEst).getId());
-            matriculaSel.setId_periodoAcademico(UtilVista.getComboPeriodoAca(cbxPeriodo).getId());
-            matriculaSel.setFechaMatricula(jDateFecha.getDate());
-            matriculaSel.setGratuidad(UtilVista.getComboEstados(cbxGratuidad));
-            matriculaSel.setTurno(UtilVista.getComboTurno(cbxTurno));
-            matriculaSel.setModalidad(UtilVista.getComboModalidad(cbxModalidad));
-            matriculaSel.setEstado(UtilVista.getComboEstados(cbxEstado));
+            DocenteMateria matriculaCursoMateria = new DocenteMateria();
 
+            Curso cursoSeleccionado = (Curso) cbxCurso.getSelectedItem();
+            Integer idCursoSeleccionado = cursoSeleccionado.getId();
 
-            dc.modificar(matriculaSel);
+            Materia materiaSeleccionado = (Materia) cbxMateria.getSelectedItem();
+            Integer idMateriaSeleccionado = materiaSeleccionado.getId();
+
+            Matricula matriculaSeleccionada = (Matricula) cbxDocentes.getSelectedItem();
+            Integer idMatriculaSeleccionada = matriculaSeleccionada.getId();
+
+            System.out.println("Curso: " + idCursoSeleccionado);
+            System.out.println("Estudiante: " + idMatriculaSeleccionada);
+            System.out.println("Materia: " + idMateriaSeleccionado);
+
+            matriculaCursoMateria.setId_curso(idCursoSeleccionado);
+            matriculaCursoMateria.setId_materia(idMateriaSeleccionado);
+            matriculaCursoMateria.setId_docente(idMatriculaSeleccionada);
+
+            estCon.modificar(matriculaCursoMateria);
 
             limpiar();
         } catch (Exception e) {
@@ -117,44 +134,29 @@ public class FrmMatricula extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al modificar el ciclo: " + e.getMessage());
         }
     }
-    
-    
-     
-    private void cargarVista(){
-        dc.setIndex(jTablaMatricula.getSelectedRow());
-        if(dc.getIndex().intValue() < 0){
-            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+
+    private void cargarVista() {
+        estCon.setIndex(tblTabla.getSelectedRow());
+        if (estCon.getIndex().intValue() < 0) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             try {
-                dc.setMatricula(dc.getMatriculas().get(dc.getIndex()));
-                UtilVista.setComboEstudiante(cbxEst, dc.getMatricula().getId_estudiante());
-                cbxEstado.setSelectedItem(dc.getMatricula().getEstado());
-                jDateFecha.setDate(dc.getMatricula().getFechaMatricula());
-                cbxGratuidad.setSelectedItem(dc.getMatricula().getGratuidad());
-                cbxModalidad.setSelectedItem(dc.getMatricula().getModalidad());
-                UtilVista.setPeriodoAca(cbxPeriodo, dc.getMatricula().getId_periodoAcademico());
-                cbxTurno.setSelectedItem(dc.getMatricula().getTurno());
-                
+//                UtilVista.setComboMatricula(cbxEstudiante, estCon.getMatriculaCursoMateria().getId_matricula());
+//                UtilVista.setComboCurso(cbxEstudiante, estCon.getCursos().getId_curso());
+//                UtilVista.setComboMateria(cbxEstudiante, estCon.getMaterias().getId_matricula());
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -165,27 +167,19 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRound1 = new org.edisoncor.gui.label.LabelRound();
         panelLogo = new org.edisoncor.gui.panel.PanelImage();
         btnRegresar = new org.edisoncor.gui.button.ButtonRect();
+        btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
         btnGuardar = new org.edisoncor.gui.button.ButtonRect();
         btnActualizar = new org.edisoncor.gui.button.ButtonRect();
         btnCancelar = new org.edisoncor.gui.button.ButtonRect();
         labelRect2 = new org.edisoncor.gui.label.LabelRect();
         labelRect4 = new org.edisoncor.gui.label.LabelRect();
         labelRect5 = new org.edisoncor.gui.label.LabelRect();
-        labelRect6 = new org.edisoncor.gui.label.LabelRect();
-        labelRect7 = new org.edisoncor.gui.label.LabelRect();
-        cbxEstado = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        labelRect8 = new org.edisoncor.gui.label.LabelRect();
-        labelRect1 = new org.edisoncor.gui.label.LabelRect();
+        cbxDocentes = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        cbxMateria = new org.edisoncor.gui.comboBox.ComboBoxRect();
         panelRect1 = new org.edisoncor.gui.panel.PanelRect();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablaMatricula = new javax.swing.JTable();
-        jDateFecha = new com.toedter.calendar.JDateChooser();
-        btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
-        cbxPeriodo = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxEst = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxGratuidad = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxTurno = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxModalidad = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        tblTabla = new javax.swing.JTable();
+        cbxCurso = new org.edisoncor.gui.comboBox.ComboBoxRect();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,7 +192,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Matriculas");
+        labelRound1.setText("Asignar cursos y materias a estudiantes");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -232,6 +226,15 @@ public class FrmMatricula extends javax.swing.JFrame {
         });
         panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 580, 130, 40));
 
+        btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
+        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 130, 40));
+
         btnGuardar.setBackground(new java.awt.Color(0, 102, 153));
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -262,63 +265,32 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRect2.setBackground(new java.awt.Color(255, 255, 255));
         labelRect2.setForeground(new java.awt.Color(0, 0, 0));
         labelRect2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect2.setText("Estudiante:");
+        labelRect2.setText("Docente\n");
         labelRect2.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect2.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 30));
+        panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 150, 30));
 
         labelRect4.setBackground(new java.awt.Color(255, 255, 255));
         labelRect4.setForeground(new java.awt.Color(0, 0, 0));
         labelRect4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect4.setText("Periodo:");
+        labelRect4.setText("Curso:");
         labelRect4.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect4.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 150, 30));
+        panel1.add(labelRect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 150, 30));
 
         labelRect5.setBackground(new java.awt.Color(255, 255, 255));
         labelRect5.setForeground(new java.awt.Color(0, 0, 0));
         labelRect5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect5.setText("Fecha:");
+        labelRect5.setText("Materia:");
         labelRect5.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect5.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 150, 30));
-
-        labelRect6.setBackground(new java.awt.Color(255, 255, 255));
-        labelRect6.setForeground(new java.awt.Color(0, 0, 0));
-        labelRect6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect6.setText("Gratuidad:");
-        labelRect6.setColorDeBorde(new java.awt.Color(255, 255, 255));
-        labelRect6.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 150, 30));
-
-        labelRect7.setBackground(new java.awt.Color(255, 255, 255));
-        labelRect7.setForeground(new java.awt.Color(0, 0, 0));
-        labelRect7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect7.setText("Turno:");
-        labelRect7.setColorDeBorde(new java.awt.Color(255, 255, 255));
-        labelRect7.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 150, 30));
-        panel1.add(cbxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 400, 30));
-
-        labelRect8.setBackground(new java.awt.Color(255, 255, 255));
-        labelRect8.setForeground(new java.awt.Color(0, 0, 0));
-        labelRect8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect8.setText("Modalidad:");
-        labelRect8.setColorDeBorde(new java.awt.Color(255, 255, 255));
-        labelRect8.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 150, 30));
-
-        labelRect1.setBackground(new java.awt.Color(255, 255, 255));
-        labelRect1.setForeground(new java.awt.Color(0, 0, 0));
-        labelRect1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect1.setText("Estado");
-        labelRect1.setColorDeBorde(new java.awt.Color(255, 255, 255));
-        labelRect1.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 150, 30));
+        panel1.add(labelRect5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 150, 30));
+        panel1.add(cbxDocentes, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 400, 30));
+        panel1.add(cbxMateria, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 400, 30));
 
         panelRect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTablaMatricula.setModel(new javax.swing.table.DefaultTableModel(
+        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -329,26 +301,12 @@ public class FrmMatricula extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTablaMatricula);
+        jScrollPane1.setViewportView(tblTabla);
 
         panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 340));
 
         panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 680, 360));
-        panel1.add(jDateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 400, 30));
-
-        btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
-        btnSeleccionar.setText("Seleccionar");
-        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSeleccionarActionPerformed(evt);
-            }
-        });
-        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 130, 40));
-        panel1.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 400, 30));
-        panel1.add(cbxEst, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 400, 30));
-        panel1.add(cbxGratuidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 400, 30));
-        panel1.add(cbxTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 400, 30));
-        panel1.add(cbxModalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 400, 30));
+        panel1.add(cbxCurso, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 400, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,9 +323,13 @@ public class FrmMatricula extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       new FrmRegistroDocenteGeneral().setVisible(true);
-       this.dispose();
+        new FrmRegistroDocenteGeneral().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        cargarVista();
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
@@ -380,10 +342,6 @@ public class FrmMatricula extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        cargarVista();
-    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -402,14 +360,62 @@ public class FrmMatricula extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMatricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDocenteMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMatricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDocenteMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMatricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDocenteMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMatricula.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDocenteMateria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -430,7 +436,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmMatricula().setVisible(true);
+                new FrmDocenteMateria().setVisible(true);
             }
         });
     }
@@ -441,26 +447,18 @@ public class FrmMatricula extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonRect btnGuardar;
     private org.edisoncor.gui.button.ButtonRect btnRegresar;
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxEst;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxEstado;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxGratuidad;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxModalidad;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxPeriodo;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxTurno;
-    private com.toedter.calendar.JDateChooser jDateFecha;
+    private org.edisoncor.gui.comboBox.ComboBoxRect cbxCurso;
+    private org.edisoncor.gui.comboBox.ComboBoxRect cbxDocentes;
+    private org.edisoncor.gui.comboBox.ComboBoxRect cbxMateria;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablaMatricula;
-    private org.edisoncor.gui.label.LabelRect labelRect1;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRect labelRect4;
     private org.edisoncor.gui.label.LabelRect labelRect5;
-    private org.edisoncor.gui.label.LabelRect labelRect6;
-    private org.edisoncor.gui.label.LabelRect labelRect7;
-    private org.edisoncor.gui.label.LabelRect labelRect8;
     private org.edisoncor.gui.label.LabelRound labelRound1;
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelImage panelLogo;
     private org.edisoncor.gui.panel.PanelRect panelRect1;
+    private javax.swing.JTable tblTabla;
     // End of variables declaration//GEN-END:variables
 }
