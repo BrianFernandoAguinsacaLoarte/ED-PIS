@@ -547,8 +547,12 @@ public class FrmCrearTarea extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        guardar();
+       try {
+           // TODO add your handling code here:
+           guardar();
+       } catch (VacioExcepcion ex) {
+           Logger.getLogger(FrmCrearTarea.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**

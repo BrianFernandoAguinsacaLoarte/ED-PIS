@@ -4,6 +4,7 @@
  */
 package vista.listas.tablas.Tareas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +39,7 @@ public class ModeloTabla_Estudiante_VerTareaEntregadas {
     MatriculaCursoMateriaControlador matriculasMaterias = new MatriculaCursoMateriaControlador();
     LinkedList<MatriculaCursoMateria> matriculasMateriasList = matriculasMaterias.listar();
 
-    public void visualizar(JTable tabla, Integer id_estudiante, String codigo, Integer idTareaAsignada) {
+    public void visualizar(JTable tabla, Integer id_estudiante, String codigo, Integer idTareaAsignada) throws VacioExcepcion {
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override

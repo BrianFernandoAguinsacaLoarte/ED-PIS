@@ -4,6 +4,7 @@
  */
 package vista.listas.tablas.Tareas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -19,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.CrearTarea;
 import modelo.controladores.ControladorCrearTarea;
+import vista.listas.FrmEntregarTarea;
 
 /**
  *
@@ -35,13 +39,12 @@ public class ModeloTablaTareasAsignadas {
     LinkedList<CrearTarea> tareasList = tareasCreadas.listar();
     LinkedList<CrearTarea> tareasCoincidencias = new LinkedList<>();
 
-
     public ModeloTablaTareasAsignadas() {
     }
 
     ControladorCrearTarea dao = null;
 
-    public void visualizar(JTable tabla, Integer idEstudianteMateria, Integer idDocenteMateria,Integer idEstudiante) {
+    public void visualizar(JTable tabla, Integer idEstudianteMateria, Integer idDocenteMateria, Integer idEstudiante) throws VacioExcepcion {
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override
@@ -49,11 +52,11 @@ public class ModeloTablaTareasAsignadas {
                 return false;
             }
         };
-        
+
         this.idDocenteMateria = idDocenteMateria;
         this.idEstudiante = idEstudiante;
         this.idEstudianteMateria = idEstudianteMateria;
-        
+
 //        dt.addColumn("id");
         dt.addColumn("Tema");
         dt.addColumn("Descripcion");
@@ -124,7 +127,11 @@ public class ModeloTablaTareasAsignadas {
                 abrirTareaBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        abrirFrmTarea(idEstudiante,codigoTarea,idTareaAsignada); // Pasar el id de la tarea seleccionada
+                        try {
+                            abrirFrmTarea(idEstudiante, codigoTarea, idTareaAsignada); // Pasar el id de la tarea seleccionada
+                        } catch (VacioExcepcion ex) {
+                            Logger.getLogger(ModeloTablaTareasAsignadas.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 });
                 fila[3] = abrirTareaBtn;
@@ -139,15 +146,13 @@ public class ModeloTablaTareasAsignadas {
         }
     }
 
-    private void abrirFrmTarea(Integer idEstudiante, String codigo, Integer idTareaAsignada) {
+    private void abrirFrmTarea(Integer idEstudiante, String codigo, Integer idTareaAsignada) throws VacioExcepcion {
         FrmEntregarTarea frmTarea = new FrmEntregarTarea();
         frmTarea.Tarea(idEstudiante, codigo, idTareaAsignada, idEstudianteMateria, idDocenteMateria);
         frmTarea.setVisible(true);
     }
 
-
     private void buscarTareas(Integer idDocenteMateria, LinkedList<CrearTarea> tareasList, LinkedList<CrearTarea> tareasCoincidencias) {
-
 
         System.out.println("\n\n\nBuscarTareas");
         System.out.println("id Docente: " + idDocenteMateria);
@@ -160,5 +165,5 @@ public class ModeloTablaTareasAsignadas {
             }
         }
 
-       
+    }
 }

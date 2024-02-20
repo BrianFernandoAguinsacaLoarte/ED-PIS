@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,6 +24,7 @@ import modelo.controladores.CursoController;
 import modelo.controladores.DocenteMateriaController;
 import modelo.controladores.MateriaController;
 import modelo.controladores.ParaleloController;
+import vista.listas.FrmVerTareaEntregadas;
 
 /**
  *
@@ -122,7 +125,11 @@ public class ModeloTablaCrearTarea {
                 abrirTareaBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        abrirFrmTarea(TareasEntregadas); // Pasar el id de la tarea seleccionada
+                        try {
+                            abrirFrmTarea(TareasEntregadas); // Pasar el id de la tarea seleccionada
+                        } catch (VacioExcepcion ex) {
+                            Logger.getLogger(ModeloTablaCrearTarea.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 });
                 fila[6] = abrirTareaBtn;
@@ -137,7 +144,7 @@ public class ModeloTablaCrearTarea {
 
 
     
-     private void abrirFrmTarea(Integer idTarea) {
+     private void abrirFrmTarea(Integer idTarea) throws VacioExcepcion {
          FrmVerTareaEntregadas frmTarea = new FrmVerTareaEntregadas();
         frmTarea.verTareasEntregadas(idTarea);
         frmTarea.setVisible(true);

@@ -4,7 +4,10 @@
  */
 package vista.listas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Curso;
@@ -83,7 +86,7 @@ public class FrmPantallDocente extends javax.swing.JFrame {
         }
     }
 
-    private Integer obtenerIdDocenteMateriaSeleccionada() {
+    private Integer obtenerIdDocenteMateriaSeleccionada() throws VacioExcepcion {
         String seleccion = (String) cbxMaterias.getSelectedItem();
 
         String[] partes = seleccion.split(" - ");
@@ -188,7 +191,11 @@ public class FrmPantallDocente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        obtenerIdDocenteMateriaSeleccionada();
+        try {
+            obtenerIdDocenteMateriaSeleccionada();
+        } catch (VacioExcepcion ex) {
+            Logger.getLogger(FrmPantallDocente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**

@@ -8,7 +8,7 @@ import controlador.TDA.listas.LinkedList;
 
 /**
  *
- * @author Usuario iTC
+ * @author juanc
  */
 public interface InterfazDao<T> {
     
@@ -19,4 +19,5 @@ public interface InterfazDao<T> {
     public LinkedList<T> listar();
 
     public T obtener(Integer id);
+    
 }

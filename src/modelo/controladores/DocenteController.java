@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import javax.swing.JOptionPane;
+import modelo.Cuenta;
 import modelo.Estudiante;
 import modelo.Persona;
 
@@ -25,20 +27,22 @@ public class DocenteController extends AdaptadorDao<Docente>  {
     private Docente docente;
     private LinkedList<Docente> lista = new LinkedList<>();
     private Integer index = -1;
+    
+    private String dominio = "@unl.edu.ec";
 
     public DocenteController() {
         super(Docente.class);
     }
     
-    public void guardar() {
-        try {
-            Integer idGenerado = this.guardar(docente);
-            System.out.println("Docente guardado con ID: " + idGenerado);
-        } catch (Exception e) {
-            System.out.println("Error al guardar el Docente: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+//    public void guardar() {
+//        try {
+//            Integer idGenerado = this.guardar(docente);
+//            System.out.println("Docente guardado con ID: " + idGenerado);
+//        } catch (Exception e) {
+//            System.out.println("Error al guardar el Docente: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
     
     
     public Docente getDocente() {
@@ -80,7 +84,68 @@ public class DocenteController extends AdaptadorDao<Docente>  {
         return lista;
     }
     
-   
+    public void guardar() {
+        try {
+            if (cedulaEnUso(docente.getCedula())) {
+                System.out.println("Error: La cédula ya está en uso.");
+                JOptionPane.showMessageDialog(null, "Error: La cédula ya está en uso.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Integer idGenerado = this.guardar(docente);
+            System.out.println("Docente guardado con ID: " + idGenerado);
+        } catch (Exception e) {
+            System.out.println("Error al guardar el Docente: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private boolean cedulaEnUso(String cedula) {
+        LinkedList<Docente> docentesRegistrados = listar();
+        Docente[] docentes = docentesRegistrados.toArray();
+
+        if (docentes == null) {
+            return false;
+        }
+
+        for (Docente docente : docentes) {
+            if (docente.getCedula().equals(cedula)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String crearCorreo(String nombre, String apellido) {
+        String appellido = apellido.substring(0, 1);
+        String correo = "";
+        return correo = nombre + appellido + apellido.substring(1) + getDominio();
+    }
+
+    public Integer crearCuenta(String nombre, String apellido, String cedula) {
+        CuentaController cuentaControlador = new CuentaController();
+        Cuenta cuenta = new Cuenta();
+
+        if (cedulaEnUso(cedula)) {
+            System.out.println("Error: La cédula ya está en uso. No se puede crear la cuenta.");
+            return -1;
+        } else {
+            String correo = crearCorreo(nombre, apellido);
+            cuenta.setUsuario(correo);
+            cuenta.setClave(cedula);
+            cuentaControlador.setCuenta(cuenta);
+            Integer idCuenta = cuentaControlador.guardar();
+            return idCuenta;
+        }
+    }
+
+    public String getDominio() {
+        return dominio;
+    }
+
+    public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
 
 
     private void quickSort(Docente[] arr, String field, Integer type) {

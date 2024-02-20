@@ -18,7 +18,7 @@ public class Conexion {
     
     public String driver = "com.mysql.cj.jdbc.Driver";//oracle.jdbc.driver.OracleDriver
 
-    public String database = "baseprueba";
+    public String database = "paraprobarpis";
 
     public String hostname = "localhost";
 
@@ -28,23 +28,27 @@ public class Conexion {
 
     public String username = "root";
 
-    public String password = "1106017716";
+    public String password = "2002";
 
-    public Connection conectar() {
-        Connection conn = null;
+//    public Connection conectar() {
+//        Connection conn = null;
+//
+//        try {
+//            Class.forName(driver);
+//            conn = DriverManager.getConnection(url, username, password);
+//            System.out.println("Conected!");
+//        } catch (ClassNotFoundException | SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return conn;
+//    }
 
-        try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Conected!");
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-        return conn;
+    public Connection conectar() throws SQLException{
+        return DriverManager.getConnection(url, username, password);
     }
-
-    public Connection getConnection() {
+    
+    public Connection getConnection() throws SQLException {
         if(connection == null)
             connection = conectar();
         return connection;
@@ -54,7 +58,7 @@ public class Conexion {
         this.connection = connection;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         new Conexion().conectar();
     }
     

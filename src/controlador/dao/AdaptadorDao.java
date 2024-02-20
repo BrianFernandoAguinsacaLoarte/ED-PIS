@@ -1,11 +1,12 @@
 package controlador.dao;
 
-import com.mysql.cj.jdbc.Blob;
+//import com.mysql.cj.jdbc.Blob;
+//import com.mysql.cj.jdbc.Blob;
 import controlador.TDA.listas.LinkedList;
-import controlador.dao.Conexion;
-
+import java.sql.Blob;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -59,7 +60,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
 
     public boolean modificar2(CrearTarea crearTarea) {
         PreparedStatement consulta = null;
-        java.sql.Connection conexion = null;
+        Connection conexion = null;
 
         try {
             conexion = conetion.conectar();
@@ -82,7 +83,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
 
     public boolean modificar3(EntregaTarea entregaTarea) {
         PreparedStatement consulta = null;
-        java.sql.Connection conexion = null;
+        Connection conexion = null;
 
         try {
             conexion = conetion.conectar();
@@ -107,7 +108,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
 
     public boolean modificar4(EntregaTarea entregaTarea) {
         PreparedStatement consulta = null;
-        java.sql.Connection conexion = null;
+        Connection conexion = null;
 
         try {
             conexion = conetion.conectar();
@@ -257,7 +258,7 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
             int index = 1;
             for (Map.Entry<String, Object> entry : parameters.entrySet()) {
                 if (entry.getValue().getClass().getSimpleName().equalsIgnoreCase("Blob")) {
-                    statement.setBlob(index, (java.sql.Blob) entry.getValue());
+                    statement.setBlob(index, (Blob) entry.getValue());
                 } else {
                     statement.setObject(index, entry.getValue());
                 }

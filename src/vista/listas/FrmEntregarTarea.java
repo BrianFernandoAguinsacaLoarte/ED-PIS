@@ -4,6 +4,7 @@
  */
 package vista.listas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,7 +61,7 @@ public class FrmEntregarTarea extends javax.swing.JFrame {
 
     }
 
-    public void Tarea(Integer id_estudiante, String codigo, Integer idTareaAsignada, Integer idEstudianteMateria, Integer idDocenteMateria) {
+    public void Tarea(Integer id_estudiante, String codigo, Integer idTareaAsignada, Integer idEstudianteMateria, Integer idDocenteMateria) throws VacioExcepcion {
         this.codigo = codigo;
         this.id_estudiante = id_estudiante;
         this.idEstudianteMateria = idEstudianteMateria;
@@ -105,13 +106,13 @@ public class FrmEntregarTarea extends javax.swing.JFrame {
         return !txtNombreArchivo.getText().trim().isEmpty();
     }
 
-    private void limpiar() {
+    private void limpiar() throws VacioExcepcion {
         System.out.println("Id tarea: " + id_estudiante);
         txtNombreArchivo.setText("");
         txtTexto.setText("");
         entCon.setEntregaTarea(null);
         entCon.setLista(new LinkedList<>());
-//        mtll.visualizar(tblTabla, id_estudiante, codigo, idTareaAsignada);
+        mtll.visualizar(tblTabla, id_estudiante, codigo, idTareaAsignada);
     }
 
     public void seleccionar_tarea() {
@@ -136,7 +137,7 @@ public class FrmEntregarTarea extends javax.swing.JFrame {
         }
     }
 
-    public void guardar() {
+    public void guardar() throws VacioExcepcion {
         if (validar()) {
             try {
                 Integer idEstudiante = id_estudiante;
@@ -463,8 +464,12 @@ public class FrmEntregarTarea extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
-        // TODO add your handling code here:
-        guardar();
+        try {
+            // TODO add your handling code here:
+            guardar();
+        } catch (VacioExcepcion ex) {
+            Logger.getLogger(FrmEntregarTarea.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnGuardar1ActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed

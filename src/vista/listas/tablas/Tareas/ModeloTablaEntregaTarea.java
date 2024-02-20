@@ -4,6 +4,7 @@
  */
 package vista.listas.tablas.Tareas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
 import java.sql.Blob;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class ModeloTablaEntregaTarea {
 
     ControladorEntregaTarea dao = null;
 
-    public void visualizar(JTable tabla, Integer id_estudiante) {
+    public void visualizar(JTable tabla, Integer id_estudiante) throws VacioExcepcion {
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override
