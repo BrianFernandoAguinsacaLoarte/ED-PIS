@@ -21,10 +21,11 @@ import modelo.controladores.ParaleloController;
  *
  * @author juanc
  */
-public class ModeloTablaDocenteMateria extends AbstractTableModel{
+public class ModeloTablaDocenteMateria extends AbstractTableModel {
 
     private LinkedList<DocenteMateria> docenteMateria;
-
+    private DocenteMateria docMateria;
+    
     CursoController materiaCursoControlador = new CursoController();
     DocenteController docenteControlador = new DocenteController();
     CicloController cicloControlador = new CicloController();
@@ -34,6 +35,13 @@ public class ModeloTablaDocenteMateria extends AbstractTableModel{
     @Override
     public int getRowCount() {
         return getDocentesMateria().getSize();
+    }
+
+    public DocenteMateria getDocMateria() {
+        if (docMateria == null) {
+            docMateria = new DocenteMateria();
+        }
+        return docMateria;
     }
 
     @Override

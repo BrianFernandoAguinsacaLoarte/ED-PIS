@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package controlador.dao;
-
 import controlador.TDA.listas.LinkedList;
 
 /**

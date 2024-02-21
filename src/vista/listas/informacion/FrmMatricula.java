@@ -6,7 +6,7 @@ package vista.listas.informacion;
 
 import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
-import modelo.controladores.MatriculaController;
+import modelo.controladores.MatriculaControlador;
 import vista.listas.tablas.ModeloTablaMatricula;
 import vista.listas.util.informacion.UtilVistaInfo;
 
@@ -16,7 +16,7 @@ import vista.listas.util.informacion.UtilVistaInfo;
  */
 public class FrmMatricula extends javax.swing.JFrame {
     
-    MatriculaController dc = new MatriculaController();
+    MatriculaControlador dc = new MatriculaControlador();
     ModeloTablaMatricula mtd = new ModeloTablaMatricula();
     
     public FrmMatricula() {

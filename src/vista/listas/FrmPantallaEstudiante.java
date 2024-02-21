@@ -4,7 +4,10 @@
  */
 package vista.listas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Curso;
@@ -16,9 +19,10 @@ import modelo.MatriculaCursoMateria;
 import modelo.controladores.CursoController;
 import modelo.controladores.DocenteController;
 import modelo.controladores.DocenteMateriaController;
+import modelo.controladores.EstudianteController;
 import modelo.controladores.MallaController;
 import modelo.controladores.MateriaController;
-import modelo.controladores.MatriculaController;
+import modelo.controladores.MatriculaControlador;
 import modelo.controladores.MatriculaCursoMateriaControlador;
 import vista.listas.tablas.ModeloTablaMalla;
 import vista.listas.util.UtilVista;
@@ -27,18 +31,19 @@ import vista.listas.util.UtilVista;
  *
  * @author Usuario iTC
  */
-
 public class FrmPantallaEstudiante extends javax.swing.JFrame {
 
     private int idMateriaSeleccionada;
     private int idCursoSeleccionado;
-
+    private String nombreEstudiante = "";
+    private String apellidoEstudiante = "";
+    private String cursosMaterias = "";
     private Integer idEstudiante;
     private Integer idDocente;
 
     MatriculaCursoMateria[] coincidenciasArray = null;
 
-    MatriculaController matriculaControlador = new MatriculaController();
+    MatriculaControlador matriculaControlador = new MatriculaControlador();
     LinkedList<Matricula> matriculasLinkedList = matriculaControlador.listar();
 
     MateriaController materiaControlador = new MateriaController();
@@ -50,6 +55,8 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
     MatriculaCursoMateria[] matriculaCursoMateriaArray = matriculaCursoMateriaList.toArray();
 
     LinkedList<MatriculaCursoMateria> coincidenciasList = new LinkedList<>();
+
+    EstudianteController estudianteController = new EstudianteController();
 
     public FrmPantallaEstudiante() {
 
@@ -74,6 +81,10 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
         for (Matricula matricula : matriculaArray) {
             if (matricula.getId_estudiante().equals(estudiante)) {
                 matriculaEstudiante = matricula;
+                Integer idEstudiante = matriculaEstudiante.getId_estudiante();
+                System.out.println("Id Estudiante " + idEstudiante);
+//                Estudiante estudiante = estudianteController.obtener(idEstudiante);
+
                 System.out.println("Encontrado");
                 break;
             }
@@ -86,6 +97,7 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
                 if (mcm.getId_matricula() == matriculaEstudiante.getId()) {
                     coincidenciasList.add(mcm);
                 }
+
             }
 
             coincidenciasArray = coincidenciasList.toArray();
@@ -112,7 +124,7 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
 
     }
 
-    private void obtenerIdDocenteMateriaSeleccionada() {
+    private void obtenerIdDocenteMateriaSeleccionada() throws VacioExcepcion {
 
         System.out.println("FRM PANTALLA ESTUDIANTE -- obtener id Docente - estudiante");
         MatriculaCursoMateriaControlador mcmControlador = new MatriculaCursoMateriaControlador();
@@ -177,6 +189,11 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
         labelRect2 = new org.edisoncor.gui.label.LabelRect();
         btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
         cbxMaterias = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblAlumno = new javax.swing.JLabel();
+        lblAlumno1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -220,7 +237,7 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
         labelRect2.setText("Materias A Cursar\n");
         labelRect2.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect2.setColorDeSombra(new java.awt.Color(255, 255, 255));
-        panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 180, 30));
+        panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 180, 30));
 
         btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
         btnSeleccionar.setText("Seleccionar");
@@ -229,8 +246,55 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
                 btnSeleccionarActionPerformed(evt);
             }
         });
-        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, 130, 40));
-        panel1.add(cbxMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 400, 30));
+        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 420, 130, 40));
+        panel1.add(cbxMaterias, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 400, 30));
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Materias / Cursos: ");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Alumno:");
+
+        lblAlumno.setText("..");
+
+        lblAlumno1.setText("..");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(30, 30, 30)
+                        .addComponent(lblAlumno1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(42, 42, 42)
+                        .addComponent(lblAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(298, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblAlumno))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAlumno1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        panel1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 850, 180));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,7 +311,11 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        obtenerIdDocenteMateriaSeleccionada();
+        try {
+            obtenerIdDocenteMateriaSeleccionada();
+        } catch (VacioExcepcion ex) {
+            Logger.getLogger(FrmPantallaEstudiante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**
@@ -543,8 +611,13 @@ public class FrmPantallaEstudiante extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
     private org.edisoncor.gui.comboBox.ComboBoxRect cbxMaterias;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRound labelRound1;
+    private javax.swing.JLabel lblAlumno;
+    private javax.swing.JLabel lblAlumno1;
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelImage panelLogo;

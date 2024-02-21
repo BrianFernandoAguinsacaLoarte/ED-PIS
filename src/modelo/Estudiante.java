@@ -6,39 +6,37 @@ package modelo;
 
 import controlador.Excepcion.VacioExcepcion;
 import java.util.Date;
+import java.sql.Blob;
 
 /**
  *
  * @author Usuario iTC
  */
 public class Estudiante extends Persona {
-    
+
     //Atributos
-    private String tituloBachiller;
-    
-  
-    
-    //Constructores
-    public Estudiante() {
-    }
+    private Blob tituloBachiller;
+    private String extensionTituloBachiller;
 
-   
-    
-
-    //Getter and Setter
-
-    public String getTituloBachiller() {
+    public Blob getTituloBachiller() {
         return tituloBachiller;
     }
 
-    public void setTituloBachiller(String tituloBachiller) {
+    public void setTituloBachiller(Blob tituloBachiller) {
         this.tituloBachiller = tituloBachiller;
+    }
+
+    public String getExtensionTituloBachiller() {
+        return extensionTituloBachiller;
+    }
+
+    public void setExtensionTituloBachiller(String extensionTituloBachiller) {
+        this.extensionTituloBachiller = extensionTituloBachiller;
     }
 
     @Override
     public String toString() {
         return getNombres() + " " + getApellidos();
     }
-   
-    
+
 }

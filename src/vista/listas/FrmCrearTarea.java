@@ -20,14 +20,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import modelo.CrearTarea;
 import modelo.Matricula;
 import modelo.controladores.ControladorCrearTarea;
-import modelo.controladores.MatriculaController;
-import vista.listas.tablas.ModeloTablaMatricula;
 import vista.listas.tablas.Tareas.ModeloTablaCrearTarea;
 import vista.listas.util.UtilVista;
 
@@ -38,7 +37,7 @@ import vista.listas.util.UtilVista;
 public class FrmCrearTarea extends javax.swing.JFrame {
 
    private ControladorCrearTarea tarCon = new ControladorCrearTarea();
-    private ModeloTablaCrearTarea mtll = new ModeloTablaCrearTarea();
+//    private ModeloTablaCrearTarea mtll = new ModeloTablaCrearTarea();
     String ruta_archivo = "";
     int id = -1;
     private String extensionArchivo;
@@ -60,17 +59,17 @@ public class FrmCrearTarea extends javax.swing.JFrame {
         initComponents();
 
         limpiar();
-        Calendar calendar = Calendar.getInstance();
+//        Calendar calendar = Calendar.getInstance();
+//
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//        String fechaActual = dateFormat.format(calendar.getTime());
+//        txtFechaAsignacion.setText(fechaActual);
+//
+//        SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
+//        String horaActual = horaFormat.format(calendar.getTime());
+//        txtHoraAsignacion.setText(horaActual);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaActual = dateFormat.format(calendar.getTime());
-        txtFechaAsignacion.setText(fechaActual);
-
-        SimpleDateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
-        String horaActual = horaFormat.format(calendar.getTime());
-        txtHoraAsignacion.setText(horaActual);
-
-        mtll.visualizar(tblTabla);
+//        mtll.visualizar(tblTabla);
     }
     
      public Boolean validar() {
@@ -95,7 +94,7 @@ public class FrmCrearTarea extends javax.swing.JFrame {
 //        cargarTabla();
 //        tarCon.setTarea(null);
 //        tarCon.setIndex(-1);
-        mtll.visualizar(tblTabla);
+//        mtll.visualizar(tblTabla);
     }
     
     public void seleccionar_tarea() {
@@ -310,7 +309,7 @@ public class FrmCrearTarea extends javax.swing.JFrame {
         labelRect8 = new org.edisoncor.gui.label.LabelRect();
         btnModificar = new org.edisoncor.gui.button.ButtonRect();
         btnGuardar = new org.edisoncor.gui.button.ButtonRect();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         tblTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -474,18 +473,23 @@ public class FrmCrearTarea extends javax.swing.JFrame {
 
         tblTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Tema", "Fecha Asignacion", "Fecha Entrega", "Archivo", "Extension"
             }
         ));
-        jScrollPane3.setViewportView(tblTabla);
+        tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTablaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblTabla);
 
-        panel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 1070, 210));
+        panel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 540, 640, 120));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -554,6 +558,53 @@ public class FrmCrearTarea extends javax.swing.JFrame {
            Logger.getLogger(FrmCrearTarea.class.getName()).log(Level.SEVERE, null, ex);
        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void tblTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseClicked
+        // TODO add your handling code here:
+        int column = tblTabla.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tblTabla.getRowHeight();
+        //
+        ////        txtTema.setEnabled(true);
+        //        if (row < tblTabla.getRowCount() && row >= 0 && column < tblTabla.getColumnCount() && column >= 0) {
+            //            id = (int) tblTabla.getValueAt(row, 5);
+            Object value = tblTabla.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                JButton boton = (JButton) value;
+
+                if (boton.getText().equals("Vacio")) {
+                    JOptionPane.showMessageDialog(null, "No hay archivo");
+                } else if (boton.getText().equals("Ver Tareas Entregadas")){
+                    //                this.dispose();
+                }
+            }
+            //            else {
+                //                String tema = "" + tblTabla.getValueAt(row, 1);
+                //                txtTema.setText(tema);
+                //
+                //                String fechaCreacion = "" + tblTabla.getValueAt(row, 3);
+                //                txtFechaAsignacion.setText(fechaCreacion);
+                //
+                //                String fechaEntrega = "" + tblTabla.getValueAt(row, 4);
+                //                txtFechaEntrega.setText(fechaEntrega);
+                //
+                //                String descripcion = "" + tblTabla.getValueAt(row, 2);
+                //                txtDescripcion.setText(descripcion);
+                //
+                //                CrearTarea tarea = new CrearTarea();
+                //                tarea.setId(id);
+                //
+                //                Date fechCompleta = tarea.getFechaEntrega();
+                //                System.out.println("fehca completa : " + fechCompleta);
+                //                SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                //                String fechaComoString = formatoFecha.format(fechCompleta);
+                //                String horaAsignacion = fechaComoString.substring(11, 19);
+                //                System.out.println(horaAsignacion);
+                //                txtHoraEntrega.setText(horaAsignacion);
+                //
+                //            }
+            //        }
+    }//GEN-LAST:event_tblTablaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -630,7 +681,7 @@ public class FrmCrearTarea extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser calendarioEntrega;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRect labelRect3;
     private org.edisoncor.gui.label.LabelRect labelRect4;

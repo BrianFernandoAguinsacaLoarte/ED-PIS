@@ -5,8 +5,6 @@
 package modelo;
 
 import java.util.Date;
-import modelo.enums.Estado;
-
 /**
  *
  * @author Usuario iTC
@@ -17,13 +15,15 @@ public class Malla {
     private Integer id;
     private String nombre;
     private Date fechaRegistro;
-    private Estado estado;
+    private String estado;
     
-    //Constructor
-    public Malla() {
+
+
+    @Override
+    public String toString() {
+        return getNombre();
     }
-    
-    //Getter and Setter
+
     public Integer getId() {
         return id;
     }
@@ -48,17 +48,12 @@ public class Malla {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Estado getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    @Override
-    public String toString() {
-        return nombre;
     }
     
     

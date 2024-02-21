@@ -18,12 +18,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.CrearTarea;
 import modelo.DocenteMateria;
-import modelo.controladores.CicloController;
 import modelo.controladores.ControladorCrearTarea;
-import modelo.controladores.CursoController;
-import modelo.controladores.DocenteMateriaController;
-import modelo.controladores.MateriaController;
-import modelo.controladores.ParaleloController;
 import vista.listas.FrmVerTareaEntregadas;
 
 /**
@@ -32,17 +27,11 @@ import vista.listas.FrmVerTareaEntregadas;
  */
 public class ModeloTablaCrearTarea {
 
-    private LinkedList<DocenteMateria> docenteMateria;
     private LinkedList<CrearTarea> tareas;
 
     ControladorCrearTarea dao = null;
-    DocenteMateriaController docenteMateriaControlador = new DocenteMateriaController();
-    MateriaController materiaControlador = new MateriaController();
-    CursoController cursoControlador = new CursoController();
-    CicloController cicloControlador = new CicloController();
-    ParaleloController paraleloControlador = new ParaleloController();
 
-    public void visualizar(JTable tabla) throws VacioExcepcion {
+    public void visualizar(JTable tabla) throws VacioExcepcion{
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override
@@ -54,7 +43,7 @@ public class ModeloTablaCrearTarea {
         dt.addColumn("Tema");
 //        dt.addColumn("Codigo");
         dt.addColumn("Descripcion");
-        dt.addColumn("Fecha Creacion");
+//        dt.addColumn("Fecha Creacion");
         dt.addColumn("Fecha Entrega");
         dt.addColumn("Archivo");
         dt.addColumn("Ver Tareas Entregadas");
@@ -73,7 +62,7 @@ public class ModeloTablaCrearTarea {
                 fila[1] = vo.getTema();
 //                fila[1] = vo.getCodigo();
                 fila[2] = vo.getDescripcion();
-                fila[3] = vo.getFechaCreacion();
+//                fila[3] = vo.getFechaCreacion();
                 fila[4] = vo.getFechaEntrega();
 //                fila[6] = vo.getExtensionArchivo();
                 String extension = vo.getExtensionArchivo();
@@ -142,15 +131,14 @@ public class ModeloTablaCrearTarea {
         }
     }
 
-
-    
-     private void abrirFrmTarea(Integer idTarea) throws VacioExcepcion {
-         FrmVerTareaEntregadas frmTarea = new FrmVerTareaEntregadas();
+    private void abrirFrmTarea(Integer idTarea) throws VacioExcepcion {
+        FrmVerTareaEntregadas frmTarea = new FrmVerTareaEntregadas();
         frmTarea.verTareasEntregadas(idTarea);
+//        frmTarea.setId_docente(idEstudiante); // Establecer el id_docente en FrmEntregarTarea
+//        System.out.println("Id docente: " + idEstudiante);
         frmTarea.setVisible(true);
     }
-    
-    
+
     public LinkedList<CrearTarea> getTareas() {
         return tareas;
     }

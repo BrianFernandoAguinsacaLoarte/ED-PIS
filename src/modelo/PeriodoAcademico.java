@@ -5,7 +5,6 @@
 package modelo;
 
 import java.util.Date;
-import modelo.enums.Estado;
 
 /**
  *
@@ -16,7 +15,7 @@ public class PeriodoAcademico {
     //Atributos
     private Integer id;
     private String nombre;
-    private Estado estado;
+    private String estado;
     private Date fechaInicio;
     private Date fechaFin;
     
@@ -30,6 +29,11 @@ public class PeriodoAcademico {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return getNombre();
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -41,14 +45,12 @@ public class PeriodoAcademico {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
-    
-    public Estado getEstado() {
+
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
@@ -66,11 +68,6 @@ public class PeriodoAcademico {
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    @Override
-    public String toString() {
-        return nombre;
     }
     
     

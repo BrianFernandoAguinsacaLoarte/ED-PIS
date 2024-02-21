@@ -17,7 +17,7 @@ import modelo.controladores.CicloController;
 import modelo.controladores.CursoController;
 import modelo.controladores.EstudianteController;
 import modelo.controladores.MateriaController;
-import modelo.controladores.MatriculaController;
+import modelo.controladores.MatriculaControlador;
 import modelo.controladores.ParaleloController;
 
 /**
@@ -29,7 +29,7 @@ public class ModeloTablaMatriculaCursoMateria extends AbstractTableModel {
     private LinkedList<MatriculaCursoMateria> matriculaCursoMaterias;
     MateriaController materiaControlador = new MateriaController();
     CursoController cursoControlador = new CursoController();
-    MatriculaController matriculaControlador = new MatriculaController();
+    MatriculaControlador matriculaControlador = new MatriculaControlador();
     CicloController cicloControlador = new CicloController();
     ParaleloController paraleloControlador = new ParaleloController();
     EstudianteController estudiantePruebaControlador = new EstudianteController();

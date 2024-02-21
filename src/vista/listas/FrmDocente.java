@@ -78,15 +78,20 @@ public class FrmDocente extends javax.swing.JFrame {
         if (validar()) {
             try {
                 Docente docente = new Docente();
-                docente.setNombres(txtNombre.getText());
-                docente.setApellidos(txtApellido.getText());
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String cedula = txtCedula.getText();
+                Integer idCuenta = dc.crearCuenta(nombre, apellido, cedula);
+                docente.setNombres(nombre);
+                docente.setApellidos(apellido);
                 docente.setCorreo(txtCorreo.getText());
                 docente.setFechaNacimiento(jDate.getDate());
                 docente.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
                 docente.setId_rol(UtilVista.getComboRol(cbxRol).getId());
-                docente.setCedula(txtCedula.getText());
+                docente.setCedula(cedula);
                 docente.setDireccion(txtDireccion.getText());
                 docente.setTelefono(txtTelefono.getText());
+                docente.setId_cuenta(idCuenta);
                 docente.setExperienciaLaboral(Integer.parseInt(txtExperienciaL.getText()));
                 
                 dc.setDocente(docente);
@@ -158,11 +163,6 @@ public class FrmDocente extends javax.swing.JFrame {
             }
         }
     }
-    
-    
-    
-    
-    
     
     
     
@@ -414,7 +414,7 @@ public class FrmDocente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       new FrmRegistroDocenteGeneral().setVisible(true);
+       new FrmPantallaAdministrador().setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 

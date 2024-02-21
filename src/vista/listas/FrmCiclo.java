@@ -280,8 +280,8 @@ public class FrmCiclo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmRegistroDocenteGeneral().setVisible(true);
-        this.dispose();
+       new FrmPantallaAdministrador().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

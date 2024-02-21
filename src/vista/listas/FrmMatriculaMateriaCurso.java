@@ -16,6 +16,7 @@ import modelo.controladores.EstudianteController;
 import modelo.controladores.MatriculaCursoMateriaControlador;
 import vista.listas.tablas.ModeloTablaEstudiante;
 import vista.listas.tablas.ModeloTablaMatriculaCursoMateria;
+import vista.listas.util.Matricula_Util_VistaLinked;
 import vista.listas.util.UtilVista;
 
 /**
@@ -46,7 +47,8 @@ public class FrmMatriculaMateriaCurso extends javax.swing.JFrame {
         estCon.setMatriculaCursoMateria(null);
         estCon.setIndex(-1);
         try {
-            UtilVista.cargarMatricula(cbxEstudiante);
+//            UtilVista.cargarMatricula(cbxEstudiante);
+            Matricula_Util_VistaLinked.cargaMatricula(cbxEstudiante);
             UtilVista.cargarMateria(cbxMateria);
             UtilVista.cargarCurso(cbxCurso);
         } catch (Exception e) {

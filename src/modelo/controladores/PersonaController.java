@@ -12,17 +12,17 @@ import modelo.Persona;
  *
  * @author Usuario iTC
  */
-public class PersonaController extends AdaptadorDao<Persona>{
-    
+public class PersonaController extends AdaptadorDao<Persona> {
+
     private Persona persona;
     private LinkedList<Persona> lista = new LinkedList<>();
     private Integer index = -1;
-    
+
     //Constructor
     public PersonaController() {
         super(Persona.class);
     }
-    
+
     //Metodos
     public void guardar() {
         try {
@@ -33,12 +33,11 @@ public class PersonaController extends AdaptadorDao<Persona>{
             e.printStackTrace();
         }
     }
-    
-    //Getter and Setter
 
+    //Getter and Setter
     public Persona getPersona() {
-        
-        if(persona == null){
+
+        if (persona == null) {
             persona = new Persona();
         }
         return persona;
@@ -66,7 +65,7 @@ public class PersonaController extends AdaptadorDao<Persona>{
     public void setIndex(Integer index) {
         this.index = index;
     }
-    
+
     public LinkedList<Persona> getPersonas() {
         if (lista.isEmpty()) {
             lista = listar();
@@ -74,6 +73,4 @@ public class PersonaController extends AdaptadorDao<Persona>{
         return lista;
     }
 
-    
-    
 }

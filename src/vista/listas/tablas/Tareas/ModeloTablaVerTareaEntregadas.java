@@ -27,7 +27,7 @@ import modelo.Matricula;
 import modelo.MatriculaCursoMateria;
 import modelo.controladores.ControladorEntregaTarea;
 import modelo.controladores.EstudianteController;
-import modelo.controladores.MatriculaController;
+import modelo.controladores.MatriculaControlador;
 import modelo.controladores.MatriculaCursoMateriaControlador;
 
 /**
@@ -48,7 +48,7 @@ public class ModeloTablaVerTareaEntregadas {
     MatriculaCursoMateriaControlador matriculasMaterias = new MatriculaCursoMateriaControlador();
     LinkedList<MatriculaCursoMateria> matriculasMateriasList = matriculasMaterias.listar();
     ControladorEntregaTarea controladorEntregaTarea = new ControladorEntregaTarea();
-    MatriculaController matriculaControlador = new MatriculaController();
+    MatriculaControlador matriculaControlador = new MatriculaControlador();
     EstudianteController estudianteControlador = new EstudianteController();
 
     public void visualizar(JTable tabla, Integer idTarea) throws VacioExcepcion {

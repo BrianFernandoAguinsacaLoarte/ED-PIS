@@ -5,11 +5,25 @@
 package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import modelo.Estudiante;
 import modelo.Matricula;
-import modelo.controladores.MatriculaController;
+import modelo.PeriodoAcademico;
+import modelo.controladores.EstudianteController;
+import modelo.controladores.MatriculaControlador;
+import vista.listas.tablas.ModeloTablaEstudiante;
 import vista.listas.tablas.ModeloTablaMatricula;
+import vista.listas.util.Estudiante_Util_VistaLinked;
+import vista.listas.util.PeriodoAcademico_Util_VistaLinked;
 import vista.listas.util.UtilVista;
 
 /**
@@ -18,143 +32,140 @@ import vista.listas.util.UtilVista;
  */
 public class FrmMatricula extends javax.swing.JFrame {
 
-    MatriculaController dc = new MatriculaController();
-    ModeloTablaMatricula mtd = new ModeloTablaMatricula();
-    
+    private MatriculaControlador estudianteCon = new MatriculaControlador();
+    private ModeloTablaMatricula mtll = new ModeloTablaMatricula();
+
+    /**
+     * Creates new form FrmMatricula
+     */
     public FrmMatricula() {
         initComponents();
-        panelLogo.setIcon(new ImageIcon("multimedia/LogoUNL.jpg"));
-        this.setLocationRelativeTo(null);
         limpiar();
-        
     }
-    
+
     public Boolean validar() {
         return true;
-    
     }
-    
-    public void cargarTabla() {
-        mtd.setMatriculas(dc.getLista());
-        jTablaMatricula.setModel(mtd);
-        jTablaMatricula.updateUI();
-    }
-     
-    private void limpiar() {
-        
-        cbxEst.setSelectedItem(-1);
-        cbxEstado.setSelectedItem(-1);
-        cbxGratuidad.setSelectedItem(-1);
-        jDateFecha.setDate(null);
-        cbxModalidad.setSelectedItem(-1);
-        cbxPeriodo.setSelectedItem(-1);
-        cbxTurno.setSelectedItem(-1);
-        
-        dc.setMatricula(null);
-        dc.setLista(new LinkedList<>());
-        dc.setMatricula(null);
-        dc.setIndex(-1);
-        cargarTabla();
-        try {
-            UtilVista.cargarEstudiante(cbxEst);
-            UtilVista.cargarPeriodoAca(cbxPeriodo);
-            UtilVista.cargarEstados(cbxGratuidad);
-            UtilVista.cargarTurno(cbxTurno);
-            UtilVista.cargarModalidad(cbxModalidad);
-            UtilVista.cargarEstados(cbxEstado);
-        } catch (Exception e) {
-        }
 
+    private void limpiar() {
+        estudianteCon.setMatricula(null);
+        estudianteCon.setLista(new LinkedList<>());
+        cargarTabla();
+        estudianteCon.setMatricula(null);
+        estudianteCon.setIndex(-1);
+        try {
+            Estudiante_Util_VistaLinked.cargaEstudiante(cbxEstudiante);
+            PeriodoAcademico_Util_VistaLinked.cargaPeriodoAcademico(cbxPeriodo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-     public void guardar() {
+
+    public void cargarTabla() {
+        mtll.setMatriculas(estudianteCon.getLista());
+        tblTabla.setModel(mtll);
+        tblTabla.updateUI();
+    }
+
+    public void guardar() {
         if (validar()) {
             try {
                 Matricula matricula = new Matricula();
-                matricula.setId_estudiante(UtilVista.getCargarEstudiante(cbxEst).getId());
-                matricula.setId_periodoAcademico(UtilVista.getComboPeriodoAca(cbxPeriodo).getId());
-                matricula.setFechaMatricula(jDateFecha.getDate());
-                matricula.setGratuidad(UtilVista.getComboEstados(cbxGratuidad));
-                matricula.setTurno(UtilVista.getComboTurno(cbxTurno));
-                matricula.setModalidad(UtilVista.getComboModalidad(cbxModalidad));
-                matricula.setEstado(UtilVista.getComboEstados(cbxEstado));
-                dc.setMatricula(matricula);
-                dc.guardar();
-                dc.setMatricula(null);
+
+                String modalidad = (String) cbxModalidad.getSelectedItem();
+                String estado = (String) cbxEstado.getSelectedItem();
+                String gratuidad = (String) cbxGratuidad.getSelectedItem();
+                String turno = (String) cbxTurno.getSelectedItem();
+
+                System.out.println("Modalidad: " + modalidad);
+                System.out.println("Estado: " + estado);
+                System.out.println("Gratuidad: " + gratuidad);
+                System.out.println("Turno: " + turno);
+
+                Estudiante estudianteSeleccionado = (Estudiante) cbxEstudiante.getSelectedItem();
+                Integer idEstudianteSeleccionado = estudianteSeleccionado.getId();
+
+                PeriodoAcademico periodoSelecccionado = (PeriodoAcademico) cbxPeriodo.getSelectedItem();
+                Integer idPeriodoSelecccionado = periodoSelecccionado.getId();
+
+                matricula.setModalidad(modalidad);
+                matricula.setTurno(turno);
+                matricula.setEstado(estado);
+                matricula.setGratuidad(gratuidad);
+                matricula.setFechaMatricula(jDate.getDate());
+                matricula.setId_estudiante(idEstudianteSeleccionado);
+                matricula.setId_periodoAcademico(idPeriodoSelecccionado);
+
+                estudianteCon.setMatricula(matricula);
+                estudianteCon.guardar();
+                estudianteCon.setMatricula(null);
                 limpiar();
             } catch (Exception e) {
+                System.out.println("No se pudo guardar");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }
     }
-    
-    
-     private void modificar() {
+
+    private void cargarVista() {
+        estudianteCon.setIndex(tblTabla.getSelectedRow());
+        if (estudianteCon.getIndex() < 0) {
+            JOptionPane.showMessageDialog(null, "No");
+        } else {
+            try {
+//                estudianteCon.setEstudiantePrueba(mtll.getEstudiantesPrueba().get(estudianteCon.getIndex()));
+
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private void modificar() {
         try {
-            int filaSeleccionada = jTablaMatricula.getSelectedRow();
+            // Obtener el índice de la fila seleccionada en la tabla
+            int filaSeleccionada = tblTabla.getSelectedRow();
 
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(null, "Seleccione un ciclo para modificar");
                 return;
             }
 
-            Matricula matriculaSel = mtd.getMatriculas().get(filaSeleccionada);
-            matriculaSel.setId_estudiante(UtilVista.getCargarEstudiante(cbxEst).getId());
-            matriculaSel.setId_periodoAcademico(UtilVista.getComboPeriodoAca(cbxPeriodo).getId());
-            matriculaSel.setFechaMatricula(jDateFecha.getDate());
-            matriculaSel.setGratuidad(UtilVista.getComboEstados(cbxGratuidad));
-            matriculaSel.setTurno(UtilVista.getComboTurno(cbxTurno));
-            matriculaSel.setModalidad(UtilVista.getComboModalidad(cbxModalidad));
-            matriculaSel.setEstado(UtilVista.getComboEstados(cbxEstado));
+            Matricula matriculaSeleccionada = mtll.getMatriculas().get(filaSeleccionada);
 
+            String modalidad = (String) cbxModalidad.getSelectedItem();
+            String estado = (String) cbxEstado.getSelectedItem();
+            String gratuidad = (String) cbxGratuidad.getSelectedItem();
+            String turno = (String) cbxTurno.getSelectedItem();
 
-            dc.modificar(matriculaSel);
+            Estudiante estudianteSeleccionado = (Estudiante) cbxEstudiante.getSelectedItem();
+            Integer idEstudianteSeleccionado = estudianteSeleccionado.getId();
+
+            PeriodoAcademico periodoSelecccionado = (PeriodoAcademico) cbxPeriodo.getSelectedItem();
+            Integer idPeriodoSelecccionado = periodoSelecccionado.getId();
+
+            matriculaSeleccionada.setModalidad(modalidad);
+            matriculaSeleccionada.setTurno(turno);
+            matriculaSeleccionada.setEstado(estado);
+            matriculaSeleccionada.setGratuidad(gratuidad);
+            matriculaSeleccionada.setFechaMatricula(jDate.getDate());
+            matriculaSeleccionada.setId_estudiante(idEstudianteSeleccionado);
+            matriculaSeleccionada.setId_periodoAcademico(idPeriodoSelecccionado);
+
+            estudianteCon.modificar(matriculaSeleccionada);
 
             limpiar();
         } catch (Exception e) {
+            // Manejar cualquier excepción que pueda ocurrir durante la modificación
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al modificar el ciclo: " + e.getMessage());
         }
     }
-    
-    
-     
-    private void cargarVista(){
-        dc.setIndex(jTablaMatricula.getSelectedRow());
-        if(dc.getIndex().intValue() < 0){
-            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            try {
-                dc.setMatricula(dc.getMatriculas().get(dc.getIndex()));
-                UtilVista.setComboEstudiante(cbxEst, dc.getMatricula().getId_estudiante());
-                cbxEstado.setSelectedItem(dc.getMatricula().getEstado());
-                jDateFecha.setDate(dc.getMatricula().getFechaMatricula());
-                cbxGratuidad.setSelectedItem(dc.getMatricula().getGratuidad());
-                cbxModalidad.setSelectedItem(dc.getMatricula().getModalidad());
-                UtilVista.setPeriodoAca(cbxPeriodo, dc.getMatricula().getId_periodoAcademico());
-                cbxTurno.setSelectedItem(dc.getMatricula().getTurno());
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -165,6 +176,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRound1 = new org.edisoncor.gui.label.LabelRound();
         panelLogo = new org.edisoncor.gui.panel.PanelImage();
         btnRegresar = new org.edisoncor.gui.button.ButtonRect();
+        btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
         btnGuardar = new org.edisoncor.gui.button.ButtonRect();
         btnActualizar = new org.edisoncor.gui.button.ButtonRect();
         btnCancelar = new org.edisoncor.gui.button.ButtonRect();
@@ -173,19 +185,18 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRect5 = new org.edisoncor.gui.label.LabelRect();
         labelRect6 = new org.edisoncor.gui.label.LabelRect();
         labelRect7 = new org.edisoncor.gui.label.LabelRect();
-        cbxEstado = new org.edisoncor.gui.comboBox.ComboBoxRect();
         labelRect8 = new org.edisoncor.gui.label.LabelRect();
         labelRect1 = new org.edisoncor.gui.label.LabelRect();
         panelRect1 = new org.edisoncor.gui.panel.PanelRect();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablaMatricula = new javax.swing.JTable();
-        jDateFecha = new com.toedter.calendar.JDateChooser();
-        btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
-        cbxPeriodo = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxEst = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxGratuidad = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxTurno = new org.edisoncor.gui.comboBox.ComboBoxRect();
-        cbxModalidad = new org.edisoncor.gui.comboBox.ComboBoxRect();
+        tblTabla = new javax.swing.JTable();
+        jDate = new com.toedter.calendar.JDateChooser();
+        cbxEstado = new javax.swing.JComboBox<>();
+        cbxGratuidad = new javax.swing.JComboBox<>();
+        cbxEstudiante = new javax.swing.JComboBox<>();
+        cbxPeriodo = new javax.swing.JComboBox<>();
+        cbxModalidad = new javax.swing.JComboBox<>();
+        cbxTurno = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,7 +209,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Matriculas");
+        labelRound1.setText("Registro de Estudiante");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -230,7 +241,16 @@ public class FrmMatricula extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 580, 130, 40));
+        panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 580, 130, 40));
+
+        btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
+        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 130, 40));
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 153));
         btnGuardar.setText("Guardar");
@@ -239,7 +259,7 @@ public class FrmMatricula extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 140, 130, 40));
+        panel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 140, 130, 40));
 
         btnActualizar.setBackground(new java.awt.Color(0, 102, 153));
         btnActualizar.setText("Actualizar");
@@ -248,7 +268,7 @@ public class FrmMatricula extends javax.swing.JFrame {
                 btnActualizarActionPerformed(evt);
             }
         });
-        panel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 140, 130, 40));
+        panel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 130, 40));
 
         btnCancelar.setBackground(new java.awt.Color(0, 102, 153));
         btnCancelar.setText("Cancelar");
@@ -257,7 +277,7 @@ public class FrmMatricula extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        panel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 140, 130, 40));
+        panel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 140, 130, 40));
 
         labelRect2.setBackground(new java.awt.Color(255, 255, 255));
         labelRect2.setForeground(new java.awt.Color(0, 0, 0));
@@ -298,7 +318,6 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRect7.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect7.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 150, 30));
-        panel1.add(cbxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 400, 30));
 
         labelRect8.setBackground(new java.awt.Color(255, 255, 255));
         labelRect8.setForeground(new java.awt.Color(0, 0, 0));
@@ -311,14 +330,14 @@ public class FrmMatricula extends javax.swing.JFrame {
         labelRect1.setBackground(new java.awt.Color(255, 255, 255));
         labelRect1.setForeground(new java.awt.Color(0, 0, 0));
         labelRect1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelRect1.setText("Estado");
+        labelRect1.setText("Estado:");
         labelRect1.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect1.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 150, 30));
 
         panelRect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTablaMatricula.setModel(new javax.swing.table.DefaultTableModel(
+        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -329,26 +348,30 @@ public class FrmMatricula extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTablaMatricula);
+        jScrollPane1.setViewportView(tblTabla);
 
         panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 340));
 
-        panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 680, 360));
-        panel1.add(jDateFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 400, 30));
+        panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, 680, 360));
+        panel1.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 310, 30));
 
-        btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
-        btnSeleccionar.setText("Seleccionar");
-        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSeleccionarActionPerformed(evt);
-            }
-        });
-        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 130, 40));
-        panel1.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 400, 30));
-        panel1.add(cbxEst, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 400, 30));
-        panel1.add(cbxGratuidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 400, 30));
-        panel1.add(cbxTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 400, 30));
-        panel1.add(cbxModalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 400, 30));
+        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo", " " }));
+        panel1.add(cbxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 310, 30));
+
+        cbxGratuidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo", " " }));
+        panel1.add(cbxGratuidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 310, 30));
+
+        cbxEstudiante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        panel1.add(cbxEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 310, 30));
+
+        cbxPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        panel1.add(cbxPeriodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 310, 30));
+
+        cbxModalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Presencial", "Virtual", " " }));
+        panel1.add(cbxModalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 310, 30));
+
+        cbxTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "matutino", "vespertino", "nocturno", "intersivo", " " }));
+        panel1.add(cbxTurno, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 310, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,9 +388,13 @@ public class FrmMatricula extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       new FrmRegistroDocenteGeneral().setVisible(true);
-       this.dispose();
+        new FrmRegistroDocenteGeneral().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        cargarVista();
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
@@ -380,10 +407,6 @@ public class FrmMatricula extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-        cargarVista();
-    }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -426,6 +449,22 @@ public class FrmMatricula extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -441,15 +480,14 @@ public class FrmMatricula extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonRect btnGuardar;
     private org.edisoncor.gui.button.ButtonRect btnRegresar;
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxEst;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxEstado;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxGratuidad;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxModalidad;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxPeriodo;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxTurno;
-    private com.toedter.calendar.JDateChooser jDateFecha;
+    private javax.swing.JComboBox<String> cbxEstado;
+    private javax.swing.JComboBox<String> cbxEstudiante;
+    private javax.swing.JComboBox<String> cbxGratuidad;
+    private javax.swing.JComboBox<String> cbxModalidad;
+    private javax.swing.JComboBox<String> cbxPeriodo;
+    private javax.swing.JComboBox<String> cbxTurno;
+    private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTablaMatricula;
     private org.edisoncor.gui.label.LabelRect labelRect1;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRect labelRect4;
@@ -462,5 +500,6 @@ public class FrmMatricula extends javax.swing.JFrame {
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelImage panelLogo;
     private org.edisoncor.gui.panel.PanelRect panelRect1;
+    private javax.swing.JTable tblTabla;
     // End of variables declaration//GEN-END:variables
 }

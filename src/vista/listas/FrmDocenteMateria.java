@@ -8,6 +8,7 @@ import controlador.TDA.listas.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Curso;
+import modelo.Docente;
 import modelo.DocenteMateria;
 import modelo.Estudiante;
 import modelo.Materia;
@@ -27,7 +28,7 @@ import vista.listas.util.UtilVista;
  */
 public class FrmDocenteMateria extends javax.swing.JFrame {
 
-    private DocenteMateriaController estCon = new DocenteMateriaController();
+    private DocenteMateriaController docCon = new DocenteMateriaController();
     private ModeloTablaDocenteMateria mtll = new ModeloTablaDocenteMateria();
 
     /**
@@ -43,11 +44,11 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
     }
 
     private void limpiar() {
-        estCon.setDocenteMateria(null);
-        estCon.setLista(new LinkedList<>());
+        docCon.setDocenteMateria(null);
+        docCon.setLista(new LinkedList<>());
         cargarTabla();
-        estCon.setDocenteMateria(null);
-        estCon.setIndex(-1);
+        docCon.setDocenteMateria(null);
+        docCon.setIndex(-1);
         try {
             UtilVista.cargarDocente(cbxDocentes);
             UtilVista.cargarMateria(cbxMateria);
@@ -58,7 +59,7 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
     }
 
     public void cargarTabla() {
-        mtll.setDocentesMateria(estCon.getLista());
+        mtll.setDocentesMateria(docCon.getLista());
         tblTabla.setModel(mtll);
         tblTabla.updateUI();
     }
@@ -74,7 +75,7 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
                 Materia materiaSeleccionado = (Materia) cbxMateria.getSelectedItem();
                 Integer idMateriaSeleccionado = materiaSeleccionado.getId();
 
-                Matricula matriculaSeleccionada = (Matricula) cbxDocentes.getSelectedItem();
+                Docente matriculaSeleccionada = (Docente) cbxDocentes.getSelectedItem();
                 Integer idMatriculaSeleccionada = matriculaSeleccionada.getId();
 
                 System.out.println("Curso: " + idCursoSeleccionado);
@@ -85,9 +86,9 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
                 matriculaCursoMateria.setId_materia(idMateriaSeleccionado);
                 matriculaCursoMateria.setId_docente(idMatriculaSeleccionada);
 
-                estCon.setDocenteMateria(matriculaCursoMateria);
-                estCon.guardar();
-                estCon.setDocenteMateria(null);
+                docCon.setDocenteMateria(matriculaCursoMateria);
+                docCon.guardar();
+                docCon.setDocenteMateria(null);
                 limpiar();
             } catch (Exception e) {
                 System.out.println("No se pudo guardar");
@@ -115,7 +116,7 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
             Materia materiaSeleccionado = (Materia) cbxMateria.getSelectedItem();
             Integer idMateriaSeleccionado = materiaSeleccionado.getId();
 
-            Matricula matriculaSeleccionada = (Matricula) cbxDocentes.getSelectedItem();
+            Docente matriculaSeleccionada = (Docente) cbxDocentes.getSelectedItem();
             Integer idMatriculaSeleccionada = matriculaSeleccionada.getId();
 
             System.out.println("Curso: " + idCursoSeleccionado);
@@ -126,7 +127,7 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
             matriculaCursoMateria.setId_materia(idMateriaSeleccionado);
             matriculaCursoMateria.setId_docente(idMatriculaSeleccionada);
 
-            estCon.modificar(matriculaCursoMateria);
+            docCon.modificar(matriculaCursoMateria);
 
             limpiar();
         } catch (Exception e) {
@@ -136,16 +137,18 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
     }
 
     private void cargarVista() {
-        estCon.setIndex(tblTabla.getSelectedRow());
-        if (estCon.getIndex().intValue() < 0) {
+        docCon.setIndex(tblTabla.getSelectedRow());
+        if (docCon.getIndex().intValue() < 0) {
             JOptionPane.showMessageDialog(null, "Selecciona una fila",
                     "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
-//                UtilVista.setComboMatricula(cbxEstudiante, estCon.getMatriculaCursoMateria().getId_matricula());
-//                UtilVista.setComboCurso(cbxEstudiante, estCon.getCursos().getId_curso());
-//                UtilVista.setComboMateria(cbxEstudiante, estCon.getMaterias().getId_matricula());
 
+                docCon.setDocenteMateria(mtll.getDocentesMateria().get(docCon.getIndex()));
+//                UtilVista.setComboDocente(cbxDocentes, mtll.getDocMateria().getId_docente());
+//                UtilVista.setComboMateria(cbxMateria, mtll.getDocMateria().getId_materia());
+//                UtilVista.setComboCurso(cbxCurso, mtll.getDocMateria().getId_curso());
+//                
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -323,7 +326,7 @@ public class FrmDocenteMateria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmRegistroDocenteGeneral().setVisible(true);
+        new FrmPantallaAdministrador().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 

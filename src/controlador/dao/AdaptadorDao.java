@@ -1,8 +1,10 @@
 package controlador.dao;
 
-//import com.mysql.cj.jdbc.Blob;
-//import com.mysql.cj.jdbc.Blob;
 import controlador.TDA.listas.LinkedList;
+import modelo.CrearTarea;
+import modelo.EntregaTarea;
+//import com.mysql.cj.jdbc.Blob;
+//import com.mysql.cj.jdbc.Blob;
 import java.sql.Blob;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,8 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import modelo.CrearTarea;
-import modelo.EntregaTarea;
 
 public class AdaptadorDao<T> implements InterfazDao<T> {
 
@@ -47,7 +47,16 @@ public class AdaptadorDao<T> implements InterfazDao<T> {
     }
 
     @Override
-    public void modificar(T obj) throws Exception {
+     public void modificar(T obj) throws Exception {
+        String query = queryUpdate(obj);
+        Statement st = conetion.getConnection().createStatement();
+        st.executeUpdate(query);
+        conetion.getConnection().close();
+        conetion.setConnection(null);
+    }
+    
+    
+    public void modificarBlob(T obj) throws Exception {
         String query = queryUpdate(obj);
         PreparedStatement statement = conetion.getConnection().prepareStatement(query);
 

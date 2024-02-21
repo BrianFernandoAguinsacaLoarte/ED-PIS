@@ -4,7 +4,10 @@
  */
 package vista.listas;
 
+import controlador.Excepcion.VacioExcepcion;
 import controlador.TDA.listas.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -34,7 +37,7 @@ public class TareasAsignadas extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void setIdEstudiante(Integer idEstudiante, Integer idEstudianteMateria, Integer idDocenteMateria) {
+    public void setIdEstudiante(Integer idEstudiante, Integer idEstudianteMateria, Integer idDocenteMateria) throws  Exception{
         this.idEstudianteMateria = idEstudianteMateria;
         this.idEstudiante = idEstudiante;
         this.idDocenteMateria = idDocenteMateria;
@@ -63,7 +66,7 @@ public class TareasAsignadas extends javax.swing.JFrame {
         panelLogo = new org.edisoncor.gui.panel.PanelImage();
         btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
         panelRect1 = new org.edisoncor.gui.panel.PanelRect();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         tblTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -133,14 +136,9 @@ public class TareasAsignadas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTablaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblTabla);
+        jScrollPane2.setViewportView(tblTabla);
 
-        panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 770, 480));
+        panelRect1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 770, 480));
 
         panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 790, 500));
 
@@ -157,26 +155,6 @@ public class TareasAsignadas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tblTablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseClicked
-        int column = tblTabla.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / tblTabla.getRowHeight();
-
-        if (row < tblTabla.getRowCount() && row >= 0 && column < tblTabla.getColumnCount() && column >= 0) {
-            Object value = tblTabla.getValueAt(row, column);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                JButton boton = (JButton) value;
-
-                if (boton.getText().equals("Vacio")) {
-                    JOptionPane.showMessageDialog(null, "No hay archivo");
-
-                } else if (boton.getText().equals("Agregar Tarea")) {
-                    this.dispose();
-                }
-                }
-            }
-    }//GEN-LAST:event_tblTablaMouseClicked
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         int opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea Regresar a la pagina Principal?", "YES-NO", YES_NO_OPTION);
@@ -352,7 +330,7 @@ public class TareasAsignadas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private org.edisoncor.gui.label.LabelRound labelRound1;
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;

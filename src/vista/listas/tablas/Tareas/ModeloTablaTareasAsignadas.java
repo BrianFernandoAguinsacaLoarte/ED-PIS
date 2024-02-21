@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.CrearTarea;
 import modelo.controladores.ControladorCrearTarea;
 import vista.listas.FrmEntregarTarea;
+import vista.listas.tablas.Tareas.botonTabla;
 
 /**
  *
@@ -44,7 +45,7 @@ public class ModeloTablaTareasAsignadas {
 
     ControladorCrearTarea dao = null;
 
-    public void visualizar(JTable tabla, Integer idEstudianteMateria, Integer idDocenteMateria, Integer idEstudiante) throws VacioExcepcion {
+    public void visualizar(JTable tabla, Integer idEstudianteMateria, Integer idDocenteMateria, Integer idEstudiante) throws Exception{
         tabla.setDefaultRenderer(Object.class, new botonTabla());
         DefaultTableModel dt = new DefaultTableModel() {
             @Override

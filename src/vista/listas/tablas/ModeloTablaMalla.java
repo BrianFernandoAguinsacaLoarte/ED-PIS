@@ -12,9 +12,8 @@ import modelo.Malla;
  *
  * @author Usuario iTC
  */
-public class ModeloTablaMalla extends AbstractTableModel{
-    
-    
+public class ModeloTablaMalla extends AbstractTableModel {
+
     LinkedList<Malla> mallas;
     //Getter and Setter
 
@@ -25,10 +24,7 @@ public class ModeloTablaMalla extends AbstractTableModel{
     public void setMallas(LinkedList<Malla> mallas) {
         this.mallas = mallas;
     }
-    
-    
-    
-    
+
     @Override
     public int getRowCount() {
         return mallas.getSize();
@@ -36,26 +32,27 @@ public class ModeloTablaMalla extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public Object getValueAt(int row, int col) {
         Malla malla = null;
-       
+
         try {
             malla = mallas.get(row);
-            
-            
+
         } catch (Exception e) {
         }
         switch (col) {
             case 0:
-                    return (malla != null)? malla.getNombre(): "";
+                return (malla != null) ? malla.getId(): "";
             case 1:
-                    return (malla != null)? malla.getFechaRegistro(): "";
+                return (malla != null) ? malla.getNombre() : "";
             case 2:
-                    return (malla != null)? malla.getEstado(): "";
+                return (malla != null) ? malla.getFechaRegistro() : "";
+            case 3:
+                return (malla != null) ? malla.getEstado() : "";
             default:
                 return null;
         }
@@ -65,18 +62,15 @@ public class ModeloTablaMalla extends AbstractTableModel{
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                    return "Nombre";
+                return "Nombre";
             case 1:
-                    return "Fecha Registro";
+                return "Fecha Registro";
             case 2:
-                    return "Estado";
-            
+                return "Estado";
+
             default:
                 return null;
         }
     }
-    
-    
-    
-    
+
 }

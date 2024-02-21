@@ -6,10 +6,10 @@ package modelo.controladores;
 
 //import com.mysql.cj.jdbc.Blob;
 
-import controlador.dao.AdaptadorDao;
 import java.util.Random;
 import modelo.CrearTarea;
 import controlador.TDA.listas.LinkedList;
+import controlador.dao.AdaptadorDao;
 
 /**
  *

@@ -28,9 +28,6 @@ import modelo.EntregaTarea;
 import modelo.Matricula;
 import modelo.controladores.ControladorCrearTarea;
 import modelo.controladores.ControladorEntregaTarea;
-import modelo.controladores.MatriculaController;
-import vista.listas.tablas.ModeloTablaMatricula;
-import vista.listas.tablas.Tareas.ModeloTablaCrearTarea;
 import vista.listas.tablas.Tareas.ModeloTabla_Estudiante_VerTareaEntregadas;
 import vista.listas.util.UtilVista;
 
@@ -449,7 +446,11 @@ public class FrmEntregarTarea extends javax.swing.JFrame {
             System.out.println("Id estudiante " + id_estudiante);
             System.out.println("Id estudiantemateria " + idEstudianteMateria);
             System.out.println("Id docentemateria " + idDocenteMateria);
-            fpi.setIdEstudiante(id_estudiante, idEstudianteMateria, idDocenteMateria);
+            try {
+                fpi.setIdEstudiante(id_estudiante, idEstudianteMateria, idDocenteMateria);
+            } catch (VacioExcepcion ex) {
+                Logger.getLogger(FrmEntregarTarea.class.getName()).log(Level.SEVERE, null, ex);
+            }
             fpi.setVisible(true);
             this.dispose();
         }

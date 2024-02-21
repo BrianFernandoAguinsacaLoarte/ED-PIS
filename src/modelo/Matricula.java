@@ -5,34 +5,46 @@
 package modelo;
 
 import java.util.Date;
-import modelo.enums.Estado;
-import modelo.enums.Modalidad;
-import modelo.enums.Turno;
+import modelo.controladores.EstudianteController;
+import modelo.controladores.MatriculaControlador;
 
 /**
  *
- * @author Usuario iTC
+ * @author juanc
  */
 public class Matricula {
-    //Atributos
+
     private Integer id;
     private Date fechaMatricula;
-    private Estado estado;
-    private Estado gratuidad;
-    private Turno turno;
-    private Modalidad modalidad;
-    
-    
+    private String estado;
+    private String gratuidad;
+    private String turno;
+    private String modalidad;
+
     //Llaves foraneas
     private Integer id_estudiante;
     private Integer id_periodoAcademico;
-    
-    //Constructor
 
-    public Matricula() {
+    private MatriculaControlador matriculaControlador = new MatriculaControlador();
+    private EstudianteController estudianteControlador = new EstudianteController();
+
+  
+    @Override
+    public String toString() {
+        String nombreParaleloCiclo = "";
+
+        Matricula matricula = matriculaControlador.obtener(this.getId());
+        if (matricula != null) {
+            Estudiante estudiante = estudianteControlador.obtener(matricula.getId());
+            if (estudiante != null) {
+                nombreParaleloCiclo = estudiante.getNombres() + " " + estudiante.getApellidos();
+            }
+        }
+
+        return nombreParaleloCiclo;
+
     }
-    
-    //Getter and Setter
+
     public Integer getId() {
         return id;
     }
@@ -49,28 +61,35 @@ public class Matricula {
         this.fechaMatricula = fechaMatricula;
     }
 
-    public Estado getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
+    public String getGratuidad() {
+        return gratuidad;
+    }
 
-    public Turno getTurno() {
+    public void setGratuidad(String gratuidad) {
+        this.gratuidad = gratuidad;
+    }
+
+    public String getTurno() {
         return turno;
     }
 
-    public void setTurno(Turno turno) {
+    public void setTurno(String turno) {
         this.turno = turno;
     }
 
-    public Modalidad getModalidad() {
+    public String getModalidad() {
         return modalidad;
     }
 
-    public void setModalidad(Modalidad modalidad) {
+    public void setModalidad(String modalidad) {
         this.modalidad = modalidad;
     }
 
@@ -90,15 +109,5 @@ public class Matricula {
         this.id_periodoAcademico = id_periodoAcademico;
     }
 
-    public Estado getGratuidad() {
-        return gratuidad;
-    }
 
-    public void setGratuidad(Estado gratuidad) {
-        this.gratuidad = gratuidad;
-    }
-    
-    
-    
-    
 }

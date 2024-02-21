@@ -5,11 +5,23 @@
 package vista.listas;
 
 import controlador.TDA.listas.LinkedList;
+import modelo.Genero;
+import modelo.Rol;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.controladores.EstudianteController;
 import vista.listas.tablas.ModeloTablaEstudiante;
+import vista.listas.util.Genero_Util_VistaLinked;
+import vista.listas.util.Rol_Util_VistaLinked;
 import vista.listas.util.UtilVista;
 
 /**
@@ -18,79 +30,100 @@ import vista.listas.util.UtilVista;
  */
 public class FrmEstudiante extends javax.swing.JFrame {
 
+    String ruta_archivo = "";
+    int id = -1;
+    private String extensionArchivo;
     EstudianteController ec = new EstudianteController();
     ModeloTablaEstudiante mte = new ModeloTablaEstudiante();
-    
+
     public FrmEstudiante() {
         initComponents();
         panelLogo.setIcon(new ImageIcon("multimedia/LogoUNL.jpg"));
         this.setLocationRelativeTo(null);
         limpiar();
-        
+
     }
-    
-    
+
     public Boolean validar() {
-        return !txtNombre.getText().trim().isEmpty() &&
-               !txtApellido.getText().trim().isEmpty() &&
-               !txtCedula.getText().trim().isEmpty() &&
-               !txtCorreo.getText().trim().isEmpty() &&
-               !txtDireccion.getText().trim().isEmpty() &&
-               !txtTelefono.getText().trim().isEmpty() &&
-               !txtTitulo.getText().trim().isEmpty();
-    
+        return !txtNombre.getText().trim().isEmpty()
+                && !txtApellido.getText().trim().isEmpty()
+                && !txtCedula.getText().trim().isEmpty()
+                && !txtCorreo.getText().trim().isEmpty()
+                && !txtDireccion.getText().trim().isEmpty()
+                && !txtTelefono.getText().trim().isEmpty();
+
     }
-    
+
     public void cargarTabla() {
         mte.setEstudiantes(ec.getLista());
         jTablaEstudiante.setModel(mte);
         jTablaEstudiante.updateUI();
     }
-     
+
     private void limpiar() {
-        
-        
+
         txtNombre.setText("");
         txtApellido.setText("");
         txtCorreo.setText("");
         jDate.setDate(null);
-        cbxGenero.setSelectedItem(-1);//Limpio COmbo
-        cbxRol.setSelectedItem(-1);//Limpio Combo
+        cbxRol.setSelectedItem(-1);//Limpio COmbo
+        cbxGenero.setSelectedItem(-1);//Limpio Combo
         txtCedula.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
-        txtTitulo.setText("");
-        
-        
-        
+        ruta_archivo = "";
         ec.setEstudiante(null);
         ec.setLista(new LinkedList<>());
         ec.setEstudiante(null);
         ec.setIndex(-1);
         cargarTabla();
         try {
-            UtilVista.cargarGenero(cbxGenero);
-            UtilVista.cargarRoles(cbxRol, "Estudiante");
+            Rol_Util_VistaLinked.cargaRol(cbxGenero);
+            Genero_Util_VistaLinked.cargaGenero(cbxRol);
         } catch (Exception e) {
         }
 
     }
-    
-     public void guardar() {
+
+    public void guardar() {
         if (validar()) {
             try {
                 Estudiante estudiante = new Estudiante();
-                estudiante.setNombres(txtNombre.getText());
-                estudiante.setApellidos(txtApellido.getText());
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String cedula = txtCedula.getText();
+
+                Integer idCuenta = ec.crearCuenta(nombre, apellido, cedula);
+                estudiante.setId_cuenta(idCuenta);
+                File ruta = new File(ruta_archivo);
+                try {
+                    byte[] archivo = new byte[(int) ruta.length()];
+                    InputStream input = new FileInputStream(ruta);
+                    input.read(archivo);
+                    Blob blobArchivo = new SerialBlob(archivo);
+                    estudiante.setTituloBachiller(blobArchivo);
+                } catch (IOException | SQLException ex) {
+                    estudiante.setTituloBachiller(null);
+                    System.out.println("Error al agregar archivo " + ex.getMessage());
+                }
+                String extenArchivo = extensionArchivo;
+
+                estudiante.setNombres(nombre);
+                estudiante.setApellidos(apellido);
+                estudiante.setCedula(cedula);
                 estudiante.setCorreo(txtCorreo.getText());
                 estudiante.setFechaNacimiento(jDate.getDate());
-                estudiante.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
-                estudiante.setId_rol(UtilVista.getComboRol(cbxRol).getId());
-                estudiante.setCedula(txtCedula.getText());
+                Genero generoSeleccionado = (Genero) cbxRol.getSelectedItem();
+                Integer idGeneroSeleccionado = generoSeleccionado.getId();
+                Rol rolSeleccionado = (Rol) cbxGenero.getSelectedItem();
+                Integer idRolSeleccionado = rolSeleccionado.getId();
+                estudiante.setId_genero(idGeneroSeleccionado);
+                estudiante.setId_rol(idRolSeleccionado);
+                estudiante.setId_cuenta(idCuenta);
                 estudiante.setDireccion(txtDireccion.getText());
                 estudiante.setTelefono(txtTelefono.getText());
-                estudiante.setTituloBachiller(txtTitulo.getText());
-                
+                estudiante.setExtensionTituloBachiller(extenArchivo);
+
                 ec.setEstudiante(estudiante);
                 ec.guardar();
                 ec.setEstudiante(null);
@@ -101,9 +134,8 @@ public class FrmEstudiante extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }
     }
-    
-    
-     private void modificar() {
+
+    private void modificar() {
         try {
             int filaSeleccionada = jTablaEstudiante.getSelectedRow();
 
@@ -114,16 +146,39 @@ public class FrmEstudiante extends javax.swing.JFrame {
 
             Estudiante estudianteSel = mte.getEstudiantes().get(filaSeleccionada);
 
+            if (!ruta_archivo.isEmpty()) {
+                File ruta = new File(ruta_archivo);
+                if (ruta.exists()) {
+                    try {
+                        byte[] archivo = new byte[(int) ruta.length()];
+                        InputStream input = new FileInputStream(ruta);
+                        input.read(archivo);
+                        Blob blobArchivo = new SerialBlob(archivo);
+                        estudianteSel.setTituloBachiller(blobArchivo);
+                    } catch (IOException | SQLException ex) {
+                        estudianteSel.setTituloBachiller(null);
+                        System.out.println("Error al agregar archivo " + ex.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El archivo no existe en la ruta especificada.");
+                    return;
+                }
+            }
+            String extenArchivo = extensionArchivo;
             estudianteSel.setNombres(txtNombre.getText());
             estudianteSel.setApellidos(txtApellido.getText());
             estudianteSel.setCorreo(txtCorreo.getText());
             estudianteSel.setFechaNacimiento(jDate.getDate());
-            estudianteSel.setId_genero(UtilVista.getComboGenero(cbxGenero).getId());
-            estudianteSel.setId_rol(UtilVista.getComboRol(cbxRol).getId());
+            Genero generoSeleccionado = (Genero) cbxRol.getSelectedItem();
+            Integer idGeneroSeleccionado = generoSeleccionado.getId();
+            Rol rolSeleccionado = (Rol) cbxGenero.getSelectedItem();
+            Integer idRolSeleccionado = rolSeleccionado.getId();
+            estudianteSel.setId_genero(idGeneroSeleccionado);
+            estudianteSel.setId_rol(idRolSeleccionado);
             estudianteSel.setCedula(txtCedula.getText());
             estudianteSel.setDireccion(txtDireccion.getText());
             estudianteSel.setTelefono(txtTelefono.getText());
-            estudianteSel.setTituloBachiller(txtTitulo.getText());
+            estudianteSel.setExtensionTituloBachiller(extenArchivo);
 
             ec.modificar(estudianteSel);
 
@@ -133,45 +188,54 @@ public class FrmEstudiante extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al modificar el ciclo: " + e.getMessage());
         }
     }
-    
-    private void cargarVista(){
+
+    private void cargarVista() {
         ec.setIndex(jTablaEstudiante.getSelectedRow());
-        if(ec.getIndex().intValue() < 0){
-            JOptionPane.showMessageDialog(null, "Selecciona una fila", 
+        if (ec.getIndex().intValue() < 0) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila",
                     "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             try {
                 ec.setEstudiante(mte.getEstudiantes().get(ec.getIndex()));
                 txtNombre.setText(ec.getEstudiante().getNombres());
                 txtApellido.setText(ec.getEstudiante().getApellidos());
                 txtCorreo.setText(ec.getEstudiante().getCorreo());
                 jDate.setDate(ec.getEstudiante().getFechaNacimiento());
-                UtilVista.setComboGenero(cbxGenero, ec.getEstudiante().getId_genero());
+//                UtilVista.setComboGenero(cbxGenero, ec.getEstudiante().getId_genero());
                 txtCedula.setText(ec.getEstudiante().getCedula());
                 txtDireccion.setText(ec.getEstudiante().getDireccion());
                 txtTelefono.setText(ec.getEstudiante().getTelefono());
-                txtTitulo.setText(ec.getEstudiante().getTituloBachiller().toString());
-                
-              
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), 
+                JOptionPane.showMessageDialog(null, e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public void seleccionar_tarea() {
+        JFileChooser j = new JFileChooser();
+
+        int se = j.showOpenDialog(this);
+        if (se == 0) {
+            this.btnSeleccionar1.setText("" + j.getSelectedFile().getName());
+            ruta_archivo = j.getSelectedFile().getAbsolutePath();
+            String nombre_archivo = j.getSelectedFile().getName();
+
+            String extension = nombre_archivo.substring(nombre_archivo.lastIndexOf(".") + 1);
+
+            extensionArchivo = extension;
+
+            System.out.println("Extensión del archivo: " + extension);
+
+        } else {
+        }
+    }
+
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -182,7 +246,6 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRound1 = new org.edisoncor.gui.label.LabelRound();
         panelLogo = new org.edisoncor.gui.panel.PanelImage();
         labelRect3 = new org.edisoncor.gui.label.LabelRect();
-        txtTitulo = new org.edisoncor.gui.textField.TextField();
         btnRegresar = new org.edisoncor.gui.button.ButtonRect();
         btnSeleccionar = new org.edisoncor.gui.button.ButtonRect();
         btnGuardar = new org.edisoncor.gui.button.ButtonRect();
@@ -196,9 +259,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
         txtCorreo = new org.edisoncor.gui.textField.TextField();
         labelRect6 = new org.edisoncor.gui.label.LabelRect();
         labelRect7 = new org.edisoncor.gui.label.LabelRect();
-        cbxGenero = new org.edisoncor.gui.comboBox.ComboBoxRect();
         labelRect8 = new org.edisoncor.gui.label.LabelRect();
-        cbxRol = new org.edisoncor.gui.comboBox.ComboBoxRect();
         labelRect1 = new org.edisoncor.gui.label.LabelRect();
         txtCedula = new org.edisoncor.gui.textField.TextField();
         panelRect1 = new org.edisoncor.gui.panel.PanelRect();
@@ -209,6 +270,9 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect11 = new org.edisoncor.gui.label.LabelRect();
         txtDireccion = new org.edisoncor.gui.textField.TextField();
         txtTelefono = new org.edisoncor.gui.textField.TextField();
+        btnSeleccionar1 = new javax.swing.JButton();
+        cbxGenero = new javax.swing.JComboBox<>();
+        cbxRol = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -253,7 +317,6 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect3.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect3.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 150, 30));
-        panel1.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 400, 30));
 
         btnRegresar.setBackground(new java.awt.Color(0, 102, 153));
         btnRegresar.setText("Regresar");
@@ -262,7 +325,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 580, 130, 40));
+        panel1.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 580, 130, 40));
 
         btnSeleccionar.setBackground(new java.awt.Color(0, 102, 153));
         btnSeleccionar.setText("Seleccionar");
@@ -271,7 +334,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
                 btnSeleccionarActionPerformed(evt);
             }
         });
-        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, 130, 40));
+        panel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 130, 40));
 
         btnGuardar.setBackground(new java.awt.Color(0, 102, 153));
         btnGuardar.setText("Guardar");
@@ -280,7 +343,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
                 btnGuardarActionPerformed(evt);
             }
         });
-        panel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 140, 130, 40));
+        panel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 140, 130, 40));
 
         btnActualizar.setBackground(new java.awt.Color(0, 102, 153));
         btnActualizar.setText("Actualizar");
@@ -289,7 +352,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
                 btnActualizarActionPerformed(evt);
             }
         });
-        panel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 140, 130, 40));
+        panel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 130, 40));
 
         btnCancelar.setBackground(new java.awt.Color(0, 102, 153));
         btnCancelar.setText("Cancelar");
@@ -298,7 +361,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        panel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 140, 130, 40));
+        panel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 140, 130, 40));
 
         labelRect2.setBackground(new java.awt.Color(255, 255, 255));
         labelRect2.setForeground(new java.awt.Color(0, 0, 0));
@@ -307,7 +370,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect2.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect2.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 150, 30));
-        panel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 400, 30));
+        panel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 310, 30));
 
         labelRect4.setBackground(new java.awt.Color(255, 255, 255));
         labelRect4.setForeground(new java.awt.Color(0, 0, 0));
@@ -316,7 +379,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect4.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect4.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 150, 30));
-        panel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 400, 30));
+        panel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 310, 30));
 
         labelRect5.setBackground(new java.awt.Color(255, 255, 255));
         labelRect5.setForeground(new java.awt.Color(0, 0, 0));
@@ -325,7 +388,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect5.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect5.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 150, 30));
-        panel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 400, 30));
+        panel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 310, 30));
 
         labelRect6.setBackground(new java.awt.Color(255, 255, 255));
         labelRect6.setForeground(new java.awt.Color(0, 0, 0));
@@ -342,7 +405,6 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect7.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect7.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 150, 30));
-        panel1.add(cbxGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 400, 30));
 
         labelRect8.setBackground(new java.awt.Color(255, 255, 255));
         labelRect8.setForeground(new java.awt.Color(0, 0, 0));
@@ -351,7 +413,6 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect8.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect8.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 150, 30));
-        panel1.add(cbxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 400, 30));
 
         labelRect1.setBackground(new java.awt.Color(255, 255, 255));
         labelRect1.setForeground(new java.awt.Color(0, 0, 0));
@@ -360,7 +421,7 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect1.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect1.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 150, 30));
-        panel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 400, 30));
+        panel1.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 310, 30));
 
         panelRect1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -379,8 +440,8 @@ public class FrmEstudiante extends javax.swing.JFrame {
 
         panelRect1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 340));
 
-        panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 190, 680, 360));
-        panel1.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 400, -1));
+        panel1.add(panelRect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, 680, 360));
+        panel1.add(jDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 310, 30));
 
         labelRect10.setBackground(new java.awt.Color(255, 255, 255));
         labelRect10.setForeground(new java.awt.Color(0, 0, 0));
@@ -397,8 +458,22 @@ public class FrmEstudiante extends javax.swing.JFrame {
         labelRect11.setColorDeBorde(new java.awt.Color(255, 255, 255));
         labelRect11.setColorDeSombra(new java.awt.Color(255, 255, 255));
         panel1.add(labelRect11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 150, 30));
-        panel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 400, 30));
-        panel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 520, 400, 30));
+        panel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 310, 30));
+        panel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 520, 310, 30));
+
+        btnSeleccionar1.setText("Seleccionar");
+        btnSeleccionar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionar1ActionPerformed(evt);
+            }
+        });
+        panel1.add(btnSeleccionar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 310, 30));
+
+        cbxGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        panel1.add(cbxGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 310, 30));
+
+        cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        panel1.add(cbxRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 310, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -408,15 +483,15 @@ public class FrmEstudiante extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       new FrmRegistroDocenteGeneral().setVisible(true);
-       this.dispose();
+        new FrmPantallaAdministrador().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
@@ -434,6 +509,11 @@ public class FrmEstudiante extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSeleccionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionar1ActionPerformed
+        // TODO add your handling code here:
+        seleccionar_tarea();
+    }//GEN-LAST:event_btnSeleccionar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -491,8 +571,9 @@ public class FrmEstudiante extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonRect btnGuardar;
     private org.edisoncor.gui.button.ButtonRect btnRegresar;
     private org.edisoncor.gui.button.ButtonRect btnSeleccionar;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxGenero;
-    private org.edisoncor.gui.comboBox.ComboBoxRect cbxRol;
+    private javax.swing.JButton btnSeleccionar1;
+    private javax.swing.JComboBox<String> cbxGenero;
+    private javax.swing.JComboBox<String> cbxRol;
     private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablaEstudiante;
@@ -517,6 +598,5 @@ public class FrmEstudiante extends javax.swing.JFrame {
     private org.edisoncor.gui.textField.TextField txtDireccion;
     private org.edisoncor.gui.textField.TextField txtNombre;
     private org.edisoncor.gui.textField.TextField txtTelefono;
-    private org.edisoncor.gui.textField.TextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

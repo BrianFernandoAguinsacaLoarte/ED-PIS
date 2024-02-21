@@ -12,19 +12,18 @@ import modelo.controladores.PeriodoAcademicoController;
 
 /**
  *
- * @author Usuario iTC
+ * @author juanc
  */
 public class ModeloTablaMatricula extends AbstractTableModel {
 
-    LinkedList<Matricula> matriculas;
-    EstudianteController ec = new EstudianteController();
-    PeriodoAcademicoController pc = new PeriodoAcademicoController();
-    
-    
-    
+    private LinkedList<Matricula> matriculas;
+
+    EstudianteController estudiantePruebaControlador = new EstudianteController();
+    PeriodoAcademicoController periodoAcademicoControlador = new PeriodoAcademicoController();
+
     @Override
     public int getRowCount() {
-        return matriculas.getSize();
+        return getMatriculas().getSize();
     }
 
     @Override
@@ -34,34 +33,31 @@ public class ModeloTablaMatricula extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        
         Matricula matricula = null;
         String estudiante = "";
-        String periodo = "";
+        String periodoAcademico = "";
         try {
             matricula = matriculas.get(row);
-            estudiante = ec.obtener(matricula.getId_estudiante()).getNombres();
-            periodo = pc.obtener(matricula.getId_periodoAcademico()).getNombre();
-            
+            estudiante = estudiantePruebaControlador.obtener(matricula.getId_estudiante()).getNombres();
+            periodoAcademico = periodoAcademicoControlador.obtener(matricula.getId_periodoAcademico()).getNombre();
         } catch (Exception e) {
         }
+
         switch (col) {
-            case 0:
-                    return (matricula != null)? estudiante: "";
             case 1:
-                    return (matricula != null)? periodo: "";
+                return (matricula != null) ? matricula.getFechaMatricula() : "";
+            case 0:
+                return (matricula != null) ? estudiante : "";
             case 2:
-                    return (matricula != null)? matricula.getFechaMatricula(): "";
+                return (matricula != null) ? matricula.getEstado(): "";
             case 3:
-                    return (matricula != null)? matricula.getGratuidad(): "";
+                return (matricula != null) ? matricula.getGratuidad(): "";
             case 4:
-                    return (matricula != null)? matricula.getTurno(): "";
+                return (matricula != null) ? matricula.getModalidad(): "";
             case 5:
-                    return (matricula != null)? matricula.getModalidad(): "";
+                return (matricula != null) ? matricula.getTurno(): "";
             case 6:
-                    return (matricula != null)? matricula.getEstado(): "";
-           
-           
+                return (matricula != null) ? periodoAcademico : "";
             default:
                 return null;
         }
@@ -69,28 +65,25 @@ public class ModeloTablaMatricula extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-         switch (column) {
-            case 0:
-                    return "Estudiante";
+        switch (column) {
             case 1:
-                    return "Periodo";
+                return "Fecha Matricula";
+            case 0:
+                return "Estudiante";
             case 2:
-                    return "Fecha de Matricula";
+                return "Estado";
             case 3:
-                    return "Gratuidad";
+                return "Gratuidad";
             case 4:
-                    return "Turno";
+                return "Modalidad";
             case 5:
-                    return "Modalidad";
+                return "Turno";
             case 6:
-                    return "Estado";
-            
+                return "PeriodoAcademico";
             default:
                 return null;
         }
     }
-    
-    //Getter and Setter
 
     public LinkedList<Matricula> getMatriculas() {
         return matriculas;
@@ -99,6 +92,4 @@ public class ModeloTablaMatricula extends AbstractTableModel {
     public void setMatriculas(LinkedList<Matricula> matriculas) {
         this.matriculas = matriculas;
     }
-    
-    
 }
