@@ -175,7 +175,7 @@ public class FrmCurso extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Ciclos");
+        labelRound1.setText("Registro de Cursos");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -313,8 +313,8 @@ public class FrmCurso extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmPantallaAdministrador().setVisible(true);
-        this.dispose();
+        new FrmVistaGeneral().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

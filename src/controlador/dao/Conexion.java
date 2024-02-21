@@ -18,7 +18,7 @@ public class Conexion {
     
     public String driver = "com.mysql.cj.jdbc.Driver";//oracle.jdbc.driver.OracleDriver
 
-    public String database = "paraprobarpis";
+    public String database = "baseprueba";
 
     public String hostname = "localhost";
 
@@ -28,7 +28,7 @@ public class Conexion {
 
     public String username = "root";
 
-    public String password = "2002";
+    public String password = "1106017716";
 
 //    public Connection conectar() {
 //        Connection conn = null;

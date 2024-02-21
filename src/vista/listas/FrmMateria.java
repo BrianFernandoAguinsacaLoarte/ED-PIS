@@ -271,8 +271,8 @@ public class FrmMateria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmRegistroDocenteGeneral().setVisible(true);
-        this.dispose();
+        new FrmVistaGeneral().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed

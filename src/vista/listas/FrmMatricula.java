@@ -209,7 +209,7 @@ public class FrmMatricula extends javax.swing.JFrame {
         panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelRound1.setBackground(new java.awt.Color(0, 102, 153));
-        labelRound1.setText("Registro de Estudiante");
+        labelRound1.setText("Registro de Matriculas");
         labelRound1.setColorDeBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSegundoBorde(new java.awt.Color(0, 102, 153));
         labelRound1.setColorDeSombra(new java.awt.Color(0, 102, 153));
@@ -388,8 +388,8 @@ public class FrmMatricula extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmRegistroDocenteGeneral().setVisible(true);
-        this.dispose();
+        new FrmVistaGeneral().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
